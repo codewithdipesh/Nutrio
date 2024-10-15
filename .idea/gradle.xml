@@ -25,11 +25,10 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/onboarding" />
-            <option value="$PROJECT_DIR$/onboarding/mylibrary" />
             <option value="$PROJECT_DIR$/onboarding/onboarding_domain" />
             <option value="$PROJECT_DIR$/onboarding/onboarding_presentation" />
             <option value="$PROJECT_DIR$/tracking" />
-            <option value="$PROJECT_DIR$/tracking/mylibrary" />
+            <option value="$PROJECT_DIR$/tracking/tracker_data" />
             <option value="$PROJECT_DIR$/tracking/tracker_domain" />
             <option value="$PROJECT_DIR$/tracking/tracker_presentation" />
           </set>
