@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.codewithdipesh.nutrio"
-    compileSdk = 34
+    compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
         applicationId = ProjectConfig.appId
