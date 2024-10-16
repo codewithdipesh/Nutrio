@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+
     implementation Compose.compiler
     implementation Compose.ui
     implementation Compose.uiToolingPreview
@@ -49,6 +51,7 @@ dependencies {
     implementation Compose.navigation
     implementation Compose.viewModelCompose
     implementation Compose.activityCompose
+
 
 
     kapt DaggerHilt.hiltCompiler
