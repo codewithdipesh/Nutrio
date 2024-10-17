@@ -36,12 +36,16 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import com.codewithdipesh.core.navigation.Route
+import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.onboarding_presentation.components.ActionButton
 
 @OptIn(UnstableApi::class)
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    onNavigate : (UiEvent.Navigate) ->Unit
+) {
 
     val spacing = LocalSpacing.current
     val context = LocalContext.current
@@ -116,7 +120,9 @@ fun WelcomeScreen() {
                 //Button
                 ActionButton(
                     text = stringResource(R.string.get_started),
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        onNavigate(UiEvent.Navigate(Route.GENDER))
+                    }
                 )
 
             }

@@ -6,15 +6,6 @@ plugins {
 android {
     namespace = "com.codewithdipesh.core"
 
-    compileOptions {
-        compileOptions {
-            // ...
-            isCoreLibraryDesugaringEnabled = true // If you've explicitly enabled desugaring
-            sourceCompatibility = JavaVersion.VERSION_18
-            targetCompatibility = JavaVersion.VERSION_18
-
-        }
-    }
 }
 
 apply(from = "$rootDir/base-module.gradle")
