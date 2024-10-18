@@ -5,11 +5,11 @@
 <string name="welcome_text_desc">"Access a wealth of Knowledge ," +
                                 "nutrition and wellness activities"</string>
 <string name="get_started">Get Started</string>
-<string name="whats_your_gender">What is your gender?</string>
+<string name="select_gender">Select Gender</string>
 <string name="male">Male</string>
 <string name="female">Female</string>
 <string name="whats_your_age">What\'s your age?</string>
-<string name="next">Next</string>
+<string name="Continue">Continue</string>
 <string name="whats_your_height">What\'s your height?</string>
 <string name="kg">kg</string>
 <string name="cm">cm</string>

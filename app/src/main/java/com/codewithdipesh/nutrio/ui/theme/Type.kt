@@ -30,9 +30,19 @@ val Typography = Typography(
         lineHeight = 22.sp,
         letterSpacing = 0.sp
     ),
-     labelLarge = TextStyle(
+     labelMedium = TextStyle(
         fontFamily = customFont,
         fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = customFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 32.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = customFont,
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp
     )
 )

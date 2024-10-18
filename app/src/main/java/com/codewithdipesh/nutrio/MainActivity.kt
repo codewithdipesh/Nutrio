@@ -15,10 +15,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.codewithdipesh.core.navigation.Route
+import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
 import com.codewithdipesh.nutrio.ui.theme.NutrioTheme
+import com.codewithdipesh.onboarding_presentation.gender.GenderScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +38,10 @@ class MainActivity : ComponentActivity() {
                        WelcomeScreen(onNavigate = navController::navigate)
                     }
                     composable(Route.GENDER){
-
+                       GenderScreen(
+                           onNavigate = navController::navigate,
+                           onBackNavigate = navController::backNavigate
+                           )
                     }
                     composable(Route.AGE){
 

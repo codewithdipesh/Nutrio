@@ -21,4 +21,11 @@ dependencies {
     implementation(Media3.exoplayer)
     implementation(Media3.UI)
     implementation(Media3.session)
+
+    //vicoChart
+    implementation(VicoChart.compose)
+    implementation(VicoChart.m2)
+    implementation(VicoChart.m3)
+    implementation(VicoChart.core)
+    implementation(VicoChart.views)
 }

@@ -36,8 +36,8 @@ fun ActionButton(
     width: Dp = 280.dp,
     textColor :Color = Color.Black,
     backgroundColor: Color = Color.White,
-    isEnabled :Boolean = false,
-    textStyle: TextStyle = MaterialTheme.typography.labelLarge
+    isEnabled :Boolean = true,
+    textStyle: TextStyle = MaterialTheme.typography.labelMedium
 ) {
 
     Box(
@@ -47,7 +47,7 @@ fun ActionButton(
             .clip(RoundedCornerShape(32.dp))
             .background(backgroundColor)
             .clickable {
-                if(!isEnabled){
+                if(isEnabled){
                     onClick()
                 }
             }
