@@ -11,6 +11,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +33,6 @@ fun GenderPicker(
     size: Dp = 120.dp,
     isSelected :Boolean,
     icon : Painter,
-    selectedIcon : Painter,
     color: Color = Color.White,
     selectedColor: Color = Color.Black,
     textColor: Color = Color.Black,
@@ -38,12 +40,23 @@ fun GenderPicker(
     onSelected:()->Unit,
 ) {
 
-    val backgroundColor = if (isSelected) selectedColor else color
-    val borderColor = if (isSelected) selectedColor else Color.LightGray
+    var backgroundColor = if (isSelected) selectedColor else color
+    var borderColor = if (isSelected) selectedColor else Color.LightGray
 
-    val genderIcon = if(isSelected) selectedIcon else icon
+
+    LaunchedEffect(isSelected) {
+        if(isSelected){
+            backgroundColor = selectedColor
+            borderColor = selectedColor
+        }else{
+            backgroundColor = color
+            borderColor = Color.LightGray
+        }
+    }
+
     Column(
-        modifier = Modifier.size(size)
+        modifier = Modifier.size(size),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -58,8 +71,9 @@ fun GenderPicker(
             contentAlignment = Alignment.Center
         ){
             Icon(
-                painter = genderIcon,
-                contentDescription = text
+                painter = icon,
+                contentDescription = text,
+                tint = if(isSelected) Color.White else Color.Black
             )
         }
 
@@ -73,16 +87,3 @@ fun GenderPicker(
 
 }
 
-
-@Preview(showBackground = true)
-@Composable
-
-fun GenderPickerPreview(){
-    GenderPicker(
-        text = "Male",
-        isSelected = true,
-        icon = painterResource(id = R.drawable.male_vector_black),
-        selectedIcon = painterResource(id = R.drawable.male_vector_white),
-        onSelected = {}
-    )
-}

@@ -5,14 +5,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,7 +42,9 @@ fun GenderScreen(
 ) {
 
     val spacing = LocalSpacing.current
-
+    val selectedGender by remember(viewModel.selectedGender) {
+        mutableStateOf(viewModel.selectedGender)
+    }
     LaunchedEffect (true){
         viewModel.uiEvent.collect{event->
             when(event){
@@ -66,8 +73,11 @@ fun GenderScreen(
                verticalArrangement = Arrangement.SpaceBetween,
                horizontalAlignment = Alignment.CenterHorizontally
            ) {
-               BackNavigationButton {
-                   viewModel.onBackClick()
+               Row (modifier = Modifier.fillMaxWidth(),
+                   horizontalArrangement = Arrangement.Start){
+                   BackNavigationButton {
+                       viewModel.onBackClick()
+                   }
                }
                Text(
                    text = stringResource(R.string.select_gender),
@@ -75,9 +85,12 @@ fun GenderScreen(
                )
            }
 
+            Spacer(modifier = Modifier.fillMaxHeight(0.3f))
 
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ){
@@ -91,9 +104,8 @@ fun GenderScreen(
                 ) {
                     GenderPicker(
                         text = "Male",
-                        isSelected = viewModel.selectedGender is Gender.Male ,
+                        isSelected = selectedGender is Gender.Male ,
                         icon = painterResource(id = R.drawable.male_vector_black),
-                        selectedIcon = painterResource(id = R.drawable.male_vector_white),
                         onSelected = {
                             viewModel.onGenderClick(Gender.Male)
                         }
@@ -101,11 +113,10 @@ fun GenderScreen(
                     Spacer(modifier = Modifier.padding(spacing.spaceMedium))
                     GenderPicker(
                         text = "Female",
-                        isSelected = viewModel.selectedGender is Gender.Female,
+                        isSelected = selectedGender is Gender.Female,
                         icon = painterResource(id = R.drawable.female_symbol),
-                        selectedIcon = painterResource(id = R.drawable.female_symbol_white),
                         onSelected = {
-                            viewModel.onGenderClick(Gender.Male)
+                            viewModel.onGenderClick(Gender.Female)
                         }
                     )
 
@@ -113,7 +124,8 @@ fun GenderScreen(
 
                 //button
                 Row (
-                    Modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth()
+                        .padding(bottom = spacing.spaceMedium),
                     horizontalArrangement = Arrangement.End
                 ){
                     ActionButton(
