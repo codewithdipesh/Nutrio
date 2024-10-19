@@ -1,9 +1,11 @@
 package com.codewithdipesh.nutrio
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,11 +22,14 @@ import com.codewithdipesh.nutrio.navigation.navigate
 import com.codewithdipesh.nutrio.ui.theme.NutrioTheme
 import com.codewithdipesh.onboarding_presentation.age.AgeScreen
 import com.codewithdipesh.onboarding_presentation.gender.GenderScreen
+import com.codewithdipesh.onboarding_presentation.height.HeightScreen
+import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -51,10 +56,16 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.HEIGHT){
-
+                        HeightScreen(
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
                     }
                     composable(Route.WEIGHT){
-
+                        WeightScreen(
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
                     }
                     composable(Route.ACTIVITY){
 

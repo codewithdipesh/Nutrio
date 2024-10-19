@@ -1,8 +1,4 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.google.dagger.hilt.android'
+
 
 android {
     compileSdk = ProjectConfig.compileSdk
@@ -49,7 +45,6 @@ dependencies {
     implementation Compose.ui
     implementation Compose.uiToolingPreview
     implementation Compose.hiltNavigationCompose
-    implementation Compose.material
     implementation Compose.material3
     implementation Compose.runtime
     implementation Compose.navigation

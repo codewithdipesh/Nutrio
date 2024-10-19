@@ -55,7 +55,7 @@ fun AgeScreen(
             textStyle= MaterialTheme.typography.headlineLarge,
             textColor= Color.LightGray,
            selectedTextColor =Color.Black
-        ) {i,age->
+        ) {age->
             viewModel.onAgeSelect(age)
         }
 

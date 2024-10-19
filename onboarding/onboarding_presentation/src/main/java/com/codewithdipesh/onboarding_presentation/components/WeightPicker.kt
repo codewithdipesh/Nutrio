@@ -35,7 +35,7 @@ import com.codewithdipesh.core.R
 @Composable
 fun WeightPicker(
     modifier: Modifier = Modifier,
-    style: ScaleStyle = ScaleStyle(),
+    style: ScaleStyle ,
     minWeight: Float = 20f,
     maxWeight: Float = 150f,
     initialWeight: Float = 70f,
@@ -68,7 +68,8 @@ fun WeightPicker(
             val newWeight = minWeight + (centerOffset / (lineSpacing * 10))  //
             if (newWeight != currentWeight) {
                 currentWeight = newWeight.coerceIn(minWeight, maxWeight)
-                onWeightChange(currentWeight)
+                //change the format also
+                onWeightChange(String.format("%.1f",currentWeight).toFloat())
             }
         }
     }

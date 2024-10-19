@@ -22,6 +22,10 @@ android {
         }
     }
 
+    kapt {
+        correctErrorTypes = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -82,8 +86,6 @@ dependencies {
     implementation(AndroidX.appCompat)
 
     implementation(Coil.coilCompose)
-
-    implementation(Google.material)
 
     implementation(Retrofit.okHttp)
     implementation(Retrofit.retrofit)

@@ -36,7 +36,7 @@ fun <T> ScrollPicker(
     textStyle: TextStyle,
     textColor:Color,
     selectedTextColor :Color,
-    onItemSelected:(index:Int,item:T)->Unit
+    onItemSelected:(T)->Unit
 ){
     val itemHalfHeight = LocalDensity.current.run { itemHeight.toPx()/2 }
     val scrollState = rememberLazyListState(0)
@@ -80,26 +80,29 @@ fun <T> ScrollPicker(
                         val isSelected =
                             (y > parentHalfHeight - itemHalfHeight && y < parentHalfHeight + itemHalfHeight)
                         if (isSelected && lastSelectedIndex != i) {
-                            onItemSelected(i % itemState.size, item)
+                            onItemSelected(item)
                             lastSelectedIndex = i
                         }
                     },
                 contentAlignment = Alignment.Center
             ){
-                Text(
-                    text = item.toString(),
-                    style = textStyle,
-                    color = if(lastSelectedIndex == i) {
-                        selectedTextColor
-                    } else {
-                        textColor
-                    },
-                    fontSize = if (lastSelectedIndex == i) {
-                        textStyle.fontSize * itemScaleFont
-                    } else {
-                        textStyle.fontSize
-                    }
-                )
+                if(item !=itemState[0] && item != itemState[items.size-1]){
+                    Text(
+                        text = item.toString(),
+                        style = textStyle,
+                        color = if(lastSelectedIndex == i) {
+                            selectedTextColor
+                        } else {
+                            textColor
+                        },
+                        fontSize = if (lastSelectedIndex == i) {
+                            textStyle.fontSize * itemScaleFont
+                        } else {
+                            textStyle.fontSize
+                        }
+                    )
+                }
+
             }
 
         }
