@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
 
 
 @Composable
-fun <T> ScrollableItem(
+fun <T> ScrollPicker(
     width:Dp,
     itemHeight:Dp,
     numberOfDisplayItems:Int,
@@ -50,8 +50,9 @@ fun <T> ScrollableItem(
     LaunchedEffect(items){
         itemState = items
         var targetIndex = items.indexOf(initialItem) -1
-        targetIndex += ((Int.MAX_VALUE/2) / items.size)* items.size
-        lastSelectedIndex = targetIndex
+        //below code is only in infinite scrolling
+        //targetIndex += ((Int.MAX_VALUE/2) / items.size)* items.size
+        //lastSelectedIndex = targetIndex
         scrollState.scrollToItem(targetIndex)
     }
 
@@ -65,9 +66,9 @@ fun <T> ScrollableItem(
         )
     ) {
         items(
-            count = Int.MAX_VALUE
+            count = items.size
         ){ i->
-            val item = itemState[i % itemState.size]
+            val item = itemState[i]
             Box(
                 modifier = Modifier
                     .height(itemHeight)

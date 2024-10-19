@@ -18,6 +18,7 @@ import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
 import com.codewithdipesh.nutrio.ui.theme.NutrioTheme
+import com.codewithdipesh.onboarding_presentation.age.AgeScreen
 import com.codewithdipesh.onboarding_presentation.gender.GenderScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +45,10 @@ class MainActivity : ComponentActivity() {
                            )
                     }
                     composable(Route.AGE){
-
+                        AgeScreen(
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
                     }
                     composable(Route.HEIGHT){
 

@@ -44,5 +44,10 @@ val Typography = Typography(
         fontFamily = customFont,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = customFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 34.sp
     )
 )

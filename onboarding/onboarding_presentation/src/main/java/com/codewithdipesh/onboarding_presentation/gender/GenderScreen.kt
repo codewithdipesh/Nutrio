@@ -33,6 +33,7 @@ import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.onboarding_presentation.components.ActionButton
 import com.codewithdipesh.onboarding_presentation.components.BackNavigationButton
 import com.codewithdipesh.onboarding_presentation.components.GenderPicker
+import com.codewithdipesh.onboarding_presentation.components.ScreenComponent
 
 @Composable
 fun GenderScreen(
@@ -54,96 +55,47 @@ fun GenderScreen(
 
         }
     }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(spacing.spaceLarge)
-    ){
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+    ScreenComponent(
+        title = stringResource(R.string.select_gender),
+        onBackClicked = {
+           viewModel.onBackClick()
+        },
+        onNextClicked = {
+            viewModel.onNextClick()
+        }
+    ) {
+
+        //gender Picker
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(spacing.spaceMedium),
+            horizontalArrangement = Arrangement.Center
         ) {
-
-            //back button and title
-           Column(
-               modifier = Modifier
-                   .fillMaxWidth()
-                   .wrapContentHeight(),
-               verticalArrangement = Arrangement.SpaceBetween,
-               horizontalAlignment = Alignment.CenterHorizontally
-           ) {
-               Row (modifier = Modifier.fillMaxWidth(),
-                   horizontalArrangement = Arrangement.Start){
-                   BackNavigationButton {
-                       viewModel.onBackClick()
-                   }
-               }
-               Text(
-                   text = stringResource(R.string.select_gender),
-                   style = MaterialTheme.typography.labelLarge
-               )
-           }
-
-            Spacer(modifier = Modifier.fillMaxHeight(0.3f))
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
-            ){
-
-                //gender selection
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(spacing.spaceMedium),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    GenderPicker(
-                        text = "Male",
-                        isSelected = selectedGender is Gender.Male ,
-                        icon = painterResource(id = R.drawable.male_vector_black),
-                        onSelected = {
-                            viewModel.onGenderClick(Gender.Male)
-                        }
-                    )
-                    Spacer(modifier = Modifier.padding(spacing.spaceMedium))
-                    GenderPicker(
-                        text = "Female",
-                        isSelected = selectedGender is Gender.Female,
-                        icon = painterResource(id = R.drawable.female_symbol),
-                        onSelected = {
-                            viewModel.onGenderClick(Gender.Female)
-                        }
-                    )
-
+            GenderPicker(
+                text = "Male",
+                isSelected = selectedGender is Gender.Male,
+                icon = painterResource(id = R.drawable.male_vector_black),
+                onSelected = {
+                    viewModel.onGenderClick(Gender.Male)
                 }
-
-                //button
-                Row (
-                    Modifier.fillMaxWidth()
-                        .padding(bottom = spacing.spaceMedium),
-                    horizontalArrangement = Arrangement.End
-                ){
-                    ActionButton(
-                        text = stringResource(R.string.Continue),
-                        textColor = Color.White,
-                        backgroundColor = Color.Black,
-                        width = 150.dp,
-                        height = 60.dp,
-                        onClick = {
-                            viewModel.onNextClick()
-                        }
-                    )
+            )
+            Spacer(modifier = Modifier.padding(spacing.spaceMedium))
+            GenderPicker(
+                text = "Female",
+                isSelected = selectedGender is Gender.Female,
+                icon = painterResource(id = R.drawable.female_symbol),
+                onSelected = {
+                    viewModel.onGenderClick(Gender.Female)
                 }
-
-
-            }
+            )
 
         }
     }
 
 }
+
+
+
+
+
