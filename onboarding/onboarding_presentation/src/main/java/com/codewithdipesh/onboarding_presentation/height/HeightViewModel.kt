@@ -1,5 +1,6 @@
 package com.codewithdipesh.onboarding_presentation.height
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,7 +20,7 @@ class HeightViewModel @Inject constructor(
     private val preferences: Preferences
 ) :ViewModel() {
 
-    var selectedHeightInInch by mutableStateOf(60.5f)
+    var selectedHeightInInch by mutableStateOf(62.9f)
         private set
 
 
@@ -27,6 +28,7 @@ class HeightViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onHeightSelect(inputHeight:Float){
+        Log.d("heightViewqmODEL", "HeightScreen: $selectedHeightInInch")
         selectedHeightInInch = inputHeight
     }
 

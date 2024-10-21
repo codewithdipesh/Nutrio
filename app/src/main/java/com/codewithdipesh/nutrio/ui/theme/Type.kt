@@ -49,5 +49,10 @@ val Typography = Typography(
         fontFamily = customFont,
         fontWeight = FontWeight.Bold,
         fontSize = 34.sp
+    ),
+    displayMedium = TextStyle(
+       fontFamily = customFont,
+       fontWeight = FontWeight.Bold,
+       fontSize = 16.sp
     )
 )

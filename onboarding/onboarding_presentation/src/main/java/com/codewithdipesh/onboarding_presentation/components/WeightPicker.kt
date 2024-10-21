@@ -108,7 +108,7 @@ fun WeightPicker(
                     color = style.lineColor,
                     start = Offset(x, canvasHeight - lineHeight.toPx() - style.textSize.toPx() - 10.dp.toPx()),
                     end = Offset(x, canvasHeight - style.textSize.toPx() - 10.dp.toPx()),
-                    strokeWidth = 2.dp.toPx()
+                    strokeWidth = 4.dp.toPx()
                 )
 
                 if (decimalPart == 0.0f) {
@@ -140,7 +140,7 @@ fun WeightPicker(
                 color = Color(context.getColor(R.color.indicator_color)),
                 start = Offset(size.width /2, size.height - style.scaleIndicatorLength.toPx() - style.textSize.toPx() - 10.dp.toPx()),
                 end = Offset(size.width /2, size.height - style.textSize.toPx() - 10.dp.toPx()),
-                strokeWidth =  2.dp.toPx()
+                strokeWidth =  4.dp.toPx()
             )
         }
 
