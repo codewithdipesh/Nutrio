@@ -76,6 +76,20 @@ fun HeightScreen(
             }
         }
     }
+    val unitChooser: @Composable () -> Unit = {
+        UnitChooser(
+            units = listOf(LengthUnit.ft, LengthUnit.cm),
+            textColor = Color.Black,
+            selectedTextColor = Color.White,
+            height = 50.dp,
+            width = 70.dp,
+            selectedUnit = selectedUnit,
+            selectedColor = colorResource(R.color.indicator_color),
+            onUnitSelected = { unit ->
+                selectedUnit = unit
+            }
+        )
+    }
 
     ScreenComponent(
         title = stringResource(R.string.whats_your_height),
@@ -84,6 +98,10 @@ fun HeightScreen(
         },
         onNextClicked = {
             viewModel.onNextClick()
+        },
+        //unitChooser
+        middleSectionContent = {
+            unitChooser()
         }
     ) {
 
@@ -91,22 +109,6 @@ fun HeightScreen(
              modifier = Modifier.wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //unitChooser
-
-            UnitChooser(
-                units = listOf(LengthUnit.ft, LengthUnit.cm),
-                textColor = Color.Black,
-                selectedTextColor = Color.White,
-                height = 50.dp,
-                width = 70.dp,
-                selectedUnit = selectedUnit,
-                selectedColor = colorResource(R.color.indicator_color),
-                onUnitSelected = { unit ->
-                    selectedUnit = unit
-                }
-            )
-
-            Spacer(Modifier.height(spacing.spaceMedium))
 
             if (selectedUnit == LengthUnit.ft) {
 

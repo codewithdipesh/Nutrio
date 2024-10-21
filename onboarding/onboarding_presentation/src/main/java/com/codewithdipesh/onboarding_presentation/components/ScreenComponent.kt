@@ -40,6 +40,7 @@ fun ScreenComponent(
     title:String,
     onBackClicked : ()->Unit,
     onNextClicked : () -> Unit,
+    middleSectionContent : @Composable () -> Unit = {},
     content : @Composable () -> Unit
 ) {
     val spacing = LocalSpacing.current
@@ -75,7 +76,11 @@ fun ScreenComponent(
                )
            }
 
-            Spacer(modifier = Modifier.fillMaxHeight(0.3f))
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+
+            middleSectionContent()
+
+            Spacer(modifier = Modifier.fillMaxHeight(0.2f))
 
             Column(
                 modifier = Modifier

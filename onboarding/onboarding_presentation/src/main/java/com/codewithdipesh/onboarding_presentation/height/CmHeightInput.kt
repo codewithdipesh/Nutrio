@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Divider
@@ -52,12 +53,13 @@ fun CmHeightInput(
             mutableStateOf(InchToCm(selectedHeightInInch).toString())
         }
         Column (
+            modifier = Modifier.width(200.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             BasicTextField(
                 value = value,
                 onValueChange = {
-                    if(value.length <= 3){
+                    if(it.toInt() <= 999){
                         value =it
                         if(value != ""){//value is empty
                             if(value.toInt() >= minHeight && value.toInt() <= maxHeight){
@@ -65,15 +67,18 @@ fun CmHeightInput(
                                 onHeightChange(selectedHeightInInch)
                             }
                         }
+                    }else{
+                        value = value
                     }
 
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
-                modifier = Modifier.width(200.dp)
-                    .padding(start = spacing.spaceSmall)
-                    .align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(140.dp)
+                    .wrapContentWidth(),
                 maxLines = 1,
                 textStyle = MaterialTheme.typography.headlineLarge.copy(
                     fontSize = 70.sp
