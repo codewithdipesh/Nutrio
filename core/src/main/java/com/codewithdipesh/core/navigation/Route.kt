@@ -8,10 +8,8 @@ object Route {
     const val WEIGHT = "weight"
     const val ACTIVITY = "activity"
     const val GOAL = "goal"
-    const val WEIGHTGOAL = "weightgoal"
     const val WEIGHTPACE = "weightpace"
     const val NUTRIENT_GOAL = "nutrient_goal"
-    const val WEIGHTCHART = "weight_chart"
 
     const val TRACKER_OVERVIEW = "tracker_overview"
     const val SEARCH = "search"

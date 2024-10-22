@@ -40,7 +40,7 @@ class WeightViewModel @Inject constructor(
     fun onNextClick(){
         preferences.saveWeight(selectedWeight)
         viewModelScope.launch {
-            _uiEvent.send(UiEvent.Navigate(Route.GOAL))
+            _uiEvent.send(UiEvent.Navigate(Route.ACTIVITY))
         }
     }
 

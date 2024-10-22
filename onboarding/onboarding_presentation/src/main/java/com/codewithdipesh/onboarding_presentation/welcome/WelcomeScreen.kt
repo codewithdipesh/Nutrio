@@ -122,7 +122,9 @@ fun WelcomeScreen(
                     text = stringResource(R.string.get_started),
                     onClick = {
                         onNavigate(UiEvent.Navigate(Route.GENDER))
-                    }
+                    },
+                    backgroundColor = colorResource(R.color.button_color),
+                    textColor = Color.White
                 )
 
             }

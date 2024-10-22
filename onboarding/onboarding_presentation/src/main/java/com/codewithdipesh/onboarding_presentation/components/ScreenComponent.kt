@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,8 @@ import com.codewithdipesh.onboarding_presentation.components.GenderPicker
 @Composable
 fun ScreenComponent(
     title:String,
+    description : String? = null,
+    descriptionColor : Color = Color.Gray,
     onBackClicked : ()->Unit,
     onNextClicked : () -> Unit,
     middleSectionContent : @Composable () -> Unit = {},
@@ -74,14 +77,23 @@ fun ScreenComponent(
                    text = title,
                    style = MaterialTheme.typography.labelLarge
                )
+               Spacer(Modifier.height(spacing.spaceSmall))
+               if(description != null){
+                   Text(
+                       text = description,
+                       style = MaterialTheme.typography.labelMedium,
+                       color = descriptionColor
+                   )
+               }
            }
-
-            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
-
+            //no description then padding
+            if(description == null){
+                Spacer(modifier = Modifier.fillMaxHeight(0.15f))
+            }else{
+                Spacer(modifier = Modifier.fillMaxHeight(0.05f))
+            }
+            Spacer(modifier = Modifier.fillMaxHeight(0.05f))
             middleSectionContent()
-
-            Spacer(modifier = Modifier.fillMaxHeight(0.2f))
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -102,7 +114,7 @@ fun ScreenComponent(
                     ActionButton(
                         text = stringResource(R.string.Continue),
                         textColor = Color.White,
-                        backgroundColor = Color.Black,
+                        backgroundColor = colorResource(R.color.button_color),
                         width = 150.dp,
                         height = 60.dp,
                         onClick = {

@@ -47,11 +47,6 @@ class DefaultPreferences(
             .apply()
     }
 
-    override fun saveWeightGoal(goal: Float) {
-        sharedPref.edit()
-            .putFloat(Preferences.KEY_GOAL_TYPE,goal)
-            .apply()
-    }
 
     override fun saveWeightPace(pace: WeightPace) {
         sharedPref.edit()
@@ -82,7 +77,6 @@ class DefaultPreferences(
         val genderString = sharedPref.getString(Preferences.KEY_GENDER,null)
         val height = sharedPref.getFloat(Preferences.KEY_HEIGHT,-1f)
         val weight = sharedPref.getFloat(Preferences.KEY_WEIGHT,-1f)
-        val weightGoal = sharedPref.getFloat(Preferences.KEY_WEIGHT_GOAL,-1f)
         val activityLevelString = sharedPref.getString(Preferences.KEY_ACTIVITY_LEVEL,null)
         val goalTypeString = sharedPref.getString(Preferences.KEY_GOAL_TYPE,null)
         val weightPaceString = sharedPref.getString(Preferences.KEY_WEIGHT_PACE,null)
@@ -95,7 +89,6 @@ class DefaultPreferences(
             gender = Gender.fromString(genderString?: "male"),
             height = height,
             weight = weight,
-            weightGoal = weightGoal,
             activityLevel = ActivityLevel.fromString(activityLevelString?: "medium"),
             goalType = GoalType.fromString(goalTypeString?: "keep_weight"),
             weightPace = WeightPace.fromString(weightPaceString?: "moderate"),

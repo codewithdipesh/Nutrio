@@ -20,8 +20,10 @@ import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
 import com.codewithdipesh.nutrio.ui.theme.NutrioTheme
+import com.codewithdipesh.onboarding_presentation.activity_level.ActivityScreen
 import com.codewithdipesh.onboarding_presentation.age.AgeScreen
 import com.codewithdipesh.onboarding_presentation.gender.GenderScreen
+import com.codewithdipesh.onboarding_presentation.goal.GoalScreen
 import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
@@ -68,21 +70,21 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.ACTIVITY){
-
+                        ActivityScreen(
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
                     }
                     composable(Route.GOAL){
-
-                    }
-                    composable(Route.WEIGHTGOAL){
-
+                       GoalScreen(
+                           onNavigate = navController::navigate,
+                           onBackNavigate = navController::backNavigate
+                       )
                     }
                     composable(Route.WEIGHTPACE){
 
                     }
                     composable(Route.NUTRIENT_GOAL){
-
-                    }
-                    composable(Route.WEIGHTCHART){
 
                     }
                     composable(Route.TRACKER_OVERVIEW){
