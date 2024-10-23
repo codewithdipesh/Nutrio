@@ -32,17 +32,17 @@ val Typography = Typography(
     ),
      labelMedium = TextStyle(
         fontFamily = customFont,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp
     ),
     labelLarge = TextStyle(
         fontFamily = customFont,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 26.sp
     ),
     labelSmall = TextStyle(
         fontFamily = customFont,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontSize = 18.sp
     ),
     headlineLarge = TextStyle(
@@ -52,7 +52,7 @@ val Typography = Typography(
     ),
     displayMedium = TextStyle(
        fontFamily = customFont,
-       fontWeight = FontWeight.Bold,
+       fontWeight = FontWeight.Normal,
        fontSize = 16.sp
     )
 )

@@ -79,8 +79,8 @@ fun CustomOption(
      Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(spacing.spaceMedium)
                 .wrapContentHeight()
+                .padding(vertical = spacing.spaceSmall)
                 .clip(RoundedCornerShape(10.dp))
                 .background(backgroundColor, RoundedCornerShape(10.dp))
                 .border(
@@ -94,7 +94,7 @@ fun CustomOption(
             ,
             contentAlignment = Alignment.BottomStart
         ){
-           Column(Modifier.padding(spacing.spaceSmall)) {
+           Column(Modifier.padding(spacing.spaceMedium)) {
                Text(
                    text = text,
                    style = textStyle.copy(
@@ -102,10 +102,10 @@ fun CustomOption(
                    ),
                    color = textSelectedColor
                )
-               Spacer(Modifier.height(spacing.spaceExtraSmall))
+               Spacer(Modifier.height(spacing.default))
                Text(
                    text= desc,
-                   style = textStyle.copy(
+                   style = MaterialTheme.typography.displayMedium.copy(
                        fontSize = 14.sp
                    ),
                    color = descSelectedColor
