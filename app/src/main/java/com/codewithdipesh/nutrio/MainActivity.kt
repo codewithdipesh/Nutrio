@@ -6,6 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -41,7 +45,20 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Route.WELCOME
+                    startDestination = Route.WELCOME,
+                    // Default animations for all screens
+                    enterTransition = {
+                        fadeIn(animationSpec = tween(100))
+                    },
+                    exitTransition = {
+                        fadeOut(animationSpec = tween(100))
+                    },
+                    popEnterTransition = {
+                        fadeIn(animationSpec = tween(100))
+                    },
+                    popExitTransition = {
+                        fadeOut(animationSpec = tween(100))
+                    }
                 ){
                     composable(Route.WELCOME){
                        WelcomeScreen(onNavigate = navController::navigate)
