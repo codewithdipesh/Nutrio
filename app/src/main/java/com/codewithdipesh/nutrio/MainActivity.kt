@@ -24,6 +24,7 @@ import com.codewithdipesh.onboarding_presentation.activity_level.ActivityScreen
 import com.codewithdipesh.onboarding_presentation.age.AgeScreen
 import com.codewithdipesh.onboarding_presentation.gender.GenderScreen
 import com.codewithdipesh.onboarding_presentation.goal.GoalScreen
+import com.codewithdipesh.onboarding_presentation.goalPace.GoalPaceScreen
 import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
@@ -82,7 +83,10 @@ class MainActivity : ComponentActivity() {
                        )
                     }
                     composable(Route.WEIGHTPACE){
-
+                        GoalPaceScreen(
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
                     }
                     composable(Route.NUTRIENT_GOAL){
 

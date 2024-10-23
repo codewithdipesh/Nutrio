@@ -38,7 +38,7 @@ import com.codewithdipesh.core.R
 @Composable
 fun CustomOption(
     text:String,
-    desc:String,
+    desc:String? = null,
     isSelected :Boolean,
     selectedColor: Color = Color.Transparent,
     textColor: Color = Color.Black,
@@ -102,14 +102,17 @@ fun CustomOption(
                    ),
                    color = textSelectedColor
                )
-               Spacer(Modifier.height(spacing.default))
-               Text(
-                   text= desc,
-                   style = MaterialTheme.typography.displayMedium.copy(
-                       fontSize = 14.sp
-                   ),
-                   color = descSelectedColor
-               )
+               if(desc != null){
+                   Spacer(Modifier.height(spacing.default))
+                   Text(
+                       text= desc,
+                       style = MaterialTheme.typography.displayMedium.copy(
+                           fontSize = 14.sp
+                       ),
+                       color = descSelectedColor
+                   )
+               }
+
            }
         }
 
