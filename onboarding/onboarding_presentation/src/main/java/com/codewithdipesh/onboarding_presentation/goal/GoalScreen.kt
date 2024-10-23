@@ -53,6 +53,7 @@ fun GoalScreen(
         onBackClicked = {
             viewModel.onBackClick()
         },
+        currentProgress = 6,
         onNextClicked = {
             viewModel.onNextClick()
         }

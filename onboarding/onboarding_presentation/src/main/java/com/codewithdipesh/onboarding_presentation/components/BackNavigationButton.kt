@@ -12,10 +12,12 @@ import com.codewithdipesh.core.util.UiEvent
 @Composable
 fun BackNavigationButton(
     onBackClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     IconButton(onClick = {
         onBackClick()
-    }) {
+    },
+        modifier = modifier) {
         Icon(
             painterResource(R.drawable.back_arrow_svg),
             contentDescription = "back button"

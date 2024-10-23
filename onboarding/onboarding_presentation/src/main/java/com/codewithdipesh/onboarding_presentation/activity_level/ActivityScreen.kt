@@ -52,6 +52,7 @@ fun ActivityScreen(
             viewModel.onBackClick()
         },
         description = stringResource(R.string.activity_level_desc),
+        currentProgress = 5,
         onNextClicked = {
             viewModel.onNextClick()
         }

@@ -60,6 +60,7 @@ fun GenderScreen(
         onBackClicked = {
            viewModel.onBackClick()
         },
+        currentProgress = 1,
         onNextClicked = {
             viewModel.onNextClick()
         }

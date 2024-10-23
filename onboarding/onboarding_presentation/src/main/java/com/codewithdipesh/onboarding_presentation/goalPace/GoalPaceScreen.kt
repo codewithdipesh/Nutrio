@@ -51,6 +51,7 @@ fun GoalPaceScreen(
         onBackClicked = {
             viewModel.onBackClick()
         },
+        currentProgress = 7,
         onNextClicked = {
             viewModel.onNextClick()
         }

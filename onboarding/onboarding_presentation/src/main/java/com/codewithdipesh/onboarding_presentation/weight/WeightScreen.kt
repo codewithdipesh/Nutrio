@@ -86,6 +86,7 @@ fun WeightScreen (
         onBackClicked = {
             viewModel.onBackClick()
         },
+        currentProgress = 4,
         onNextClicked = {
             viewModel.onNextClick()
         }

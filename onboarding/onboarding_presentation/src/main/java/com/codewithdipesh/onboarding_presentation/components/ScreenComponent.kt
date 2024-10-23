@@ -39,6 +39,8 @@ import com.codewithdipesh.onboarding_presentation.components.GenderPicker
 @Composable
 fun ScreenComponent(
     title:String,
+    totalProgress : Int = 7,
+    currentProgress : Int ,
     description : String? = null,
     descriptionColor : Color = Color.Gray,
     onBackClicked : ()->Unit,
@@ -67,11 +69,23 @@ fun ScreenComponent(
                verticalArrangement = Arrangement.SpaceBetween,
                horizontalAlignment = Alignment.CenterHorizontally
            ) {
-               Row (modifier = Modifier.fillMaxWidth(),
-                   horizontalArrangement = Arrangement.Start){
-                   BackNavigationButton {
-                       onBackClicked()
-                   }
+               Box(
+                   modifier = Modifier.fillMaxWidth()
+               ) {
+                   // Back button aligned to start
+                   BackNavigationButton(
+                       modifier = Modifier.align(Alignment.CenterStart),
+                       onBackClick = onBackClicked
+                   )
+
+                   // Progress bar centered
+                   ProgressBar(
+                       modifier = Modifier.align(Alignment.Center),
+                       width = 200.dp,
+                       stroke = 4.dp,
+                       totalProgress = totalProgress,
+                       currentProgress = currentProgress
+                   )
                }
                Text(
                    text = title,

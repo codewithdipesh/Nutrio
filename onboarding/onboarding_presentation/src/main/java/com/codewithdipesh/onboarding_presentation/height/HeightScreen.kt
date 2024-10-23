@@ -99,6 +99,7 @@ fun HeightScreen(
         onNextClicked = {
             viewModel.onNextClick()
         },
+        currentProgress = 3,
         //unitChooser
         middleSectionContent = {
             unitChooser()

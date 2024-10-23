@@ -41,6 +41,7 @@ fun AgeScreen(
         onBackClicked = {
             viewModel.onBackClick()
         },
+        currentProgress = 2,
         onNextClicked = {
             viewModel.onNextClick()
         }
