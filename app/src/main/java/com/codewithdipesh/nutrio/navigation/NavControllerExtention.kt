@@ -9,3 +9,11 @@ fun NavController.navigate(event: UiEvent.Navigate){
 fun NavController.backNavigate(){
     this.navigateUp()
 }
+fun NavController.navigateAndPopUp(event: UiEvent.NavigateAndPopUp){
+    this.navigate(event.route){
+        popUpTo(event.popUpRoute){
+            inclusive = true
+        }
+
+    }
+}

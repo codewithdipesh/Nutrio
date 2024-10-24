@@ -14,6 +14,7 @@ interface Preferences {
     fun saveActivityLevel(level: ActivityLevel)
     fun saveGoalType(type : GoalType)
     fun saveWeightPace(pace:WeightPace)
+    fun saveCalorieGoal(calorie:Int)
     fun saveCarbRatio(ratio : Float)
     fun saveProteinRatio(ratio : Float)
     fun saveFatRatio(ratio : Float)
@@ -29,6 +30,7 @@ interface Preferences {
         const val KEY_ACTIVITY_LEVEL = "activity_level"
         const val KEY_GOAL_TYPE = "goal_type"
         const val KEY_WEIGHT_PACE = "weight_pace"
+        const val KEY_CALORIE_GOAL = "calorie_goal"
         const val KEY_CARB_RATIO = "carb_ratio"
         const val KEY_PROTEIN_RATIO = "protein_ratio"
         const val KEY_FAT_RATIO = "fat_ratio"

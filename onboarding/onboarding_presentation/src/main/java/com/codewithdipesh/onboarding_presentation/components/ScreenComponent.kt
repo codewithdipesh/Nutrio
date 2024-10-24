@@ -1,6 +1,7 @@
 package com.codewithdipesh.onboarding_presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,17 +42,19 @@ import com.codewithdipesh.onboarding_presentation.components.GenderPicker
 @Composable
 fun ScreenComponent(
     title:String,
+    isBackNavEnabled : Boolean = true,
+    isProgressVisible : Boolean = true,
     totalProgress : Int = 7,
-    currentProgress : Int ,
+    currentProgress : Int=0 ,
     description : String? = null,
     descriptionColor : Color = Color.Gray,
-    onBackClicked : ()->Unit,
-    onNextClicked : () -> Unit,
+    onBackClicked : ()->Unit = {},
+    onNextClicked : () -> Unit = {},
     middleSectionContent : @Composable () -> Unit = {},
     content : @Composable () -> Unit
 ) {
     val spacing = LocalSpacing.current
-
+    val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -73,19 +78,23 @@ fun ScreenComponent(
                    modifier = Modifier.fillMaxWidth()
                ) {
                    // Back button aligned to start
-                   BackNavigationButton(
-                       modifier = Modifier.align(Alignment.CenterStart),
-                       onBackClick = onBackClicked
-                   )
-
+                   if(isBackNavEnabled){
+                       BackNavigationButton(
+                           modifier = Modifier.align(Alignment.CenterStart),
+                           onBackClick = onBackClicked
+                       )
+                   }
                    // Progress bar centered
-                   ProgressBar(
-                       modifier = Modifier.align(Alignment.Center),
-                       width = 200.dp,
-                       stroke = 4.dp,
-                       totalProgress = totalProgress,
-                       currentProgress = currentProgress
-                   )
+                   if(isProgressVisible){
+                       ProgressBar(
+                           modifier = Modifier.align(Alignment.Center),
+                           width = 200.dp,
+                           stroke = 4.dp,
+                           totalProgress = totalProgress,
+                           currentProgress = currentProgress
+                       )
+                   }
+
                }
                Text(
                    text = title,
@@ -119,28 +128,28 @@ fun ScreenComponent(
                 //composable content
                 content()
 
-                //button
-                Row (
-                    Modifier.fillMaxWidth()
-                        .padding(bottom = spacing.spaceMedium),
-                    horizontalArrangement = Arrangement.End
-                ){
-                    ActionButton(
-                        text = stringResource(R.string.Continue),
-                        textColor = Color.White,
-                        backgroundColor = colorResource(R.color.button_color),
-                        width = 150.dp,
-                        height = 60.dp,
-                        onClick = {
-                            onNextClicked()
-                        }
-                    )
-                }
-
-
             }
-
         }
+
+        //button
+        Box (
+            Modifier.fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(bottom = spacing.spaceMedium),
+            contentAlignment = Alignment.BottomEnd
+        ){
+            ActionButton(
+                text = stringResource(R.string.Continue),
+                textColor = Color.White,
+                backgroundColor = colorResource(R.color.button_color),
+                width = 150.dp,
+                height = 60.dp,
+                onClick = {
+                    onNextClicked()
+                }
+            )
+        }
+
     }
 
 }

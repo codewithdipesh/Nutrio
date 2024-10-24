@@ -80,7 +80,7 @@ fun CustomOption(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(vertical = spacing.spaceSmall)
+                .padding(vertical = spacing.spaceExtraSmall)
                 .clip(RoundedCornerShape(10.dp))
                 .background(backgroundColor, RoundedCornerShape(10.dp))
                 .border(
@@ -94,7 +94,7 @@ fun CustomOption(
             ,
             contentAlignment = Alignment.BottomStart
         ){
-           Column(Modifier.padding(spacing.spaceMedium)) {
+           Column(Modifier.padding(spacing.spaceSmall)) {
                Text(
                    text = text,
                    style = textStyle.copy(

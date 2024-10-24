@@ -23,9 +23,11 @@ import androidx.navigation.compose.rememberNavController
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
+import com.codewithdipesh.nutrio.navigation.navigateAndPopUp
 import com.codewithdipesh.nutrio.ui.theme.NutrioTheme
 import com.codewithdipesh.onboarding_presentation.activity_level.ActivityScreen
 import com.codewithdipesh.onboarding_presentation.age.AgeScreen
+import com.codewithdipesh.onboarding_presentation.calorie_goal.NutritionGoalScreen
 import com.codewithdipesh.onboarding_presentation.gender.GenderScreen
 import com.codewithdipesh.onboarding_presentation.goal.GoalScreen
 import com.codewithdipesh.onboarding_presentation.goalPace.GoalPaceScreen
@@ -106,7 +108,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.NUTRIENT_GOAL){
-
+                        NutritionGoalScreen(
+                            onNavigate = navController::navigateAndPopUp,
+                        )
                     }
                     composable(Route.TRACKER_OVERVIEW){
 

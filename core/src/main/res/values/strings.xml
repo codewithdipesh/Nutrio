@@ -31,6 +31,7 @@
 <string name="carbs">Carbs</string>
 <string name="protein">Protein</string>
 <string name="fat">Fat</string>
+<string name="nutrient_goal">Your Daily Calorie Intake</string>
 <string name="previous_day">Previous day</string>
 <string name="next_day">Next day</string>
 <string name="yesterday">Yesterday</string>
@@ -64,8 +65,16 @@
 <string name="medium_desc">Spend a good part of the day doing physical activity</string>
 <string name="years">years</string>
 <string name="whats_your_weight">What\'s your weight?</string>
-<string name="low">Not So Active</string>
-<string name="low_desc">Spend most of the day sitting</string>
+<string name="sedentary">Sedentary</string>
+<string name="sedentary_desc">Spend most of the day sitting or with minimal activity</string>
+<string name="light">Light Activity</string>
+<string name="light_desc">Light daily exercise or walking for a few hours</string>
+<string name="moderate">Moderate Activity</string>
+<string name="moderate_desc">Engage in moderate exercise or active tasks regularly</string>
+<string name="active">Active</string>
+<string name="active_desc">Engage in intense physical activities or sports</string>
+<string name="very_active">Very Active</string>
+<string name="very_active_desc">Involved in very hard exercise or a physically demanding job</string>
 <string name="gain">Gain Weight</string>
 <string name="gain_desc">Gain overall weight with pretty much muscle mass </string>
 <string name="keep">Maintain weight </string>

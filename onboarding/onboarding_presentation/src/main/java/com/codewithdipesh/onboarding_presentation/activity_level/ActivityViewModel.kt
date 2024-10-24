@@ -21,7 +21,7 @@ class ActivityViewModel @Inject constructor(
     private val preferences: Preferences
 ) :ViewModel() {
 
-var selectedActivityLevel by mutableStateOf<ActivityLevel>(ActivityLevel.Medium)
+var selectedActivityLevel by mutableStateOf<ActivityLevel>(ActivityLevel.Moderate)
         private set
 
     private val _uiEvent = Channel<UiEvent>()

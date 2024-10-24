@@ -54,6 +54,12 @@ class DefaultPreferences(
             .apply()
     }
 
+    override fun saveCalorieGoal(calorie: Int) {
+        sharedPref.edit()
+            .putInt(Preferences.KEY_CALORIE_GOAL,calorie)
+            .apply()
+    }
+
     override fun saveCarbRatio(ratio: Float) {
         sharedPref.edit()
             .putFloat(Preferences.KEY_CARB_RATIO,ratio)
@@ -80,6 +86,7 @@ class DefaultPreferences(
         val activityLevelString = sharedPref.getString(Preferences.KEY_ACTIVITY_LEVEL,null)
         val goalTypeString = sharedPref.getString(Preferences.KEY_GOAL_TYPE,null)
         val weightPaceString = sharedPref.getString(Preferences.KEY_WEIGHT_PACE,null)
+        val calorieGoal = sharedPref.getInt(Preferences.KEY_CALORIE_GOAL,0)
         val carbRatio = sharedPref.getFloat(Preferences.KEY_CARB_RATIO,-1f)
         val proteinRation = sharedPref.getFloat(Preferences.KEY_PROTEIN_RATIO,-1f)
         val fatRation = sharedPref.getFloat(Preferences.KEY_FAT_RATIO,-1f)
@@ -92,6 +99,7 @@ class DefaultPreferences(
             activityLevel = ActivityLevel.fromString(activityLevelString?: "medium"),
             goalType = GoalType.fromString(goalTypeString?: "keep_weight"),
             weightPace = WeightPace.fromString(weightPaceString?: "moderate"),
+            calorieGoal = calorieGoal,
             carbRatio = carbRatio,
             proteinRatio = proteinRation,
             fatRatio = fatRation

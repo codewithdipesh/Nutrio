@@ -1,8 +1,11 @@
 package com.codewithdipesh.onboarding_presentation.activity_level
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +38,35 @@ fun ActivityScreen(
         mutableStateOf(viewModel.selectedActivityLevel)
     }
 
+    val activityOptions = remember {
+        listOf(
+            ActivityOptionUiState(
+                titleRes = R.string.sedentary,
+                descriptionRes = R.string.sedentary_desc,
+                activityLevel = ActivityLevel.Sedentary
+            ),
+            ActivityOptionUiState(
+                titleRes = R.string.light,
+                descriptionRes = R.string.light_desc,
+                activityLevel = ActivityLevel.Light
+            ),
+            ActivityOptionUiState(
+                titleRes = R.string.moderate,
+                descriptionRes = R.string.moderate_desc,
+                activityLevel = ActivityLevel.Moderate
+            ),
+            ActivityOptionUiState(
+                titleRes = R.string.active,
+                descriptionRes = R.string.active_desc,
+                activityLevel = ActivityLevel.Active
+            ),
+            ActivityOptionUiState(
+                titleRes = R.string.very_active,
+                descriptionRes = R.string.very_active_desc,
+                activityLevel = ActivityLevel.VeryActive
+            )
+        )
+    }
 
 
     LaunchedEffect (true){
@@ -57,54 +89,28 @@ fun ActivityScreen(
             viewModel.onNextClick()
         }
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(),
             horizontalAlignment = Alignment.Start
         ) {
-            CustomOption(
-                text = stringResource(R.string.low),
-                desc = stringResource(R.string.low_desc),
-                isSelected = selectedActivityLevel is ActivityLevel.Low,
-                onSelected = {
-                    viewModel.onActivitySelect(ActivityLevel.Low)
-                },
-                descColor = Color.DarkGray,
-                selectedDescColor = Color.DarkGray,
-                textColor = Color.Black,
-                selectedTextColor = colorResource(R.color.indicator_color),
-                borderColor = Color.DarkGray,
-                selectedBorderColor = colorResource(R.color.indicator_color)
-            )
-            CustomOption(
-                text = stringResource(R.string.medium),
-                desc = stringResource(R.string.medium_desc),
-                isSelected = selectedActivityLevel is ActivityLevel.Medium,
-                onSelected = {
-                    viewModel.onActivitySelect(ActivityLevel.Medium)
-                },
-                descColor = Color.DarkGray,
-                selectedDescColor = Color.DarkGray,
-                textColor = Color.Black,
-                selectedTextColor = colorResource(R.color.indicator_color),
-                borderColor = Color.DarkGray,
-                selectedBorderColor = colorResource(R.color.indicator_color)
-            )
-            CustomOption(
-                text = stringResource(R.string.high),
-                desc = stringResource(R.string.high_desc),
-                isSelected = selectedActivityLevel is ActivityLevel.High,
-                onSelected = {
-                    viewModel.onActivitySelect(ActivityLevel.High)
-                },
-                descColor = Color.DarkGray,
-                selectedDescColor = Color.DarkGray,
-                textColor = Color.Black,
-                selectedTextColor = colorResource(R.color.indicator_color),
-                borderColor = Color.DarkGray,
-                selectedBorderColor = colorResource(R.color.indicator_color)
-            )
+            items(activityOptions){option->
+                CustomOption(
+                    text = stringResource(option.titleRes),
+                    desc = stringResource(option.descriptionRes),
+                    isSelected = selectedActivityLevel == option.activityLevel,
+                    onSelected = {
+                        viewModel.onActivitySelect(option.activityLevel)
+                    },
+                    descColor = Color.DarkGray,
+                    selectedDescColor = Color.DarkGray,
+                    textColor = Color.Black,
+                    selectedTextColor = colorResource(R.color.indicator_color),
+                    borderColor = Color.DarkGray,
+                    selectedBorderColor = colorResource(R.color.indicator_color)
+                )
+            }
         }
 
     }
