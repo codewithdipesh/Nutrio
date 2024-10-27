@@ -26,6 +26,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_18
         targetCompatibility = JavaVersion.VERSION_18
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+    }
     kotlinOptions {
         jvmTarget = '18'
     }

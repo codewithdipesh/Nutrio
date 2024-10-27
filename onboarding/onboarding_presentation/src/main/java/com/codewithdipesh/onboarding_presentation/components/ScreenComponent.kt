@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.codewithdipesh.core.util.UiEvent
@@ -94,11 +95,14 @@ fun ScreenComponent(
                            currentProgress = currentProgress
                        )
                    }
-
+               if(!isProgressVisible && !isBackNavEnabled){
+                   Spacer(modifier = Modifier.height(spacing.spaceExtraLarge))
+               }
                }
                Text(
                    text = title,
-                   style = MaterialTheme.typography.labelLarge
+                   style = MaterialTheme.typography.labelLarge,
+                   textAlign = TextAlign.Center
                )
                Spacer(Modifier.height(spacing.spaceSmall))
                if(description != null){
