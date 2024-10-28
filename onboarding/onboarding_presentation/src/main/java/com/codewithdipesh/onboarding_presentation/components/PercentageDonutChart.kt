@@ -1,6 +1,7 @@
 package com.codewithdipesh.onboarding_presentation.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,6 +71,7 @@ fun PercentageDonutChart(
     ) {
         Canvas(
             modifier = Modifier.fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .aspectRatio(1f)
                 .padding(spacing.spaceSmall)
         ) {
@@ -102,17 +104,17 @@ fun PercentageDonutChart(
                 drawRoundRect(
                     brush = Brush.radialGradient(
                         colors = listOf(
+                            Color.Black.copy(alpha = 1f),
+                            Color.Black.copy(alpha = 0.5f),
                             Color.Black.copy(alpha = 0.2f),
-                            Color.Black.copy(alpha = 0.2f),
-                            Color.Black.copy(alpha = 0.2f),
-                            Color.Black.copy(alpha = 0.05f),
-                            Color.Black.copy(alpha = 0.00f)
+                            Color.Black.copy(alpha = 0.1f),
+                            Color.Black.copy(alpha = 0.0f)
                         )),
                     topLeft = Offset(labelX - size.width/14f - spacing.spaceSmall.toPx(), labelY - size.height/14f ),
                     size = Size(size.width/14f + spacing.spaceExtraLarge.toPx(),
                         size.height/14f + spacing.spaceMedium.toPx() ),
                     cornerRadius = CornerRadius(spacing.spaceSmall.toPx()),
-                    blendMode = BlendMode.SrcOver
+                    blendMode = BlendMode.Multiply
                 )
                 //draw the white border for text
                 drawRoundRect(
