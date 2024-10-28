@@ -1,5 +1,6 @@
 package com.codewithdipesh.mylibrary.remote
 
+import com.codewithdipesh.mylibrary.remote.dto.SearchDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,7 +11,7 @@ interface OpenFoodApi {
         @Query("search_items") query: String,
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int,
-    )
+    ): SearchDto
 
     companion object{
         const val BASE_URL = "https://in.openfoodfacts.org/"
