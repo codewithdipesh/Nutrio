@@ -126,7 +126,7 @@ fun ScreenComponent(
                     .fillMaxWidth()
                     .fillMaxHeight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.Top
             ){
 
                 //composable content
