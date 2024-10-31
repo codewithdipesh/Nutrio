@@ -1,9 +1,10 @@
 package com.codewithdipesh.mylibrary.repository
 
 import com.codewithdipesh.mylibrary.local.TrackerDao
-import com.codewithdipesh.mylibrary.mappers.toTrackableFood
+import com.codewithdipesh.mylibrary.mappers.toFoodName
 import com.codewithdipesh.mylibrary.mappers.toTrackedFood
 import com.codewithdipesh.mylibrary.mappers.toTrackedFoodEntity
+import com.codewithdipesh.mylibrary.mappers.toUnitNutrition
 import com.codewithdipesh.mylibrary.remote.OpenFoodApi
 import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.TrackedFood
@@ -18,18 +19,18 @@ class TrackerRepositoryImpl(
 ): TrackerRepository {
 
     override suspend fun searchFood(
-        query: String,
-        page: Int,
-        pageSize: Int
-    ): Result<List<TrackableFood>> {
+       food : String
+    ): Result<TrackableFood> {
         return try {
+            val searchText = api.getSearchText(food)
             val searchDto = api.searchFood(
-                query,
-                page,
-                pageSize
+               ingr = searchText
             )
             Result.success(
-                searchDto.products.mapNotNull { it.toTrackableFood() }
+                TrackableFood(
+                    name = searchDto.toFoodName(),
+                    nutrients = searchDto.ingredients.toUnitNutrition()
+                )
             )
         }catch(e:Exception){
             e.printStackTrace()

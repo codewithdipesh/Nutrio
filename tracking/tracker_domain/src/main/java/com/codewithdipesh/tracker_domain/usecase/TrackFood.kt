@@ -4,6 +4,7 @@ package com.codewithdipesh.tracker_domain.usecase
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.TrackedFood
+import com.codewithdipesh.tracker_domain.model.Unit
 import com.codewithdipesh.tracker_domain.repository.TrackerRepository
 import java.time.LocalDate
 import kotlin.math.roundToInt
@@ -13,6 +14,7 @@ class TrackFood (
 ){
     suspend operator fun invoke(
        food: TrackableFood,
+       unit : Unit,
        amount:Int,
        mealType: MealType,
        date: LocalDate
@@ -20,12 +22,13 @@ class TrackFood (
         repository.insertTrackedFood(
             TrackedFood(
               name = food.name,
-              carbs = ((food.carbsPer100g/100f) * amount).roundToInt(),
-              protein = ((food.proteinPer100g/100f) * amount).roundToInt(),
-              fat = ((food.fatPer100g/100f) * amount).roundToInt(),
-              calories = ((food.caloriesPer100g/100f) * amount).roundToInt(),
+              _carbs = (food.nutrients[unit]!!.carbs) * amount,
+              _fiber = food.nutrients[unit]!!.fiber * amount,
+              _protein = food.nutrients[unit]!!.protein * amount,
+              _fat = food.nutrients[unit]!!.fat * amount,
+              calories = (food.nutrients[unit]!!.calories * amount ).roundToInt(),
               amount = amount,
-              imageUrl = food.imageUrl,
+              unit = unit,
               mealType = mealType,
               date = date
             )
