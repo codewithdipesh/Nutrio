@@ -34,6 +34,7 @@ import com.codewithdipesh.onboarding_presentation.goalPace.GoalPaceScreen
 import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
+import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -113,9 +114,12 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.TRACKER_OVERVIEW){
-
+                        TrackerHome()
                     }
                     composable(Route.SEARCH){
+
+                    }
+                    composable(Route.ADD_EDIT_EXERCISE){
 
                     }
                 }
