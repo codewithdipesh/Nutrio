@@ -59,5 +59,10 @@ val Typography = Typography(
         fontFamily = customFont,
         fontWeight = FontWeight.Bold,
         fontSize = 40.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = customFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
     )
 )

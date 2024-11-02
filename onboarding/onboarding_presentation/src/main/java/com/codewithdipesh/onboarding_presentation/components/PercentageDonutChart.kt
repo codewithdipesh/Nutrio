@@ -63,6 +63,9 @@ fun PercentageDonutChart(
     val CalorietextStyle = MaterialTheme.typography.headlineLarge
     val KcaltextStyle = MaterialTheme.typography.labelSmall
 
+    val SingleInputBorderthicknessInAngle = 3f //2 degree
+    val SingleInputBorderColor = Color.DarkGray
+
     Box(
         modifier = Modifier
             .size(chartSize)
@@ -83,11 +86,22 @@ fun PercentageDonutChart(
                 val sweepAngle = (percentage / 100f) * 360f
                 val middleAngle = startAngle + (sweepAngle / 2f)
 
+                //border of singlePercent
+                drawArc(
+                    color = SingleInputBorderColor,
+                    startAngle = startAngle,
+                    sweepAngle = SingleInputBorderthicknessInAngle,
+                    useCenter = false,
+                    style = Stroke(width = thickness, cap = StrokeCap.Butt),
+                    size = Size(size.width - thickness, size.height - thickness),
+                    topLeft = Offset(thickness / 2f, thickness / 2f)
+                )
+                startAngle += SingleInputBorderthicknessInAngle
 
                 drawArc(
                     color = colors[index],
                     startAngle = startAngle,
-                    sweepAngle = sweepAngle,
+                    sweepAngle = sweepAngle - SingleInputBorderthicknessInAngle,
                     useCenter = false,
                     style = Stroke(width = thickness, cap = StrokeCap.Butt),
                     size = Size(size.width - thickness, size.height - thickness),
@@ -146,7 +160,7 @@ fun PercentageDonutChart(
                     )
                 }
 
-                startAngle += sweepAngle
+                startAngle += sweepAngle - SingleInputBorderthicknessInAngle
             }
 
             drawContext.canvas.nativeCanvas.apply {

@@ -10,8 +10,10 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +63,8 @@ class MainActivity : ComponentActivity() {
                     },
                     popExitTransition = {
                         fadeOut(animationSpec = tween(100))
-                    }
+                    },
+                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
                 ){
                     composable(Route.WELCOME){
                        WelcomeScreen(onNavigate = navController::navigate)
