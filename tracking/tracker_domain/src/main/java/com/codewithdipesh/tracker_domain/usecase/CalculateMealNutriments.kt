@@ -28,21 +28,18 @@ class CalculateMealNutriments (
         val totalCarbs = allNutriments.values.sumOf { it.carbs }
         val totalProteins = allNutriments.values.sumOf { it.proteins }
         val totalFats = allNutriments.values.sumOf { it.fats }
-        val totalFibers = allNutriments.values.sumOf { it.fiber }
+        val totalFibers = (allNutriments.values.sumOf { it.fiber }).toInt()
         val totalCalories = allNutriments.values.sumOf { it.calories }
 
         val userInfo = preferences.loadUserInfo()
 
         val caloriesGoal =  userInfo.calorieGoal
 
-        val carbsGoalUnFormatted = ((caloriesGoal * (userInfo.carbRatio/100)) /4f).toDouble()
-        val carbsGoalFormatted = ((carbsGoalUnFormatted * 10.0).roundToInt() / 10.0)
+        val carbsGoalFormatted = ((caloriesGoal * (userInfo.carbRatio/100)) /4f).toInt()
 
-        val proteinsGoalUnFormatted = ((caloriesGoal * (userInfo.proteinRatio/100)) /4f).toDouble()
-        val proteinsGoalFormatted = ((proteinsGoalUnFormatted * 10.0).roundToInt() / 10.0)
+        val proteinsGoalFormatted = ((caloriesGoal * (userInfo.proteinRatio/100)) /4f).toInt()
 
-        val fatsGoalUnFormatted = ((caloriesGoal * (userInfo.fatRatio/100)) /9f).toDouble()
-        val fatsGoalFormatted = ((fatsGoalUnFormatted * 10.0).roundToInt() / 10.0)
+        val fatsGoalFormatted = ((caloriesGoal * (userInfo.fatRatio/100)) /9f).toInt()
 
 
         return Result(
@@ -69,15 +66,15 @@ class CalculateMealNutriments (
     )
 
     data class Result(
-        val carbsGoal : Double,
-        val proteinsGoal : Double,
-        val fatsGoal : Double,
+        val carbsGoal : Int,
+        val proteinsGoal : Int,
+        val fatsGoal : Int,
         val caloriesGoal : Int,
         val totalCarbs : Double,
         val totalProtein: Double,
         val totalFat : Double,
         val totalCalories : Int,
-        val totalFiber : Double,
+        val totalFiber : Int,
         val mealNutrimens : Map<MealType,MealNutrients>
     )
 }

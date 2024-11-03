@@ -51,6 +51,8 @@ import kotlin.math.min
 fun CircularProgressBar(
     currentAmount : Float,
     totalAmount : Float,
+    burnedAmount :Float = 0f,
+    burnedColor: Color = Color.Transparent,
     modifier: Modifier =Modifier,
     progressColor : Color = colorResource(R.color.progress_color),
     overflowColorBrush: Brush = Brush.linearGradient(
@@ -67,6 +69,8 @@ fun CircularProgressBar(
     backgroundColor :Color = colorResource(R.color.progress_background),
     strokeWidth : Float = 20f,
     size : Dp = 200.dp,
+    chartPrimaryText : String ,
+    chartSecondaryText : String ,
     valueTextStyle: TextStyle,
     valueTextColor: Color,
     showIndication : Boolean = false,
@@ -76,6 +80,8 @@ fun CircularProgressBar(
 ) {
     val spacing = LocalSpacing.current
     val progress = (currentAmount/totalAmount).coerceAtLeast(0f)
+
+    val burnedProgress = (burnedAmount/totalAmount).coerceAtLeast(0f).coerceAtMost(1f)
 
     var animatedProgress by remember { mutableStateOf(0f) }
 
@@ -108,14 +114,27 @@ fun CircularProgressBar(
                 style = Stroke(strokeWidth, cap = StrokeCap.Round)
             )
 
-            //progress
+            //draw burned but only if no overflow
+            if(burnedProgress > 0f && burnedProgress < 1f && animatedProgress < 1f){
+                drawArc(
+                    color = burnedColor,
+                    startAngle = 270f,
+                    sweepAngle = -min(burnedProgress,1f)*360f,
+                    useCenter = false,
+                    style = Stroke(strokeWidth, cap = StrokeCap.Butt)
+                )
+            }
+
+            // Progress
+            val progressAngle = min(animatedProgress, 1f) * 360f
             drawArc(
                 color = progressColor,
                 startAngle = -90f,
-                sweepAngle = min(animatedProgress,1f)*360f,
+                sweepAngle = progressAngle,
                 useCenter = false,
                 style = Stroke(strokeWidth, cap = StrokeCap.Round)
             )
+
 
             //overflow
             if(animatedProgress > 1f){
@@ -139,13 +158,13 @@ fun CircularProgressBar(
         ){
 
             AutoResizeText(
-                text = "${abs(totalAmount.toInt() -currentAmount.toInt())}",
+                text = chartPrimaryText,
                 color = valueTextColor,
                 style = valueTextStyle
             )
             if(showIndication){
                 AutoResizeText(
-                    text = if(animatedProgress > 1f) "Over" else "Remaining",
+                    text = chartSecondaryText,
                     color = indicationtTextColor,
                     style = indicationTextStyle
                 )

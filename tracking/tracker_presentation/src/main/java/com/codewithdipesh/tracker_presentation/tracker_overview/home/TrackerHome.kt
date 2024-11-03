@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.codewithdipesh.core.R
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalorieCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CircularProgressBar
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacrosCard
 
 @Composable
 fun TrackerHome(){
@@ -23,7 +24,7 @@ fun TrackerHome(){
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ){
-        CalorieCard()
+        MacrosCard()
 
     }
 
