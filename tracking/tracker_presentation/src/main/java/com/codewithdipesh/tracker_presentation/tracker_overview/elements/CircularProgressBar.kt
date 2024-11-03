@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -52,15 +53,15 @@ fun CircularProgressBar(
     totalAmount : Float,
     modifier: Modifier =Modifier,
     progressColor : Color = colorResource(R.color.progress_color),
-    overflowColorBrush: Brush = Brush.verticalGradient(
+    overflowColorBrush: Brush = Brush.linearGradient(
         colors = listOf(
             colorResource(R.color.overflow_color_1),
             colorResource(R.color.overflow_color_1),
             colorResource(R.color.overflow_color_2),
             colorResource(R.color.overflow_color_2)
         ),
-        startY = 0.0f,
-        endY = 20.0f,
+        start = Offset(0f,100f),
+        end = Offset(100f,0f),
         tileMode = TileMode.Repeated
     ),
     backgroundColor :Color = colorResource(R.color.progress_background),
@@ -92,7 +93,8 @@ fun CircularProgressBar(
         }
     }
     Box(
-        modifier = modifier.size(size),
+        modifier = modifier.size(size)
+            .padding(spacing.spaceSmall),
         contentAlignment = Alignment.Center
     ){
         Canvas(
@@ -130,7 +132,7 @@ fun CircularProgressBar(
         }
 
         Column(
-            modifier = Modifier.width(size * 0.6f)
+            modifier = Modifier.width(size * 0.8f)
                 .fillMaxHeight() ,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
