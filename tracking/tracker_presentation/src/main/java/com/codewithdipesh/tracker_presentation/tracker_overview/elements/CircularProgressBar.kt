@@ -152,6 +152,7 @@ fun CircularProgressBar(
 
         Column(
             modifier = Modifier.width(size * 0.8f)
+                .padding(spacing.spaceSmall)
                 .fillMaxHeight() ,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center

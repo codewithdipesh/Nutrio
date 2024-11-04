@@ -1,6 +1,7 @@
 package com.codewithdipesh.tracker_presentation.tracker_overview.elements
 
 import android.graphics.Paint.Align
+import android.util.Log
 import android.widget.Space
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -25,12 +26,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -74,6 +78,8 @@ fun MacrosCard(
         mutableStateOf(totalFat)
     }
 
+    val density = LocalDensity.current
+
     val macros by remember(carbGoal, proteinGoal, fatGoal, carb, protein, fat) {
         mutableStateOf(
             listOf(
@@ -110,9 +116,16 @@ fun MacrosCard(
         showDescription = false,
         height = 300.dp
     ){
+        var progressSize by remember{
+            mutableStateOf(100.dp)
+        }
         Row(
             modifier = Modifier.fillMaxSize()
-                .padding(horizontal = LocalSpacing.current.spaceSmall),
+                .padding(horizontal = LocalSpacing.current.spaceSmall)
+                .onGloballyPositioned { coordinates ->
+                    val width = with(density){ coordinates.size.width.toDp()}
+                    progressSize = (width * 0.3f)
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Absolute.SpaceBetween
         ) {
@@ -133,7 +146,7 @@ fun MacrosCard(
 
                     Box(
                         modifier = Modifier
-                            .size(100.dp)
+                            .size(progressSize)
                             .aspectRatio(1f)
                     ) {
                         CircularProgressBar(
@@ -147,7 +160,7 @@ fun MacrosCard(
                                 fontSize = 12.sp
                             ),
                             indicationtTextColor = Color.DarkGray,
-                            size = 100.dp,
+                            size = progressSize,
                             progressColor = colorResource(macro.color),
                             overflowColorBrush = Brush.verticalGradient(
                                 colors = listOf(

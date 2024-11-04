@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.codewithdipesh.core.R
 import com.codewithdipesh.core_ui.Dimensions
 import com.codewithdipesh.core_ui.LocalSpacing
+import com.codewithdipesh.core_ui.components.AutoResizeText
 import kotlin.math.abs
 
 @Composable
@@ -75,7 +76,7 @@ fun CalorieCard(
             //calorie progress Bar
             Box(
                 modifier = Modifier
-                    .size(140.dp)
+                    .size(120.dp)
                     .aspectRatio(1f)
             ) {
                 CircularProgressBar(
@@ -91,7 +92,7 @@ fun CalorieCard(
                         fontSize = 16.sp
                     ),
                     indicationtTextColor = Color.DarkGray,
-                    size = 140.dp,
+                    size = 120.dp,
                     progressColor = colorResource(R.color.progress_color),
                     overflowColorBrush = Brush.verticalGradient(
                         colors = listOf(
@@ -119,6 +120,7 @@ fun CalorieCard(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Top
             ) {
+                Spacer(Modifier.height(spacing.spaceSmall))
                 AmountWithTitle(
                     title = stringResource(R.string.base_goal),
                     amount = "${caloriesGoal}"
@@ -152,12 +154,12 @@ fun AmountWithTitle(
     Column(modifier = Modifier
         .fillMaxWidth()
     ) {
-        Text(
+        AutoResizeText(
             text = title,
             color = titleColor,
             style = titleStyle
         )
-        Text(
+        AutoResizeText(
             text = amount,
             color = amountColor,
             style = amountStyle

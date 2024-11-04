@@ -60,8 +60,7 @@ fun TrackerHome(){
                 containerColor = colorResource(R.color.progressToggle)
             )
         ){
-            Row(modifier =
-            Modifier.fillMaxWidth()
+            Row(modifier = Modifier.fillMaxWidth()
                 .padding(spacing.spaceSmall)
             ) {
                 Box(modifier = Modifier.aspectRatio(1f)
