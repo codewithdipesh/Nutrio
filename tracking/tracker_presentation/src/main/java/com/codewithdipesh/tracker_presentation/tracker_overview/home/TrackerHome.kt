@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerScope
@@ -46,24 +48,25 @@ fun TrackerHome(){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ){
         val spacing = LocalSpacing.current
         val scope = rememberCoroutineScope()
         val state = rememberPagerState(initialPage = 0 , pageCount = {2})
 
-        Card (
-            modifier = Modifier.fillMaxWidth()
-                .height(40.dp)
-                .padding(spacing.spaceLarge),
-            colors = CardDefaults.cardColors(
-                containerColor = colorResource(R.color.progressToggle)
-            )
+        Box(
+            modifier = Modifier.size(300.dp,100.dp)
+                .padding(spacing.spaceLarge)
+                .background(colorResource(R.color.button_color), RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(10.dp))
         ){
-            Row(modifier = Modifier.fillMaxWidth()
-                .padding(spacing.spaceSmall)
+            Row(modifier = Modifier
+                .fillMaxSize()
+                .padding(spacing.spaceSmall),
+             verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(modifier = Modifier.aspectRatio(1f)
+                Box(modifier = Modifier
+                    .weight(1f)
                     .clip(RoundedCornerShape(spacing.spaceMedium))
                     .background(
                         color = if(state.currentPage == 0) MaterialTheme.colorScheme.background else Color.Transparent,
@@ -86,7 +89,8 @@ fun TrackerHome(){
                     )
                 }
 
-                Box(modifier = Modifier.aspectRatio(1f)
+                Box(modifier = Modifier
+                    .weight(1f)
                     .clip(RoundedCornerShape(spacing.spaceMedium))
                     .background(
                         color = if(state.currentPage == 1) MaterialTheme.colorScheme.background else Color.Transparent,
@@ -112,19 +116,24 @@ fun TrackerHome(){
             }
         }
 
-        HorizontalPager(
-          state = state,
-          modifier = Modifier.fillMaxWidth(),
-          flingBehavior = PagerDefaults.flingBehavior(
-              state = state,
-              pagerSnapDistance = PagerSnapDistance.atMost(0)
-          )
-        ) {
-            when(it){
-                0 -> CalorieCard()
-                1 -> MacrosCard()
-            }
+        Box(
+            modifier = Modifier.wrapContentHeight()
+                .fillMaxWidth()
+        ){
+            HorizontalPager(
+                state = state,
+                modifier = Modifier.fillMaxWidth(),
+                flingBehavior = PagerDefaults.flingBehavior(
+                    state = state,
+                    pagerSnapDistance = PagerSnapDistance.atMost(0)
+                )
+            ) {
+                when(it){
+                    0 -> CalorieCard()
+                    1 -> MacrosCard()
+                }
 
+            }
         }
 
     }
