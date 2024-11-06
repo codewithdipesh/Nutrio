@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
@@ -22,8 +23,11 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +44,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codewithdipesh.core.R
@@ -49,7 +54,9 @@ import com.codewithdipesh.tracker_presentation.tracker_overview.elements.Calorie
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CircularProgressBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacrosCard
 import kotlinx.coroutines.launch
+import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackerHome(){
 
@@ -64,16 +71,44 @@ fun TrackerHome(){
 
         val scope = rememberCoroutineScope()
         val state = rememberPagerState(initialPage = 0 , pageCount = {2})
+        //TopBar
+        Row (
+            modifier = Modifier.fillMaxWidth()
+                .wrapContentHeight()
+                .padding(horizontal = spacing.spaceLarge)
+                .padding(bottom = spacing.default),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(
+                text = stringResource(R.string.today),
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Black
+            )
+            Text(
+                text = stringResource(R.string.app_name).uppercase(Locale.ENGLISH),
+                style = MaterialTheme.typography.titleLarge,
+                color = colorResource(R.color.progress_color)
+            )
+            //TODO ADD A SETTINGS OPTION
+            Text(
+                text = stringResource(R.string.today),
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Transparent
+            )
 
+
+        }
+        //toggle buton for calorie and macro card
         Row(modifier = Modifier
                 .fillMaxWidth()
-                .height(30.dp)
-                .padding(horizontal = spacing.spaceLarge),
-             verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = spacing.spaceLarge)
+                .height(30.dp),
+             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall)
             ) {
                 Box(modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = spacing.spaceMedium)
                     .clickable {
                         scope.launch {
                             state.animateScrollToPage(0)
@@ -102,7 +137,6 @@ fun TrackerHome(){
 
                 Box(modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = spacing.spaceMedium)
                     .clickable {
                         scope.launch {
                             state.animateScrollToPage(1)
@@ -128,7 +162,7 @@ fun TrackerHome(){
                     }
             }
         }
-
+        //macro and calorie card pager
         Box(
             modifier = Modifier.wrapContentHeight()
                 .fillMaxWidth()
