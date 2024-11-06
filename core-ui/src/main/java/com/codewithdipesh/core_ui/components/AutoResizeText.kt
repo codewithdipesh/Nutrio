@@ -56,7 +56,7 @@ fun AutoResizeText(
                     shouldDraw = false
                     shrinkCounter++
                     resizedTextStyle = resizedTextStyle.copy(
-                        fontSize = resizedTextStyle.fontSize * 0.9f
+                        fontSize = resizedTextStyle.fontSize * 0.7f
                     )
                 } else {
                     shouldDraw = true

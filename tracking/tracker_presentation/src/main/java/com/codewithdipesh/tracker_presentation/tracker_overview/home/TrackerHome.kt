@@ -22,16 +22,23 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,33 +52,28 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TrackerHome(){
+
+    val spacing = LocalSpacing.current
+
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .padding(vertical = spacing.spaceSmall),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ){
-        val spacing = LocalSpacing.current
+
         val scope = rememberCoroutineScope()
         val state = rememberPagerState(initialPage = 0 , pageCount = {2})
 
-        Box(
-            modifier = Modifier.size(300.dp,100.dp)
-                .padding(spacing.spaceLarge)
-                .background(colorResource(R.color.button_color), RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-        ){
-            Row(modifier = Modifier
-                .fillMaxSize()
-                .padding(spacing.spaceSmall),
+        Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .padding(horizontal = spacing.spaceLarge),
              verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(spacing.spaceMedium))
-                    .background(
-                        color = if(state.currentPage == 0) MaterialTheme.colorScheme.background else Color.Transparent,
-                        shape = RoundedCornerShape(spacing.spaceMedium)
-                    )
+                    .padding(horizontal = spacing.spaceMedium)
                     .clickable {
                         scope.launch {
                             state.animateScrollToPage(0)
@@ -79,23 +81,28 @@ fun TrackerHome(){
                     },
                     contentAlignment = Alignment.Center
                 ){
-                    AutoResizeText(
-                        text = "Calories",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier
-                    )
+                    Column(
+                        Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        AutoResizeText(
+                            text = stringResource(R.string.calories),
+                            color = if(state.currentPage == 0) colorResource(R.color.progress_color) else Color.Black,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier
+                        )
+                        //underline
+                        HorizontalDivider(
+                            thickness = 4.dp,
+                            color = if(state.currentPage == 0) colorResource(R.color.progress_color) else Color.Transparent
+                        )
+                    }
+
                 }
 
                 Box(modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(spacing.spaceMedium))
-                    .background(
-                        color = if(state.currentPage == 1) MaterialTheme.colorScheme.background else Color.Transparent,
-                        shape = RoundedCornerShape(spacing.spaceMedium)
-                    )
+                    .padding(horizontal = spacing.spaceMedium)
                     .clickable {
                         scope.launch {
                             state.animateScrollToPage(1)
@@ -103,16 +110,22 @@ fun TrackerHome(){
                     },
                     contentAlignment = Alignment.Center
                 ){
-                    AutoResizeText(
-                        text = "Macros",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold
+                    Column(
+                        Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        AutoResizeText(
+                            text = stringResource(R.string.macros),
+                            color = if(state.currentPage == 1) colorResource(R.color.progress_color) else Color.Black,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier
                         )
-                    )
-                }
-
-
+                        //underline
+                        HorizontalDivider(
+                            thickness = 4.dp,
+                            color = if(state.currentPage == 1) colorResource(R.color.progress_color) else Color.Transparent
+                        )
+                    }
             }
         }
 
