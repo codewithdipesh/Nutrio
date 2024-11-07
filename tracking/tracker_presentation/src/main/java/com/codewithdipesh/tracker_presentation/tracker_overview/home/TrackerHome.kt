@@ -47,9 +47,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.codewithdipesh.core.R
+import com.codewithdipesh.core.util.getStringFromDate
 import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.core_ui.components.AutoResizeText
+import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewEvent
+import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewViewModel
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalendarRow
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalorieCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CircularProgressBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacrosCard
@@ -58,13 +63,20 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrackerHome(){
+fun TrackerHome(
+    viewModel: TrackerOverviewViewModel = hiltViewModel()
+){
 
     val spacing = LocalSpacing.current
-
+    var isCalenderVisible by remember {
+        mutableStateOf(false)
+    }
+    val selectedDate by remember(viewModel.state){
+        mutableStateOf(viewModel.state.date)
+    }
     Column(
         modifier = Modifier.fillMaxSize()
-            .padding(vertical = spacing.spaceSmall),
+            .padding(vertical = spacing.spaceMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ){
@@ -81,9 +93,12 @@ fun TrackerHome(){
             verticalAlignment = Alignment.CenterVertically
         ){
             Text(
-                text = stringResource(R.string.today),
+                text = getStringFromDate(selectedDate),
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.Black
+                color = Color.Black,
+                modifier = Modifier.clickable {
+                    isCalenderVisible = !isCalenderVisible
+                }
             )
             Text(
                 text = stringResource(R.string.app_name).uppercase(Locale.ENGLISH),
@@ -99,6 +114,7 @@ fun TrackerHome(){
 
 
         }
+
         //toggle buton for calorie and macro card
         Row(modifier = Modifier
                 .fillMaxWidth()
@@ -184,5 +200,31 @@ fun TrackerHome(){
         }
 
     }
+
+    //calendar
+    if(isCalenderVisible){
+        Box(
+            modifier = Modifier.fillMaxWidth()
+                .padding(top = spacing.spaceExtraLarge * 1.7f)
+                .wrapContentHeight()
+        ){
+            CalendarRow(
+                listofShownDates = viewModel.calendarState.listofShownDates,
+                selectedDate = viewModel.calendarState.selectedDate,
+                onSelect = {
+                    viewModel.onEvent(TrackerOverviewEvent.OnDateSelect(it))
+                    isCalenderVisible = false
+                },
+                onPreviousWeek = {
+                    viewModel.onEvent(TrackerOverviewEvent.OnPreviousWeekClick)
+                },
+                onNextWeek = {
+                    viewModel.onEvent(TrackerOverviewEvent.OnNextWeekClick)
+                }
+            )
+        }
+    }
+
+
 
 }

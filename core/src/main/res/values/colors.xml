@@ -32,8 +32,12 @@
     <color name="fat_overflow_2">#916FA9</color>
     <color name="button_color">#0239A7</color>
     <color name="progress_color">#2581FB</color>
+    <color name="progress_color_lighter">#6D9BD5</color>
     <color name="overflow_color_1">#003A8D</color>
     <color name="overflow_color_2">#94B7D7</color>
     <color name="progress_background">#BFBFBF</color>
     <color name="progressToggle">#2580F9</color>
+    <color name="dark_gray">#3B3B3B</color>
+    <color name="medium_gray">#666666</color>
+    <color name="light_gray">#E5E5E5</color>
 </resources>

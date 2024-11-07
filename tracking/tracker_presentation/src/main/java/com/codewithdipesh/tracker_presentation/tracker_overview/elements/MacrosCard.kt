@@ -121,10 +121,9 @@ fun MacrosCard(
         }
         Row(
             modifier = Modifier.fillMaxSize()
-                .padding(horizontal = LocalSpacing.current.spaceSmall)
                 .onGloballyPositioned { coordinates ->
                     val width = with(density){ coordinates.size.width.toDp()}
-                    progressSize = (width * 0.3f)
+                    progressSize = (width * 0.32f)
                 },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Absolute.SpaceBetween

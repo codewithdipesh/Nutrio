@@ -9,6 +9,7 @@ import com.codewithdipesh.core.domain.Preferences.Preferences
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.usecase.TrackerUseCases
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.CalenderUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +29,8 @@ class TrackerOverviewViewModel @Inject constructor(
 
     var state by mutableStateOf(TrackerOverviewState())
 
+    var calendarState by mutableStateOf(CalenderUiModel())
+
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
@@ -33,6 +38,7 @@ class TrackerOverviewViewModel @Inject constructor(
 
     init {
         preferences.saveShouldShowOnboarding(false)
+        getCalendarData(state.date)
     }
 
     fun onEvent(event: TrackerOverviewEvent){
@@ -54,15 +60,25 @@ class TrackerOverviewViewModel @Inject constructor(
                 }
             }
             TrackerOverviewEvent.OnNextDayClick -> {
+                val newDate = state.date.plusDays(1)
                 state = state.copy(
-                    date = state.date.plusDays(1)
+                    date = newDate
+                )
+                calendarState =calendarState.copy(
+                    selectedDate = newDate,
+                    listofShownDates = getDatesForCurrentWeek(newDate)
                 )
                 refreshFoods()
 
             }
             TrackerOverviewEvent.OnPreviousDayClick -> {
+                val newDate = state.date.minusDays(1)
                 state = state.copy(
-                    date = state.date.minusDays(1)
+                    date = newDate
+                )
+                calendarState =calendarState.copy(
+                    selectedDate = newDate,
+                    listofShownDates = getDatesForCurrentWeek(newDate)
                 )
                 refreshFoods()
             }
@@ -76,6 +92,26 @@ class TrackerOverviewViewModel @Inject constructor(
                         }else it
                     }
                 )
+            }
+            TrackerOverviewEvent.OnNextWeekClick -> {
+                calendarState = calendarState.copy(
+                    listofShownDates = getDatesForCurrentWeek(state.date.plusWeeks(1))
+                )
+            }
+            TrackerOverviewEvent.OnPreviousWeekClick -> {
+                calendarState = calendarState.copy(
+                    listofShownDates = getDatesForCurrentWeek(state.date.minusWeeks(1))
+                )
+            }
+
+            is TrackerOverviewEvent.OnDateSelect -> {
+                state = state.copy(
+                    date = event.date
+                )
+                calendarState = calendarState.copy(
+                    selectedDate = event.date
+                )
+                refreshFoods()
             }
         }
     }
@@ -109,6 +145,18 @@ class TrackerOverviewViewModel @Inject constructor(
                 )
             }
             .launchIn(viewModelScope)
+    }
+
+    private fun getCalendarData(date: LocalDate){
+        val showingDates = getDatesForCurrentWeek(date)
+        calendarState = calendarState.copy(
+            listofShownDates = showingDates
+        )
+    }
+
+    private fun getDatesForCurrentWeek(date : LocalDate):List<LocalDate>{
+        val startDate = date.with(DayOfWeek.MONDAY)
+        return (0..6).map { startDate.plusDays(it.toLong()) }
     }
 
 
