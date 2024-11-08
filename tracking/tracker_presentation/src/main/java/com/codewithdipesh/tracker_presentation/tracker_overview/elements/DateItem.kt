@@ -50,7 +50,7 @@ fun DateItem(
             )
             .then(
                 if(date == LocalDate.now()) Modifier.background(
-                    color = colorResource(R.color.progress_color)
+                    color = colorResource(R.color.progress_color_lighter)
                 )
                 else Modifier
             )

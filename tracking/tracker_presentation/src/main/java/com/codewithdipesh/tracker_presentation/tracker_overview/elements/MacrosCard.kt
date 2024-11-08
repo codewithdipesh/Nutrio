@@ -114,7 +114,7 @@ fun MacrosCard(
     OverviewCard(
         title = stringResource(R.string.macros),
         showDescription = false,
-        height = 300.dp
+        height = 260.dp
     ){
         var progressSize by remember{
             mutableStateOf(100.dp)

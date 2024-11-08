@@ -86,7 +86,7 @@ fun TrackerHome(
         //TopBar
         Row (
             modifier = Modifier.fillMaxWidth()
-                .wrapContentHeight()
+                .height(56.dp)
                 .padding(horizontal = spacing.spaceLarge)
                 .padding(bottom = spacing.default),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -99,17 +99,20 @@ fun TrackerHome(
                 modifier = Modifier.clickable {
                     isCalenderVisible = !isCalenderVisible
                 }
+                .weight(1f)
             )
             Text(
                 text = stringResource(R.string.app_name).uppercase(Locale.ENGLISH),
                 style = MaterialTheme.typography.titleLarge,
-                color = colorResource(R.color.progress_color)
+                color = colorResource(R.color.progress_color),
+                modifier = Modifier.weight(1f)
             )
             //TODO ADD A SETTINGS OPTION
             Text(
                 text = stringResource(R.string.today),
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.Transparent
+                color = Color.Transparent,
+                modifier = Modifier.weight(1f)
             )
 
 
@@ -205,7 +208,7 @@ fun TrackerHome(
     if(isCalenderVisible){
         Box(
             modifier = Modifier.fillMaxWidth()
-                .padding(top = spacing.spaceExtraLarge * 1.7f)
+                .padding(top = 60.dp)
                 .wrapContentHeight()
         ){
             CalendarRow(

@@ -58,7 +58,7 @@ fun OverviewCard(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
-            .padding(spacing.spaceLarge),
+            .padding(horizontal = spacing.spaceLarge, vertical = spacing.spaceSmall),
         colors = CardDefaults.cardColors(
             containerColor = color
         ),
@@ -66,7 +66,7 @@ fun OverviewCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(spacing.spaceLarge)
+                .padding(horizontal = spacing.spaceLarge, vertical = spacing.spaceSmall)
                 .fillMaxSize()
         ) {
             Text(

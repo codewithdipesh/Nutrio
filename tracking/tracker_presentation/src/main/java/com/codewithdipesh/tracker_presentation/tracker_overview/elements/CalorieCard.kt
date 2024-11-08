@@ -21,12 +21,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -60,23 +63,31 @@ fun CalorieCard(
     val netCalorieNeed by remember(goalCalories, burnedCalories, calories) {
         mutableStateOf(goalCalories + burnedCalories - calories)
     }
-
+    
+    val density = LocalDensity.current
+    var progressBarSize by remember {
+        mutableStateOf(120.dp)
+    }
     OverviewCard(
         title = stringResource(R.string.calories),
         showDescription = true,
         description = "Remaining = Goal - Food + Exercise",
-        height = 300.dp
+        height = 260.dp
     ){
         Row(
             modifier = Modifier.fillMaxSize()
-                .padding(horizontal = LocalSpacing.current.spaceSmall),
+                .padding(horizontal = LocalSpacing.current.spaceSmall)
+                .onGloballyPositioned { 
+                    val width = with(density){it.size.width.toDp()} 
+                    progressBarSize = width*0.5f
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Absolute.SpaceBetween
         ) {
             //calorie progress Bar
             Box(
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(progressBarSize)
                     .aspectRatio(1f)
             ) {
                 CircularProgressBar(
@@ -85,14 +96,14 @@ fun CalorieCard(
                     burnedAmount = caloriesBurned.toFloat(),
                     burnedColor = colorResource(R.color.burned),
                     valueTextStyle = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = 34.sp
+                        fontSize = 36.sp
                     ),
                     valueTextColor = Color.Black,
                     indicationTextStyle = MaterialTheme.typography.labelSmall.copy(
-                        fontSize = 16.sp
+                        fontSize = 18.sp
                     ),
                     indicationtTextColor = Color.DarkGray,
-                    size = 120.dp,
+                    size = progressBarSize *0.9f,
                     progressColor = colorResource(R.color.progress_color),
                     overflowColorBrush = Brush.verticalGradient(
                         colors = listOf(
