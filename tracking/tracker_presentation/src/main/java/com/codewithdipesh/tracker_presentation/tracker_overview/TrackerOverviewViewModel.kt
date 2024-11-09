@@ -94,13 +94,17 @@ class TrackerOverviewViewModel @Inject constructor(
                 )
             }
             TrackerOverviewEvent.OnNextWeekClick -> {
+                val updatedStartDate = calendarState.startDate.plusWeeks(1)
                 calendarState = calendarState.copy(
-                    listofShownDates = getDatesForCurrentWeek(state.date.plusWeeks(1))
+                    startDate = updatedStartDate,
+                    listofShownDates = getDatesForCurrentWeek(updatedStartDate)
                 )
             }
             TrackerOverviewEvent.OnPreviousWeekClick -> {
+                val updatedStartDate = calendarState.startDate.minusWeeks(1)
                 calendarState = calendarState.copy(
-                    listofShownDates = getDatesForCurrentWeek(state.date.minusWeeks(1))
+                    startDate = updatedStartDate,
+                    listofShownDates = getDatesForCurrentWeek(updatedStartDate)
                 )
             }
 
@@ -150,6 +154,7 @@ class TrackerOverviewViewModel @Inject constructor(
     private fun getCalendarData(date: LocalDate){
         val showingDates = getDatesForCurrentWeek(date)
         calendarState = calendarState.copy(
+            startDate = showingDates.first(),
             listofShownDates = showingDates
         )
     }
