@@ -10,8 +10,10 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +36,7 @@ import com.codewithdipesh.onboarding_presentation.goalPace.GoalPaceScreen
 import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
+import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,7 +63,8 @@ class MainActivity : ComponentActivity() {
                     },
                     popExitTransition = {
                         fadeOut(animationSpec = tween(100))
-                    }
+                    },
+                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
                 ){
                     composable(Route.WELCOME){
                        WelcomeScreen(onNavigate = navController::navigate)
@@ -113,9 +117,12 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.TRACKER_OVERVIEW){
-
+                        TrackerHome()
                     }
                     composable(Route.SEARCH){
+
+                    }
+                    composable(Route.ADD_EDIT_EXERCISE){
 
                     }
                 }

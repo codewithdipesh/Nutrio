@@ -50,7 +50,11 @@ fun PercentageDonutChart(
     val colors = listOf(
         colorResource(R.color.carb),
         colorResource(R.color.protein),
+<<<<<<< HEAD
+        colorResource(R.color.fat)
+=======
         colorResource(R.color.fat),
+>>>>>>> 6c975877ded2e0a60a5364281a19e9f2529adfbb
     )
 
     val textMeasurer = rememberTextMeasurer()
@@ -62,6 +66,9 @@ fun PercentageDonutChart(
     }
     val CalorietextStyle = MaterialTheme.typography.headlineLarge
     val KcaltextStyle = MaterialTheme.typography.labelSmall
+
+    val SingleInputBorderthicknessInAngle = 3f //2 degree
+    val SingleInputBorderColor = Color.DarkGray
 
     Box(
         modifier = Modifier
@@ -83,11 +90,22 @@ fun PercentageDonutChart(
                 val sweepAngle = (percentage / 100f) * 360f
                 val middleAngle = startAngle + (sweepAngle / 2f)
 
+                //border of singlePercent
+                drawArc(
+                    color = SingleInputBorderColor,
+                    startAngle = startAngle,
+                    sweepAngle = SingleInputBorderthicknessInAngle,
+                    useCenter = false,
+                    style = Stroke(width = thickness, cap = StrokeCap.Butt),
+                    size = Size(size.width - thickness, size.height - thickness),
+                    topLeft = Offset(thickness / 2f, thickness / 2f)
+                )
+                startAngle += SingleInputBorderthicknessInAngle
 
                 drawArc(
                     color = colors[index],
                     startAngle = startAngle,
-                    sweepAngle = sweepAngle,
+                    sweepAngle = sweepAngle - SingleInputBorderthicknessInAngle,
                     useCenter = false,
                     style = Stroke(width = thickness, cap = StrokeCap.Butt),
                     size = Size(size.width - thickness, size.height - thickness),
@@ -146,7 +164,7 @@ fun PercentageDonutChart(
                     )
                 }
 
-                startAngle += sweepAngle
+                startAngle += sweepAngle - SingleInputBorderthicknessInAngle
             }
 
             drawContext.canvas.nativeCanvas.apply {

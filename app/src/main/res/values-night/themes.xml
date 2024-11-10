@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Nutrio" parent="Theme.AppCompat.DayNight">
+        <!-- Dark theme with dark status bar and light icons -->
+        <item name="android:statusBarColor">@color/black</item>
+
+        <item name="colorPrimaryDark">@color/black</item>
+    </style>
+</resources>

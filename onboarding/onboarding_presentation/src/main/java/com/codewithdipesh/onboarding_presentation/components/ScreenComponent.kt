@@ -60,6 +60,7 @@ fun ScreenComponent(
         modifier = Modifier
             .fillMaxSize()
             .padding(spacing.spaceLarge)
+            .background(MaterialTheme.colorScheme.background)
     ){
         Column(
             modifier = Modifier.fillMaxSize(),

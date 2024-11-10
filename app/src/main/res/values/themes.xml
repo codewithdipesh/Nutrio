@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Nutrio" parent="android:Theme.Material.Light.NoActionBar" />
+<style name="Theme.Nutrio" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:statusBarColor">@color/medium_gray</item>
+
+    <item name="colorPrimaryDark">@color/medium_gray</item>
+</style>
 </resources>
