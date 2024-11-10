@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Route.TRACKER_OVERVIEW,
+                    startDestination = Route.WELCOME,
                     // Default animations for all screens
                     enterTransition = {
                         fadeIn(animationSpec = tween(100))

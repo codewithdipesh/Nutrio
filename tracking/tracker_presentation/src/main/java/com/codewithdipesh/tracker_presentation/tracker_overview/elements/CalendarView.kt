@@ -33,7 +33,7 @@ fun CalendarView(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 60.dp)
+                .padding(top = 40.dp)
                 .wrapContentHeight()
                 .clickable(
                     indication = null,
