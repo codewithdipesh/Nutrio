@@ -53,11 +53,13 @@ import com.codewithdipesh.core.R
 import com.codewithdipesh.core.util.getStringFromDate
 import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.core_ui.components.AutoResizeText
+import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewEvent
 import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewViewModel
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalendarRow
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalorieCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CircularProgressBar
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.FoodCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacrosCard
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -78,7 +80,8 @@ fun TrackerHome(
 
     Box(modifier = Modifier.fillMaxSize()){
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(vertical = spacing.spaceMedium),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -88,7 +91,8 @@ fun TrackerHome(
             val state = rememberPagerState(initialPage = 0 , pageCount = {2})
             //TopBar
             Row (
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .height(56.dp)
                     .padding(horizontal = spacing.spaceLarge)
                     .padding(bottom = spacing.default),
@@ -188,7 +192,8 @@ fun TrackerHome(
             }
             //macro and calorie card pager
             Box(
-                modifier = Modifier.wrapContentHeight()
+                modifier = Modifier
+                    .wrapContentHeight()
                     .fillMaxWidth()
             ){
                 HorizontalPager(
@@ -207,6 +212,16 @@ fun TrackerHome(
                 }
             }
 
+            //meals
+            viewModel.state.meals.forEach { meal ->
+                FoodCard(
+                    meal = meal,
+                    totalCalories = meal.calories,
+                    listOfFoods = emptyList(),
+                    onExpandClick = { viewModel.onEvent(TrackerOverviewEvent.OnToggleMealClick(meal)) }
+                )
+            }
+
         }
 
         //calendar
@@ -222,7 +237,8 @@ fun TrackerHome(
                    }
            ){
                Box(
-                   modifier = Modifier.fillMaxWidth()
+                   modifier = Modifier
+                       .fillMaxWidth()
                        .padding(top = 60.dp)
                        .wrapContentHeight()
                        .clickable(
@@ -249,8 +265,6 @@ fun TrackerHome(
                }
            }
         }
-
-
 
     }
 

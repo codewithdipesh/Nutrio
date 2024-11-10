@@ -38,6 +38,7 @@ class TrackerOverviewViewModel @Inject constructor(
 
     init {
         preferences.saveShouldShowOnboarding(false)
+        refreshFoods()
         getCalendarData(state.date)
     }
 
