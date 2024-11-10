@@ -20,7 +20,6 @@
     <color name="bmi_underweight">#E91E63</color>
     <color name="bmi_overweight">#F44336</color>
     <color name="bmi_obesse">#E91E63</color>
-<<<<<<< HEAD
     <color name="burned">#F59A30</color>
     <color name="carb">#2AB8AF</color>
     <color name="carb_overflow_1">#07615B</color>
@@ -40,11 +39,5 @@
     <color name="progressToggle">#2580F9</color>
     <color name="dark_gray">#3B3B3B</color>
     <color name="medium_gray">#666666</color>
-    <color name="light_gray">#E5E5E5</color>
-=======
-    <color name="carb">#FAAE3B</color>
-    <color name="protein">#690A89</color>
-    <color name="fat">#2BB7AE</color>
-    <color name="button_color">#0340B8</color>
->>>>>>> 6c975877ded2e0a60a5364281a19e9f2529adfbb
+    <color name="light_gray">#E5E5E5</color>-
 </resources>
