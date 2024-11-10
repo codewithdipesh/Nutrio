@@ -104,7 +104,7 @@ fun FoodCard(
                     Text(
                         text = meal.name.asString(context),
                         color = Color.Black,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.labelMedium
                     )
                     Icon(
                         imageVector =
@@ -123,7 +123,7 @@ fun FoodCard(
                 Text(
                     text = totalCalories.toString(),
                     color = Color.Black,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.labelMedium
                 )
             }
             HorizontalDivider(
@@ -159,7 +159,7 @@ fun FoodCard(
                 Text(
                     text = stringResource(R.string.add_food),
                     color = colorResource(R.color.progress_color),
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.displayMedium
                 )
             }
 

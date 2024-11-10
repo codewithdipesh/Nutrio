@@ -14,19 +14,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -57,10 +63,14 @@ import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewEvent
 import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewViewModel
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalendarRow
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalendarView
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalorieCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CircularProgressBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.FoodCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacrosCard
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.ToggleButtons
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.TopBar
+import dagger.Lazy
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -77,119 +87,33 @@ fun TrackerHome(
     val selectedDate by remember(viewModel.state){
         mutableStateOf(viewModel.state.date)
     }
+    val scrollState = rememberScrollState()
+    val state = rememberPagerState(initialPage = 0 , pageCount = {2})
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+            .systemBarsPadding(),
+        topBar = {
+            //Topbar
+            TopBar(
+                selectedDate = selectedDate,
+                onDateClick = {
+                    isCalenderVisible = !isCalenderVisible
+                }
+            )
+        }
+    ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(it)
                 .padding(vertical = spacing.spaceMedium),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ){
-
-            val scope = rememberCoroutineScope()
-            val state = rememberPagerState(initialPage = 0 , pageCount = {2})
-            //TopBar
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(horizontal = spacing.spaceLarge)
-                    .padding(bottom = spacing.default),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Box(modifier = Modifier.weight(1f)){
-                    Text(
-                        text = getStringFromDate(selectedDate),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color.Black,
-                        modifier = Modifier.clickable {
-                            isCalenderVisible = !isCalenderVisible
-                        }
-                    )
-                }
-
-                Text(
-                    text = stringResource(R.string.app_name).uppercase(Locale.ENGLISH),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = colorResource(R.color.progress_color),
-                    modifier = Modifier.weight(1f)
-                )
-                //TODO ADD A SETTINGS OPTION
-                Text(
-                    text = stringResource(R.string.today),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Color.Transparent,
-                    modifier = Modifier.weight(1f)
-                )
-
-
-            }
-
             //toggle buton for calorie and macro card
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = spacing.spaceLarge)
-                .height(30.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall)
-            ) {
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        scope.launch {
-                            state.animateScrollToPage(0)
-                        }
-                    },
-                    contentAlignment = Alignment.Center
-                ){
-                    Column(
-                        Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        AutoResizeText(
-                            text = stringResource(R.string.calories),
-                            color = if(state.currentPage == 0) colorResource(R.color.progress_color) else Color.Black,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier
-                        )
-                        //underline
-                        HorizontalDivider(
-                            thickness = 4.dp,
-                            color = if(state.currentPage == 0) colorResource(R.color.progress_color) else Color.Transparent
-                        )
-                    }
-
-                }
-
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        scope.launch {
-                            state.animateScrollToPage(1)
-                        }
-                    },
-                    contentAlignment = Alignment.Center
-                ){
-                    Column(
-                        Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        AutoResizeText(
-                            text = stringResource(R.string.macros),
-                            color = if(state.currentPage == 1) colorResource(R.color.progress_color) else Color.Black,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier
-                        )
-                        //underline
-                        HorizontalDivider(
-                            thickness = 4.dp,
-                            color = if(state.currentPage == 1) colorResource(R.color.progress_color) else Color.Transparent
-                        )
-                    }
-                }
-            }
+            ToggleButtons(state)
             //macro and calorie card pager
             Box(
                 modifier = Modifier
@@ -213,59 +137,23 @@ fun TrackerHome(
             }
 
             //meals
-            viewModel.state.meals.forEach { meal ->
-                FoodCard(
-                    meal = meal,
-                    totalCalories = meal.calories,
-                    listOfFoods = emptyList(),
-                    onExpandClick = { viewModel.onEvent(TrackerOverviewEvent.OnToggleMealClick(meal)) }
-                )
+            viewModel.state.meals.forEach{meal ->
+                    FoodCard(
+                        meal = meal,
+                        totalCalories = meal.calories,
+                        listOfFoods = emptyList(),
+                        onExpandClick = { viewModel.onEvent(TrackerOverviewEvent.OnToggleMealClick(meal)) }
+                    )
             }
-
         }
 
         //calendar
-        if(isCalenderVisible){
-           Box(
-               modifier = Modifier
-                   .fillMaxSize()
-                   .clickable(
-                       indication = null,  // Remove the ripple effect
-                       interactionSource = remember { MutableInteractionSource() }
-                   ) {
-                       isCalenderVisible = false  // Close calendar on background click
-                   }
-           ){
-               Box(
-                   modifier = Modifier
-                       .fillMaxWidth()
-                       .padding(top = 60.dp)
-                       .wrapContentHeight()
-                       .clickable(
-                           indication = null,
-                           interactionSource = remember { MutableInteractionSource() }
-                       ) {
-
-                       }
-               ){
-                   CalendarRow(
-                       listofShownDates = viewModel.calendarState.listofShownDates,
-                       selectedDate = viewModel.calendarState.selectedDate,
-                       onSelect = {
-                           viewModel.onEvent(TrackerOverviewEvent.OnDateSelect(it))
-                           isCalenderVisible = false
-                       },
-                       onPreviousWeek = {
-                           viewModel.onEvent(TrackerOverviewEvent.OnPreviousWeekClick)
-                       },
-                       onNextWeek = {
-                           viewModel.onEvent(TrackerOverviewEvent.OnNextWeekClick)
-                       }
-                   )
-               }
-           }
+        if(isCalenderVisible) {
+            CalendarView(
+                onCalendarClose = {isCalenderVisible = false},
+                viewModel = viewModel
+            )
         }
-
     }
 
 }
