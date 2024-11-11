@@ -10,6 +10,8 @@ import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.usecase.TrackerUseCases
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.CalenderUiModel
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.TrackerOverviewEvent
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.TrackerOverviewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -117,6 +119,12 @@ class TrackerOverviewViewModel @Inject constructor(
                     selectedDate = event.date
                 )
                 refreshFoods()
+            }
+
+            TrackerOverviewEvent.OnBackNavigate -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.NavigateUp)
+                }
             }
         }
     }

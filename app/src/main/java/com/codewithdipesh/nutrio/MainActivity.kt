@@ -19,9 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
@@ -36,7 +38,9 @@ import com.codewithdipesh.onboarding_presentation.goalPace.GoalPaceScreen
 import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
+import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
+import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchFood
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +54,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Route.WELCOME,
+                    startDestination = Route.TRACKER_OVERVIEW,
                     // Default animations for all screens
                     enterTransition = {
                         fadeIn(animationSpec = tween(100))
@@ -117,9 +121,27 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.TRACKER_OVERVIEW){
-                        TrackerHome()
+                        TrackerHome(
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
                     }
-                    composable(Route.SEARCH){
+                    composable(
+                        Route.SEARCH+"/{mealName}",
+                        arguments = listOf(
+                            navArgument("mealName"){
+                                type = NavType.StringType
+                                nullable = false
+                                defaultValue = MealType.Breakfast.name
+                            }
+                        )
+                    ){entry ->
+                        val mealName = if(entry.arguments != null) entry.arguments!!.getString("mealName") else MealType.Breakfast.name
+                        SearchFood(
+                            mealType = MealType.fromString(mealName!!),
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
+                        )
 
                     }
                     composable(Route.ADD_EDIT_EXERCISE){

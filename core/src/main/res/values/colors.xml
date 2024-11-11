@@ -14,7 +14,7 @@
     <color name="chart_color_start">#EA0812</color>
     <color name="chart_color_middle">#7979FB</color>
     <color name="chart_color_end">#00CDFD</color>
-    <color name="bg_color">#D8DCE6</color>
+    <color name="bg_color">#E1E2E6</color>
     <color name="scale_text_color">#242424</color>
     <color name="bmi_normal">#49C84D</color>
     <color name="bmi_underweight">#E91E63</color>
