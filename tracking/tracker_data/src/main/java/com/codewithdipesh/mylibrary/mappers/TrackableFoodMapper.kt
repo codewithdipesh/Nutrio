@@ -15,20 +15,20 @@ fun List<Ingredient>.toUnitNutrition() : Map<Unit, Nutrients>{
 
         // teaspoon -> Unit.TeaSpoon
         val unitText = parsed.measure
-        val unit = Unit.fromString(unitText)
+        val unit = Unit.fromString(unitText!!)
 
-        val carb = parsed.nutrients.carbs.value
-        val protein = parsed.nutrients.protein.value
-        val fat = parsed.nutrients.fat.value
-        val calorie = parsed.nutrients.calories.value
-        val fiber = parsed.nutrients.fibers.value
+        val carb = parsed.nutrients!!.carbs!!.value
+        val protein = parsed.nutrients!!.protein!!.value
+        val fat = parsed.nutrients.fat!!.value
+        val calorie = parsed.nutrients!!.calories!!.value
+        val fiber = parsed.nutrients.fibers!!.value
 
-        val nutrientValues = Nutrients(calorie, carb, protein, fat, fiber)
+        val nutrientValues = Nutrients(calorie, carb!!, protein, fat, fiber)
         nutrients[unit] = nutrientValues
     }
     return  nutrients
 }
 
-fun SearchDto.toFoodName():String{
-    return this.ingredients[0].parsed[0].foodMatch
+fun SearchDto.toFoodName(): String? {
+    return this.ingredients!![0].parsed[0].foodMatch
 }

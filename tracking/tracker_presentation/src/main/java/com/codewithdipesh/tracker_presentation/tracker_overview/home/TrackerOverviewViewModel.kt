@@ -1,4 +1,4 @@
-package com.codewithdipesh.tracker_presentation.tracker_overview
+package com.codewithdipesh.tracker_presentation.tracker_overview.home
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -121,11 +121,6 @@ class TrackerOverviewViewModel @Inject constructor(
                 refreshFoods()
             }
 
-            TrackerOverviewEvent.OnBackNavigate -> {
-                viewModelScope.launch {
-                    _uiEvent.send(UiEvent.NavigateUp)
-                }
-            }
         }
     }
 

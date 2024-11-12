@@ -29,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.TrackerOverviewEvent
-import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewViewModel
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalendarView
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CalorieCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.FoodCard
@@ -59,7 +58,7 @@ fun TrackerHome(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> onNavigate(UiEvent.Navigate(event.route))
-                else -> onBackNavigate()
+                else -> {}
             }
         }
     }

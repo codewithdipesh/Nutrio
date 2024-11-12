@@ -8,7 +8,6 @@ sealed class TrackerOverviewEvent{
     object OnPreviousDayClick : TrackerOverviewEvent()
     object OnNextWeekClick : TrackerOverviewEvent()
     object OnPreviousWeekClick : TrackerOverviewEvent()
-    object OnBackNavigate : TrackerOverviewEvent()
     data class OnDateSelect(val date : LocalDate) : TrackerOverviewEvent()
     data class OnToggleMealClick(val meal: Meal) : TrackerOverviewEvent()
     data class OnDeleteTrackedFoodClick(val trackedFood: TrackedFood) : TrackerOverviewEvent()

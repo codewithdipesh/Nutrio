@@ -18,9 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -48,14 +45,13 @@ import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.core.R
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.model.MealType
-import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewViewModel
-import com.codewithdipesh.tracker_presentation.tracker_overview.model.TrackerOverviewEvent
-import com.codewithdipesh.tracker_presentation.tracker_overview.model.defaultMeals
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.SearchBar
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchFood(
-    viewModel: TrackerOverviewViewModel = hiltViewModel(),
+    viewModel: SearchViewModel = hiltViewModel(),
     mealType : MealType = MealType.Breakfast,
     onNavigate: (UiEvent.Navigate) -> Unit,
     onBackNavigate : ()->Unit
@@ -69,6 +65,10 @@ fun SearchFood(
 
     var isDialogOpen by remember {
         mutableStateOf(false)
+    }
+
+    val result by remember(viewModel.state.result) {
+        mutableStateOf(viewModel.state.result)
     }
 
     LaunchedEffect(true) {
@@ -96,12 +96,13 @@ fun SearchFood(
                 //back button
                 IconButton(
                         onClick = {
-                            viewModel.onEvent(TrackerOverviewEvent.OnBackNavigate)
+                            viewModel.onEvent(SearchUiEvent.OnBackNavigate)
                         },
                     modifier = Modifier.align(Alignment.CenterStart)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.back_arrow_svg),
+                            tint = colorResource(R.color.dark_gray),
                             contentDescription = "Back",
                             modifier = Modifier.size(28.dp)
                         )
@@ -142,13 +143,38 @@ fun SearchFood(
         Box(
             modifier =  Modifier.fillMaxSize()
                 .padding(it)
+
         ){
-            Text("Testing")
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = spacing.spaceLarge, vertical = spacing.spaceSmall),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                SearchBar(
+                    onInputChanged = {
+                        viewModel.onEvent(SearchUiEvent.OnQueryChange(it))
+                        //clear the result
+                        viewModel.clearResult()
+                                     },
+                    onSearch = {viewModel.onEvent(SearchUiEvent.OnSearch)},
+                    onClear = {viewModel.onEvent(SearchUiEvent.OnClear)}
+                )
+
+                Spacer(modifier = Modifier.height(spacing.spaceMedium))
+
+                result?.let {
+                    Text(text = it.name)
+                    Text(text = it.nutrients[com.codewithdipesh.tracker_domain.model.Unit.Whole]!!.carbs.toString())
+                }
+
+            }
             if(isDialogOpen){
                 Box(
                     Modifier.fillMaxSize()
                         .background(
-                            color = Color.Black.copy(alpha = 0.5f)
+                            color = Color.Black.copy(alpha = 0.1f)
                         )
                         .clickable(
                             indication = null,
