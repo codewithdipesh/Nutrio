@@ -102,8 +102,19 @@ fun TrackerHome(
                     )
                 ) {
                     when(it){
-                        0 -> CalorieCard()
-                        1 -> MacrosCard()
+                        0 -> CalorieCard(
+                            totalCalories = viewModel.state.totalCalories ?: 0,
+                            caloriesGoal = viewModel.state.calorieGoal ?: 1,
+                            //TODO calories burned
+                        )
+                        1 -> MacrosCard(
+                            totalCarb = viewModel.state.totalCarbs.toInt() ?:0,
+                            totalProtein = viewModel.state.totalProteins.toInt() ?: 0,
+                            totalFat = viewModel.state.totalFats.toInt() ?:0,
+                            carbDailyGoal = viewModel.state.carbsGoal?:1,
+                            proteinDailyGoal = viewModel.state.proteinsGoal?:1,
+                            fatDailyGoal = viewModel.state.fatsGoal?:1
+                        )
                     }
 
                 }
@@ -114,7 +125,7 @@ fun TrackerHome(
                     FoodCard(
                         meal = meal,
                         totalCalories = meal.calories,
-                        listOfFoods = emptyList(),
+                        listOfFoods = viewModel.state.trackedFoods.filter { it.mealType == meal.mealType },
                         onAddClick = {viewModel.onEvent(TrackerOverviewEvent.OnAddFoodClick(meal))},
                         onExpandClick = { viewModel.onEvent(TrackerOverviewEvent.OnToggleMealClick(meal)) }
                     )

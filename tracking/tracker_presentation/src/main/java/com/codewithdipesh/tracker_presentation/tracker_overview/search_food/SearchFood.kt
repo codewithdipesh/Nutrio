@@ -18,18 +18,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,14 +63,17 @@ fun SearchFood(
     onBackNavigate : ()->Unit
 ) {
     val spacing = LocalSpacing.current
-    val context = LocalContext.current
+    val snackBarHostState = remember { SnackbarHostState() }
 
-    var selectedMeal by remember {
-        mutableStateOf(mealType)
+    var selectedMeal by remember(viewModel.state.mealType) {
+        mutableStateOf(viewModel.state.mealType)
     }
-
     var isDialogOpen by remember {
         mutableStateOf(false)
+    }
+
+    val isLoading by remember(viewModel.state.isLoading) {
+        mutableStateOf(viewModel.state.isLoading)
     }
 
     val result by remember(viewModel.state.result) {
@@ -76,12 +84,18 @@ fun SearchFood(
         viewModel.uiEvent.collect{event->
             when(event){
                 is UiEvent.Navigate -> onNavigate(UiEvent.Navigate(event.route))
+                is UiEvent.showSnackBar ->{
+                  snackBarHostState.showSnackbar(
+                      message = event.msg
+                  )
+                }
                 else -> onBackNavigate()
             }
         }
     }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
@@ -165,12 +179,27 @@ fun SearchFood(
 
                 Spacer(modifier = Modifier.height(spacing.spaceMedium))
 
-                result?.let {
-                    TrackableFoodCard(
-                        onClick = {},
-                        onAdd = {},
-                        food = it
-                    )
+                if(isLoading){
+                    Box(Modifier.fillMaxSize(0.6f),
+                        contentAlignment = Alignment.TopCenter
+                    ){
+                        CircularProgressIndicator(
+                            modifier =Modifier.size(50.dp),
+                            color = colorResource(R.color.progress_color)
+                        )
+                    }
+                }else{
+                    result?.let {
+                        TrackableFoodCard(
+                            onClick = {
+                                //TODO
+                            },
+                            onAdd = {
+                                viewModel.onEvent(SearchUiEvent.onAddFoodClick(it))
+                            },
+                            food = it
+                        )
+                    }
                 }
 
             }
@@ -212,7 +241,7 @@ fun SearchFood(
                                 MealType.Snack).forEach { meal ->
                                 Box(Modifier.wrapContentSize()
                                     .clickable {
-                                        selectedMeal = meal
+                                        viewModel.onEvent(SearchUiEvent.OnMealTypeChange(meal))
                                         isDialogOpen = false
                                     }
                                 ){
