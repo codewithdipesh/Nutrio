@@ -1,21 +1,22 @@
 package com.codewithdipesh.mylibrary.remote.dto
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
+
 
 data class Nutrients(
     val CA: CA?,
-    @Json(name = "CHOCDF")
+    @SerializedName("CHOCDF")
     val carbs: CHOCDF?,
     val CHOLE: CHOLE?,
-    @Json(name = "ENERC_KCAL")
+    @SerializedName("ENERC_KCAL")
     val calories: ENERCKCAL?,
     val FAMS: FAMS?,
     val FAPU: FAPU?,
     val FASAT: FASAT?,
-    @Json(name = "FAT")
+    @SerializedName("FAT")
     val fat: FAT?,
     val FE: FE?,
-    @Json(name = "FIBTG")
+    @SerializedName("FIBTG")
     val fibers: FIBTG?,
     val FOLAC: FOLAC?,
     val FOLDFE: FOLDFE?,
@@ -25,11 +26,11 @@ data class Nutrients(
     val NA: NA?,
     val NIA: NIA?,
     val P: P?,
-    @Json(name = "PROCNT")
+    @SerializedName("PROCNT")
     val protein: PROCNT?,
     val RIBF: RIBF?,
     val SUGAR: SUGAR?,
-    @Json(name = "SUGAR.added")
+    @SerializedName("SUGAR.added")
     val SUGARADDED: SUGARAdded?,
     val THIA: THIA?,
     val TOCPHA: TOCPHA?,

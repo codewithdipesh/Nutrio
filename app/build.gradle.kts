@@ -90,7 +90,7 @@ dependencies {
     implementation(Retrofit.okHttp)
     implementation(Retrofit.retrofit)
     implementation(Retrofit.okHttpLoggingInterceptor)
-    implementation(Retrofit.moshiConverter)
+    implementation(Retrofit.GsonConverter)
 
     kapt(Room.roomCompiler)
     implementation(Room.roomKtx)

@@ -166,7 +166,7 @@ fun SearchFood(
 
                 result?.let {
                     Text(text = it.name)
-                    Text(text = it.nutrients[com.codewithdipesh.tracker_domain.model.Unit.Whole]!!.carbs.toString())
+                    Text(text = it.nutrients[com.codewithdipesh.tracker_domain.model.Unit.Gm100]!!.calories.toString())
                 }
 
             }

@@ -33,18 +33,19 @@ class TrackerRepositoryImpl(
                )
             )
             Log.d("SEARCH_RESULT",searchDto.toString())
+            val foodName = searchDto.toFoodName() ?: return Result.failure(IllegalArgumentException("Food name not found"))
+            val nutrients = searchDto.ingredients?.toUnitNutrition() ?: emptyMap()
             Result.success(
                 TrackableFood(
-                    name = searchDto.toFoodName()!!,
-                    nutrients = searchDto.ingredients!!.toUnitNutrition()
+                    name = foodName,
+                    nutrients = nutrients
                 )
             )
         }catch(e:HttpException){
             e.printStackTrace()
-            when(e.code()){
-                555 -> Result.failure(IllegalArgumentException("Food not found"))
-                else -> Result.failure(IllegalArgumentException("Unknown Error"))
-            }
+            Result.failure(
+                if (e.code() == 555) IllegalArgumentException("Food not found") else IllegalArgumentException("Unknown Error")
+            )
         }catch(e:Exception){
             e.printStackTrace()
             Result.failure(e)
