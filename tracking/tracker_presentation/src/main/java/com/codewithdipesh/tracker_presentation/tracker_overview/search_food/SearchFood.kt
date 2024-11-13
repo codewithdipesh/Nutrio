@@ -46,6 +46,7 @@ import com.codewithdipesh.core.R
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.SearchBar
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.TrackableFoodCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -165,8 +166,11 @@ fun SearchFood(
                 Spacer(modifier = Modifier.height(spacing.spaceMedium))
 
                 result?.let {
-                    Text(text = it.name)
-                    Text(text = it.nutrients[com.codewithdipesh.tracker_domain.model.Unit.Gm100]!!.calories.toString())
+                    TrackableFoodCard(
+                        onClick = {},
+                        onAdd = {},
+                        food = it
+                    )
                 }
 
             }
