@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewEvent
-import com.codewithdipesh.tracker_presentation.tracker_overview.TrackerOverviewViewModel
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.TrackerOverviewEvent
+import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerOverviewViewModel
 
 @Composable
 fun CalendarView(

@@ -1,10 +1,11 @@
 package com.codewithdipesh.mylibrary.remote.dto
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
+
 
 data class ENERCKCAL(
-    val label: String,
-    @Json(name = "quantity")
-    val value: Double,
-    val unit: String
+    val label: String?,
+    @SerializedName("quantity")
+    val value: Double?,
+    val unit: String?
 )

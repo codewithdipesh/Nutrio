@@ -50,11 +50,7 @@ fun PercentageDonutChart(
     val colors = listOf(
         colorResource(R.color.carb),
         colorResource(R.color.protein),
-<<<<<<< HEAD
         colorResource(R.color.fat)
-=======
-        colorResource(R.color.fat),
->>>>>>> 6c975877ded2e0a60a5364281a19e9f2529adfbb
     )
 
     val textMeasurer = rememberTextMeasurer()

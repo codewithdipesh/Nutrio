@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -38,7 +38,7 @@ object TrackerDataModule {
     fun provideRetrofitClient( client: OkHttpClient):OpenFoodApi{
         return Retrofit.Builder()
             .baseUrl(ApiConstants.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
             .create(OpenFoodApi::class.java)

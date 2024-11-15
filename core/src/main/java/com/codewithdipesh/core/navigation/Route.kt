@@ -13,7 +13,7 @@ object Route {
 
     const val TRACKER_OVERVIEW = "tracker_overview"
     const val SEARCH = "search"
-    const val ADD_EDIT_EXERCISE = "add_edit_exercise"
+    const val ADD_EDIT_FOOD = "add_edit_food"
 
 
 }

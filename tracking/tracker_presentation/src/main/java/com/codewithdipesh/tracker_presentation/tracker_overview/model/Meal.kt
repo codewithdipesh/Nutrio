@@ -1,4 +1,4 @@
-package com.codewithdipesh.tracker_presentation.tracker_overview
+package com.codewithdipesh.tracker_presentation.tracker_overview.model
 
 
 import com.codewithdipesh.core.util.UiText
