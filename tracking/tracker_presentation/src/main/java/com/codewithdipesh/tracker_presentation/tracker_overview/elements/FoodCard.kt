@@ -84,7 +84,10 @@ fun FoodCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 // ( Title and toggle )
-                Row(Modifier.wrapContentSize(),
+                Row(Modifier.wrapContentSize()
+                    .clickable {
+                        onExpandClick(meal)
+                    },
                     horizontalArrangement = Arrangement.spacedBy(spacing.spaceExtraSmall),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -100,9 +103,6 @@ fun FoodCard(
                         contentDescription = "Expand ${meal.toString()}",
                         tint = colorResource(R.color.text_dark_grey),
                         modifier =Modifier.size(24.dp)
-                            .clickable {
-                                onExpandClick(meal)
-                            }
                     )
                 }
 
@@ -133,9 +133,12 @@ fun FoodCard(
                }else{
                   listOfFoods.forEach{
                       //TODO
-                      Text(
-                        text = it.name + " " + it.calories.toString(),
-                          style = MaterialTheme.typography.labelSmall
+                      TrackedItem(
+                          item = it
+                      )
+                      HorizontalDivider(
+                          thickness = 1.dp,
+                          color = Color.LightGray
                       )
                   }
                }

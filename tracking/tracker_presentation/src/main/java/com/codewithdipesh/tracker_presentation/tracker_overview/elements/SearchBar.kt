@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun SearchBar(
     }
 
     val spacing = LocalSpacing.current
+    val controller = LocalSoftwareKeyboardController.current
 
    Box(modifier =modifier
        .fillMaxWidth()
@@ -100,9 +102,11 @@ fun SearchBar(
                },
                keyboardActions = KeyboardActions(
                    onSearch = {
+                       controller?.hide()
                        onSearch()
                    },
                    onDone = {
+                       controller?.hide()
                        onSearch()
                    }
                ),
