@@ -53,12 +53,14 @@ import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.SearchBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.TrackableFoodCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchFood(
     viewModel: SearchViewModel = hiltViewModel(),
     mealType : MealType = MealType.Breakfast,
+    date:LocalDate = LocalDate.now(),
     onNavigate: (UiEvent.Navigate) -> Unit,
     onBackNavigate : ()->Unit
 ) {
@@ -78,6 +80,11 @@ fun SearchFood(
 
     val result by remember(viewModel.state.result) {
         mutableStateOf(viewModel.state.result)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.setDate(date)
+        viewModel.setMealType(mealType)
     }
 
     LaunchedEffect(true) {

@@ -44,6 +44,9 @@ class NutritionGoalViewModel @Inject constructor(
    fun onNextClick(){
         viewModelScope.launch {
             preferences.saveCalorieGoal(calorieGoal)
+            preferences.saveCarbRatio(50f)
+            preferences.saveProteinRatio(20f)
+            preferences.saveFatRatio(30f)
             _UiEvent.send(UiEvent.Navigate(Route.TRACKER_OVERVIEW))
         }
 

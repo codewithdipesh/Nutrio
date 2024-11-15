@@ -126,7 +126,7 @@ fun TrackerHome(
                         meal = meal,
                         totalCalories = meal.calories,
                         listOfFoods = viewModel.state.trackedFoods.filter { it.mealType == meal.mealType },
-                        onAddClick = {viewModel.onEvent(TrackerOverviewEvent.OnAddFoodClick(meal))},
+                        onAddClick = {viewModel.onEvent(TrackerOverviewEvent.OnAddFoodClick(meal.mealType))},
                         onExpandClick = { viewModel.onEvent(TrackerOverviewEvent.OnToggleMealClick(meal)) }
                     )
             }

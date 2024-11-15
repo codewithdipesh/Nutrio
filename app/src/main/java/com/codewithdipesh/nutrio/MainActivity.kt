@@ -38,6 +38,7 @@ import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchFood
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -123,18 +124,28 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(
-                        Route.SEARCH+"/{mealName}",
+                        Route.SEARCH+"/{mealName}/{date}",
                         arguments = listOf(
                             navArgument("mealName"){
                                 type = NavType.StringType
                                 nullable = false
                                 defaultValue = MealType.Breakfast.name
+                            },
+                            navArgument("date"){
+                                type = NavType.StringType
+                                nullable = false
+                                defaultValue = LocalDate.now().toString()
                             }
                         )
                     ){entry ->
                         val mealName = if(entry.arguments != null) entry.arguments!!.getString("mealName") else MealType.Breakfast.name
+
+                        val dateString = entry.arguments!!.getString("date")
+                        val date = LocalDate.parse(dateString) ?: LocalDate.now()
+
                         SearchFood(
                             mealType = MealType.fromString(mealName!!),
+                            date = date,
                             onNavigate = navController::navigate,
                             onBackNavigate = navController::backNavigate
                         )

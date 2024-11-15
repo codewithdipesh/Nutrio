@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
+import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.Unit
 import com.codewithdipesh.tracker_domain.usecase.TrackerUseCases
@@ -18,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +32,17 @@ class SearchViewModel @Inject constructor(
     var _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    fun setMealType(mealType: MealType){
+        state =state.copy(
+            mealType = mealType
+        )
+    }
+
+    fun setDate(date: LocalDate){
+        state =state.copy(
+            date = date
+        )
+    }
 
     fun onEvent(event: SearchUiEvent) {
         when (event) {
