@@ -132,11 +132,7 @@ fun FoodCard(
 
                }else{
                   listOfFoods.forEach{
-                      //TODO
-                      Text(
-                        text = it.name + " " + it.calories.toString(),
-                          style = MaterialTheme.typography.labelSmall
-                      )
+
                   }
                }
 

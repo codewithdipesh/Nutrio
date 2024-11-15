@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
-import com.codewithdipesh.tracker_domain.model.TrackableFood
-import com.codewithdipesh.tracker_domain.model.Unit
 import com.codewithdipesh.tracker_domain.usecase.TrackerUseCases
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUIState
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
@@ -46,11 +44,11 @@ class SearchViewModel @Inject constructor(
                 searchFood(state.searchQuery)
             }
             is SearchUiEvent.onAddFoodClick -> {
-                addFood(event.trackableFood)
+
             }
             is SearchUiEvent.onFoodClick -> {
                 _uiEvent.trySend(
-                    UiEvent.Navigate(//TODO
+                    UiEvent.Navigate(
                         Route.ADD_EDIT_FOOD
                     )
                 )
@@ -64,12 +62,6 @@ class SearchViewModel @Inject constructor(
             SearchUiEvent.OnClear -> {
                 state = state.copy(
                     searchQuery = ""
-                )
-            }
-
-            is SearchUiEvent.OnMealTypeChange -> {
-                state = state.copy(
-                    mealType = event.mealType
                 )
             }
         }
@@ -86,15 +78,15 @@ class SearchViewModel @Inject constructor(
             val result = trackerUsecases.searchFood(query)
             Log.d("SEARCH_RESULT",result.toString())
             result.onFailure {throwable->
-                state = state.copy(
-                    isLoading = false
-                )
-                _uiEvent.trySend(
-                        UiEvent.showSnackBar(
-                            msg = throwable.message ?:"Unknown Error"
+                when(throwable){
+                    is IllegalArgumentException -> {
+                        _uiEvent.trySend(
+                            UiEvent.showSnackBar(
+                                msg = throwable.message ?:"Unknown Error"
+                            )
                         )
-                    )
-
+                    }
+                }
             }
             Log.d("SEARCH_RESULT",result.toString())
             result.onSuccess {
@@ -103,18 +95,6 @@ class SearchViewModel @Inject constructor(
                     result = it
                 )
             }
-        }
-    }
-
-    private fun addFood(trackableFood: TrackableFood){
-        viewModelScope.launch {
-            trackerUsecases.trackFood(
-                food = trackableFood,
-                unit = Unit.Gm100,
-                amount = 1,
-                mealType = state.mealType,
-                date = state.date
-            )
         }
     }
 

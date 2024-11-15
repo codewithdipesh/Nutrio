@@ -79,9 +79,9 @@ fun CircularProgressBar(
 
 ) {
     val spacing = LocalSpacing.current
+    val progress = (currentAmount/totalAmount).coerceAtLeast(0f)
 
-    val progress = if (totalAmount != 0f) (currentAmount / totalAmount).coerceAtLeast(0f) else 0f
-    val burnedProgress = if (totalAmount != 0f) (burnedAmount / totalAmount).coerceAtLeast(0f).coerceAtMost(1f) else 0f
+    val burnedProgress = (burnedAmount/totalAmount).coerceAtLeast(0f).coerceAtMost(1f)
 
     var animatedProgress by remember { mutableStateOf(0f) }
 
