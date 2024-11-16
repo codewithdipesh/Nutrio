@@ -15,7 +15,8 @@ data class TrackedFood(
     val unit: Unit,
     val date: LocalDate,
      val calories: Int,
-    val id: Int? = null
+    val id: Int? = null,
+    val nutrients: Map<Unit,Nutrients>
 ){
     val carbs: Double get() = ((_carbs * 10.0).roundToInt() / 10.0)
     val protein: Double get() = ((_protein * 10.0).roundToInt() / 10.0)

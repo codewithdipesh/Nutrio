@@ -60,6 +60,9 @@ class SearchViewModel @Inject constructor(
             }
             is SearchUiEvent.onAddFoodClick -> {
                 addFood(event.trackableFood)
+                _uiEvent.trySend(
+                    UiEvent.showSnackBar("Food Added Successfully")
+                )
             }
             is SearchUiEvent.onFoodClick -> {
                 _uiEvent.trySend(

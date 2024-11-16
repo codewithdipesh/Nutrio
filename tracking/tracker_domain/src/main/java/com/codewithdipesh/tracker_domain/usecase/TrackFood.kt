@@ -19,6 +19,7 @@ class TrackFood (
        mealType: MealType,
        date: LocalDate
     ){
+
         repository.insertTrackedFood(
             TrackedFood(
               name = food.name,
@@ -30,8 +31,28 @@ class TrackFood (
               amount = amount,
               unit = unit,
               mealType = mealType,
+              nutrients = food.nutrients,
               date = date
             )
         )
+    }
+    suspend operator fun invoke(
+        food: TrackedFood,
+        unit : Unit,
+        amount:Int,
+        mealType: MealType,
+        date: LocalDate
+    ){
+        repository.insertTrackedFood(food.copy(
+            _carbs = (food.nutrients[unit]!!.carbs) * amount,
+            _fiber = food.nutrients[unit]!!.fiber * amount,
+            _protein = food.nutrients[unit]!!.protein * amount,
+            _fat = food.nutrients[unit]!!.fat * amount,
+            calories = (food.nutrients[unit]!!.calories * amount ).roundToInt(),
+            amount = amount,
+            unit = unit,
+            mealType = mealType,
+            date = date
+        ))
     }
 }
