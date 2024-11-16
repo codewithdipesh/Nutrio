@@ -1,6 +1,7 @@
 package com.codewithdipesh.tracker_presentation.tracker_overview.elements
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -85,7 +86,10 @@ fun FoodCard(
             ){
                 // ( Title and toggle )
                 Row(Modifier.wrapContentSize()
-                    .clickable {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         onExpandClick(meal)
                     },
                     horizontalArrangement = Arrangement.spacedBy(spacing.spaceExtraSmall),
