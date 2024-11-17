@@ -69,4 +69,9 @@ class TrackerRepositoryImpl(
             entities.map { it.toTrackedFood() }
         }
     }
+
+    override fun getFoodById(id: Int): Flow<TrackedFood> {
+        return dao.getFoodById(id)
+            .map { it.toTrackedFood() }
+    }
 }

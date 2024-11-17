@@ -29,7 +29,7 @@ fun TrackedItem(
     item : TrackedFood,
     style : TextStyle = MaterialTheme.typography.displayMedium,
     onDeleteClick : () -> Unit = {},
-    onClick : () -> Unit = {},
+    onClick : (Int) -> Unit = {},
 ) {
     val spacing = LocalSpacing.current
     var itemUnitAmount = item.amount
@@ -44,7 +44,7 @@ fun TrackedItem(
            .fillMaxWidth()
            .wrapContentHeight()
            .clickable {
-               onClick()
+               onClick(item.id ?: -1)
            }
            .padding(vertical = spacing.spaceSmall ),
        horizontalArrangement = Arrangement.SpaceBetween,

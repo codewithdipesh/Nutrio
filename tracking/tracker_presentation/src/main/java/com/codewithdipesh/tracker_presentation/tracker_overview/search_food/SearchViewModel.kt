@@ -68,6 +68,7 @@ class SearchViewModel @Inject constructor(
                 _uiEvent.trySend(
                     UiEvent.Navigate(//TODO
                         Route.ADD_EDIT_FOOD
+                        +""
                     )
                 )
             }
@@ -133,5 +134,7 @@ class SearchViewModel @Inject constructor(
             )
         }
     }
+
+
 
 }

@@ -26,4 +26,13 @@ interface TrackerDao {
     )
     fun getFoodsForDate(day : Int,month:Int,year:Int): Flow<List<TrackedFoodEntity>>
 
+    @Query(
+       """
+           SELECT *
+           FROM trackedfoodentity
+           WHERE id = :id
+       """
+    )
+    fun getFoodById(id : Int) : Flow<TrackedFoodEntity>
+
 }

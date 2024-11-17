@@ -53,6 +53,9 @@ fun TrackedFood.toTrackedFoodEntity(): TrackedFoodEntity{
         TableSpoonFiber = nutrients[Unit.TableSpoon]?.fiber ?: 0.0,
         TeaSpoonCalories = nutrients[Unit.TeaSpoon]?.calories ?: 0.0 ,
         TeaSpoonCarbs = nutrients[Unit.TeaSpoon]?.carbs ?: 0.0,
+
+
+
         TeaSpoonProtein = nutrients[Unit.TeaSpoon]?.protein ?: 0.0,
         TeaSpoonFat = nutrients[Unit.TeaSpoon]?.fat ?: 0.0,
         TeaSpoonFiber = nutrients[Unit.TeaSpoon]?.fiber ?: 0.0,

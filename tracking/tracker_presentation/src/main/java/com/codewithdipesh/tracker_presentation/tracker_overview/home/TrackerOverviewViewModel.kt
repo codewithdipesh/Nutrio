@@ -122,6 +122,16 @@ class TrackerOverviewViewModel @Inject constructor(
                 refreshFoods()
             }
 
+            is TrackerOverviewEvent.OnFoodClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(
+                        UiEvent.Navigate(
+                            route = Route.ADD_EDIT_FOOD
+                                    + "/${event.id}"
+                        )
+                    )
+                }
+            }
         }
     }
 
