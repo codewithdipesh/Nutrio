@@ -5,18 +5,18 @@ import kotlin.math.roundToInt
 
 
 data class TrackedFood(
-    val name: String,
-    private val _carbs: Double,
-    private val _protein: Double,
-    private val _fat: Double,
-    val mealType: MealType,
-    val amount: Int,
-    private val _fiber: Double,
-    val unit: Unit,
-    val date: LocalDate,
-     val calories: Int,
+    val name: String = "",
+    private val _carbs: Double =0.0,
+    private val _protein: Double=0.0,
+    private val _fat: Double=0.0,
+    val mealType: MealType=MealType.Breakfast,
+    val amount: Int=1,
+    private val _fiber: Double=0.0,
+    val unit: Unit=Unit.Gm100,
+    val date: LocalDate =LocalDate.now(),
+     val calories: Int=0,
     val id: Int? = null,
-    val nutrients: Map<Unit,Nutrients>
+    val nutrients: Map<Unit,Nutrients> = emptyMap()
 ){
     val carbs: Double get() = ((_carbs * 10.0).roundToInt() / 10.0)
     val protein: Double get() = ((_protein * 10.0).roundToInt() / 10.0)

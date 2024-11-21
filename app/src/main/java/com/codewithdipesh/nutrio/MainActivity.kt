@@ -166,7 +166,9 @@ class MainActivity : ComponentActivity() {
                         val id = if(entry.arguments != null) entry.arguments!!.getInt("id") else -1
 
                         AddEditScreen(
-                            id = id
+                            id = id,
+                            onNavigate = navController::navigate,
+                            onBackNavigate = navController::backNavigate
                         )
 
                     }

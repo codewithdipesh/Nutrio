@@ -35,6 +35,8 @@ import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.AddEditTopBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CustomRowWithAction
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditEvent
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditState
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
 import java.time.LocalDate
 
@@ -56,7 +58,8 @@ fun DefaultScreen(
     dailyProteinGoal : Double=0.0,
     dailyFatGoal : Double=0.0,
     dailyCalorieGoal : Double=0.0,
-    onDone : ()->Unit = {}
+    onDone : ()->Unit = {},
+    onEvent : (AddEditEvent)->Unit ,
 ) {
     val spacing = LocalSpacing.current
     Scaffold(
@@ -148,7 +151,9 @@ fun DefaultScreen(
                        Text(
                            text = if(ServingSize == com.codewithdipesh.tracker_domain.model.Unit.Gm100) "100g" else ServingSize.name,
                            color = colorResource(R.color.progress_color),
-                           style = MaterialTheme.typography.displayMedium
+                           style = MaterialTheme.typography.displayMedium,
+                           modifier = Modifier.clickable {
+                           }
                        )
                    }
                )
