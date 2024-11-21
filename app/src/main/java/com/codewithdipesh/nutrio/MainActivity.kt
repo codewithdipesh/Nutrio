@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,10 +36,12 @@ import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
 import com.codewithdipesh.tracker_domain.model.MealType
+import com.codewithdipesh.tracker_presentation.tracker_overview.add_edit.AddEditScreen
 import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchFood
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
+import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -151,7 +154,20 @@ class MainActivity : ComponentActivity() {
                         )
 
                     }
-                    composable(Route.ADD_EDIT_FOOD){
+                    composable(Route.ADD_EDIT_FOOD+"/{id}",
+                        arguments = listOf(
+                            navArgument("id"){
+                                type = NavType.IntType
+                                nullable = false
+                                defaultValue = -1
+                            }
+                        )
+                    ){entry->
+                        val id = if(entry.arguments != null) entry.arguments!!.getInt("id") else -1
+
+                        AddEditScreen(
+                            id = id
+                        )
 
                     }
                 }

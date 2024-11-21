@@ -1,5 +1,6 @@
 package com.codewithdipesh.tracker_presentation.tracker_overview.add_edit
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,6 +11,8 @@ import com.codewithdipesh.tracker_domain.model.TrackedFood
 import com.codewithdipesh.tracker_domain.model.Unit
 import com.codewithdipesh.tracker_domain.usecase.TrackerUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -19,7 +22,8 @@ import javax.inject.Inject
 class AddEditViewModel @Inject constructor(
     private val trackerUsecases : TrackerUseCases
 ): ViewModel() {
-    var state by mutableStateOf(TrackedFood(
+    private var _state = MutableStateFlow<TrackedFood>(
+        TrackedFood(
         name = "",
         _carbs = 0.0,
         _protein = 0.0,
@@ -31,18 +35,22 @@ class AddEditViewModel @Inject constructor(
         mealType = MealType.Breakfast,
         date = LocalDate.now(),
         nutrients = emptyMap(),
-        id = -1,
-    ))
+        id = -1)
+    )
+    val state = _state.asStateFlow()
 
     fun refresh(id : Int){
         viewModelScope.launch {
-            val food = trackerUsecases.getFoodById(id)
-            if(food == null) throw IllegalArgumentException("Food not found")
-            food?.let {
-               it.onEach {
-                   state = it
+           try {
+               val food = trackerUsecases.getFoodById(id)
+                   ?: throw NoSuchElementException("Food not found")
+               food.collect {
+                   _state.value = it
                }
-            }
+
+           }catch (e:Exception){
+               Log.d("AddEditViewModel", "refresh: ${e.message}")
+           }
         }
 
 

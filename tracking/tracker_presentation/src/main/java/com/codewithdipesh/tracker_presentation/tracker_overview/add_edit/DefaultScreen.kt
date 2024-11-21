@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +33,8 @@ import androidx.compose.ui.unit.sp
 import com.codewithdipesh.core.R
 import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.tracker_domain.model.MealType
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.AddEditTopBar
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CustomRowWithAction
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
 import java.time.LocalDate
 
@@ -61,61 +64,12 @@ fun DefaultScreen(
             .fillMaxSize()
             .systemBarsPadding(),
         topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp)
-                    .background(colorResource(R.color.bg_color))
-                    .padding(horizontal = spacing.spaceMedium),
-                contentAlignment = Alignment.Center
-            ) {
-                //meal type name
-                Box(
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    //heading
-                    Row(verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        //back button
-                        IconButton(
-                            onClick = {
-                                onBackNavigate()
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.back_arrow_svg),
-                                tint = colorResource(R.color.dark_gray),
-                                contentDescription = "Back",
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
-                        Text(
-                            text = title,
-                            color = Color.Black,
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                fontSize = 20.sp
-                            )
-                        )
-                    }
-
-                    //tick icon
-                    IconButton(
-                        onClick = {
-                            onDone()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Done,
-                            tint = colorResource(R.color.dark_gray),
-                            contentDescription = "Done",
-                            modifier = Modifier.size(28.dp)
-                        )
-                    }
-                }
-
-
-            }
+            //<- add food      */
+            AddEditTopBar(
+                onBackNavigate =onBackNavigate,
+                onDone = onDone,
+                title = title
+            )
         }
     ) {
        Box(
@@ -128,10 +82,11 @@ fun DefaultScreen(
                    .fillMaxSize()
                    .padding(vertical = spacing.spaceSmall)
            ) {
+               //coconut(food name)
               Text(
                   text = foodName,
                   color = Color.Black,
-                  style = MaterialTheme.typography.labelMedium,
+                  style = MaterialTheme.typography.titleMedium,
                   modifier = Modifier.padding(horizontal = spacing.spaceMedium, vertical = spacing.spaceMedium)
               )
               HorizontalDivider(
@@ -139,34 +94,64 @@ fun DefaultScreen(
                    thickness = 2.dp
               )
               //MealType ROW
-              Text(
-                   text = "Meal",
-                   color = Color.Black,
-                   style = MaterialTheme.typography.displayMedium,
-                   modifier = Modifier.padding(spacing.spaceMedium)
+              CustomRowWithAction(
+                titleContent = {
+                    Text(
+                        text = "Meal",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.displayMedium,
+                    )
+                },
+                actionContent = {
+                    Text(
+                        text = mealType.name,
+                        color = colorResource(R.color.progress_color),
+                        style = MaterialTheme.typography.displayMedium
+                    )
+                }
               )
               HorizontalDivider(
                    color = Color.LightGray,
                    thickness = 1.dp
               )
               //Number of Serving
-              Text(
-                   text = "Number of Servings",
-                   color = Color.Black,
-                   style = MaterialTheme.typography.displayMedium,
-                   modifier = Modifier.padding(spacing.spaceMedium)
-              )
+               CustomRowWithAction(
+                   titleContent = {
+                       Text(
+                           text = "Number of Servings",
+                           color = Color.Black,
+                           style = MaterialTheme.typography.displayMedium
+                       )
+                   },
+                   actionContent = {
+                       Text(
+                           text = NumberOfServings.toString(),
+                           color = colorResource(R.color.progress_color),
+                           style = MaterialTheme.typography.displayMedium
+                       )
+                   }
+               )
               HorizontalDivider(
                    color = Color.LightGray,
                    thickness = 1.dp
               )
               //Serving sIZE
-              Text(
-                   text = "Serving Size",
-                   color = Color.Black,
-                   style = MaterialTheme.typography.displayMedium,
-                   modifier = Modifier.padding(spacing.spaceMedium)
-              )
+               CustomRowWithAction(
+                   titleContent = {
+                       Text(
+                           text = "Serving Size",
+                           color = Color.Black,
+                           style = MaterialTheme.typography.displayMedium
+                       )
+                   },
+                   actionContent = {
+                       Text(
+                           text = if(ServingSize == com.codewithdipesh.tracker_domain.model.Unit.Gm100) "100g" else ServingSize.name,
+                           color = colorResource(R.color.progress_color),
+                           style = MaterialTheme.typography.displayMedium
+                       )
+                   }
+               )
               HorizontalDivider(
                    color = Color.LightGray,
                    thickness = 1.dp

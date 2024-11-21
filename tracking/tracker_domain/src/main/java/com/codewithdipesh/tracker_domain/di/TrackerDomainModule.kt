@@ -4,6 +4,7 @@ import com.codewithdipesh.core.domain.Preferences.Preferences
 import com.codewithdipesh.tracker_domain.repository.TrackerRepository
 import com.codewithdipesh.tracker_domain.usecase.CalculateMealNutriments
 import com.codewithdipesh.tracker_domain.usecase.DeleteTrackFood
+import com.codewithdipesh.tracker_domain.usecase.GetFoodById
 import com.codewithdipesh.tracker_domain.usecase.GetFoodsByDate
 import com.codewithdipesh.tracker_domain.usecase.SearchFood
 import com.codewithdipesh.tracker_domain.usecase.TrackFood
@@ -30,6 +31,7 @@ class TrackerDomainModule {
             searchFood = SearchFood(repository),
             getFoodsForDate = GetFoodsByDate(repository),
             deleteTrackedFood = DeleteTrackFood(repository),
+            getFoodById = GetFoodById(repository),
             calculateMealNutriments = CalculateMealNutriments(preferences)
         )
     }

@@ -1,7 +1,9 @@
 package com.codewithdipesh.tracker_presentation.tracker_overview.add_edit
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,13 +19,14 @@ fun  AddEditScreen(
     id: Int?,
     modifier: Modifier = Modifier,
 ) {
-
+    Log.d("AddEditScreen", "id: $id")
+    val state by viewModel.state.collectAsState()
     LaunchedEffect(Unit) {
        viewModel.refresh(id ?: -1)
     }
     if(id != 0){
         EditScreen(
-           food = viewModel.state
+           food = state
         )
     }
 

@@ -15,7 +15,7 @@ fun EditScreen(
     DefaultScreen(
         foodName = food.name,
         date = LocalDate.now(),
-        title = "Add Food",
+        title = "Edit Food",
         onBackNavigate = onBackNavigate,
         onDone = onDone
     )
