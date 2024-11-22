@@ -9,7 +9,7 @@ sealed class AddEditEvent{
     object OnToggleMeal : AddEditEvent()
     data class OnClickMeal(val mealType: MealType): AddEditEvent()
     object OnToggleSize : AddEditEvent()
-    data class OnClickSize(val size: Int): AddEditEvent()
+    data class OnClickSize(val size: Double): AddEditEvent()
     object OnToggleUnit : AddEditEvent()
     data class OnSelectUnit(val unit : Unit) : AddEditEvent()
     data class OnSave(val food : TrackedFood) : AddEditEvent()

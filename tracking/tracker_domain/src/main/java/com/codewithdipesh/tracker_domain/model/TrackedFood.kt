@@ -10,7 +10,7 @@ data class TrackedFood(
     private val _protein: Double=0.0,
     private val _fat: Double=0.0,
     val mealType: MealType=MealType.Breakfast,
-    val amount: Int=1,
+    val amount: Double=1.0,
     private val _fiber: Double=0.0,
     val unit: Unit=Unit.Gm100,
     val date: LocalDate =LocalDate.now(),

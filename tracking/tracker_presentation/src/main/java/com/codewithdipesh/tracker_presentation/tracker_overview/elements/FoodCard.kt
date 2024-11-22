@@ -46,7 +46,7 @@ fun FoodCard(
     totalCalories : Int = 0,
     onExpandClick : (Meal)-> Unit = {},
     onAddClick : ()-> Unit={},
-    onItemClick : (Int)-> Unit = {},
+    onItemClick : (TrackedFood)-> Unit = {},
     color : Color = MaterialTheme.colorScheme.background
 ) {
     val spacing = LocalSpacing.current
@@ -140,7 +140,7 @@ fun FoodCard(
                       TrackedItem(
                           item = it,
                           onClick = {id->
-                              onItemClick(id)
+                              onItemClick(it)
                           }
                       )
                       HorizontalDivider(

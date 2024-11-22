@@ -11,7 +11,7 @@ data class AddEditState(
     val carb :Double = 0.0,
     val protein : Double = 0.0,
     val fat :Double = 0.0,
-    val amount :Int = 0,
+    val amount :Double = 0.0,
     val fiber :Double = 0.0,
     val unit :Unit = Unit.Gm100,
     val calories :Int = 0,

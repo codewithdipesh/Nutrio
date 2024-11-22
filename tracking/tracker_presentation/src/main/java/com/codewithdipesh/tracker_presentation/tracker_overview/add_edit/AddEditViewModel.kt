@@ -8,11 +8,13 @@ import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.Nutrients
+import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.TrackedFood
 import com.codewithdipesh.tracker_domain.model.Unit
 import com.codewithdipesh.tracker_domain.usecase.TrackerUseCases
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditEvent
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditState
+import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,10 +62,11 @@ class AddEditViewModel @Inject constructor(
                         mealType = _state.value.mealType,
                         date = _state.value.date
                     )
-                    _uiEvent.trySend(
-                        UiEvent.Navigate(Route.TRACKER_OVERVIEW)
+                    _uiEvent.send(
+                        UiEvent.SuccessAndNavigate("Food Added Successfully")
                     )
                 }
+
             }
             is AddEditEvent.OnSelectUnit -> {
                 _state.value = _state.value.copy(
@@ -73,16 +76,22 @@ class AddEditViewModel @Inject constructor(
             }
             AddEditEvent.OnToggleMeal -> {
                 _state.value = _state.value.copy(
+                    isSizeExpanded = false,
+                    isUnitExpanded = false,
                     isMealExpanded = !_state.value.isMealExpanded
                 )
             }
             AddEditEvent.OnToggleSize -> {
                 _state.value = _state.value.copy(
+                    isUnitExpanded = false,
+                    isMealExpanded = false,
                     isSizeExpanded = !_state.value.isSizeExpanded
                 )
             }
             AddEditEvent.OnToggleUnit -> {
                 _state.value = _state.value.copy(
+                    isSizeExpanded = false,
+                    isMealExpanded = false,
                     isUnitExpanded = !_state.value.isUnitExpanded
                 )
 
@@ -107,7 +116,30 @@ class AddEditViewModel @Inject constructor(
            fiber = nutrients.fiber
        )
     }
-
+    fun initFood(
+        trackableFood: TrackableFood,
+        mealType: MealType
+    ){
+        viewModelScope.launch {
+            val food = trackerUsecases.getTrackedFood(
+                food = trackableFood,
+                mealType = mealType
+            )
+            _state.value = _state.value.copy(
+                food =food,
+                carb = food.carbs,
+                protein = food.protein,
+                fat = food.fat,
+                amount = food.amount,
+                fiber = food.fiber,
+                unit = food.unit,
+                calories = food.calories,
+                mealType = food.mealType,
+                date = food.date,
+                id = food.id ?: -1
+            )
+        }
+    }
     fun initFood(id : Int){
         viewModelScope.launch {
            try {
@@ -139,13 +171,13 @@ class AddEditViewModel @Inject constructor(
         }
     }
 
-    private fun getNutrients(unit: Unit, amount: Int): Nutrients {
+    private fun getNutrients(unit: Unit, amount: Double): Nutrients {
         return Nutrients(
-            _calories = ((_state.value.food.nutrients[unit]?.calories)?.times(amount.toDouble())) ?: 0.0,
-            _carbs = ((_state.value.food.nutrients[unit]?.carbs)?.times(amount.toDouble())) ?: 0.0,
-            _protein = ((_state.value.food.nutrients[unit]?.protein)?.times(amount.toDouble())) ?: 0.0,
-            _fat = ((_state.value.food.nutrients[unit]?.fat)?.times(amount.toDouble())) ?: 0.0,
-            _fiber = ((_state.value.food.nutrients[unit]?.fiber)?.times(amount.toDouble())) ?: 0.0,
+            _calories = ((_state.value.food.nutrients[unit]?.calories)?.times(amount)) ?: 0.0,
+            _carbs = ((_state.value.food.nutrients[unit]?.carbs)?.times(amount)) ?: 0.0,
+            _protein = ((_state.value.food.nutrients[unit]?.protein)?.times(amount)) ?: 0.0,
+            _fat = ((_state.value.food.nutrients[unit]?.fat)?.times(amount)) ?: 0.0,
+            _fiber = ((_state.value.food.nutrients[unit]?.fiber)?.times(amount)) ?: 0.0,
 
         )
     }

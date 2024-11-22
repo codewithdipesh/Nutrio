@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -15,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.codewithdipesh.core.navigation.Route
+import com.codewithdipesh.core_ui.NavTypes.NullableParcelableNavType
 import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
 import com.codewithdipesh.nutrio.navigation.navigateAndPopUp
@@ -36,9 +39,11 @@ import com.codewithdipesh.onboarding_presentation.height.HeightScreen
 import com.codewithdipesh.onboarding_presentation.weight.WeightScreen
 import com.codewithdipesh.onboarding_presentation.welcome.WelcomeScreen
 import com.codewithdipesh.tracker_domain.model.MealType
+import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_presentation.tracker_overview.add_edit.AddEditScreen
 import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchFood
+import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import kotlin.reflect.typeOf
@@ -154,21 +159,31 @@ class MainActivity : ComponentActivity() {
                         )
 
                     }
-                    composable(Route.ADD_EDIT_FOOD+"/{id}",
+                    composable(Route.ADD_EDIT_FOOD+"/{id}/{food}/{mealType}",
                         arguments = listOf(
                             navArgument("id"){
                                 type = NavType.IntType
                                 nullable = false
                                 defaultValue = -1
+                            },
+                            navArgument("food"){
+                                type = NullableParcelableNavType(TrackableFood::class.java)
+                            },
+                            navArgument("mealType"){
+                                type = NavType.ParcelableType(MealType::class.java)
                             }
                         )
                     ){entry->
                         val id = if(entry.arguments != null) entry.arguments!!.getInt("id") else -1
-
+                        val food = if (entry?.arguments?.getString("food") == "null") null
+                                   else entry?.arguments?.getParcelable("food")
+                        val mealType = entry?.arguments?.getParcelable<MealType>("mealType") ?: MealType.Breakfast
                         AddEditScreen(
                             id = id,
+                            food = food,
+                            mealType = mealType,
                             onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
+                            onBackNavigate = navController::backNavigate,
                         )
 
                     }

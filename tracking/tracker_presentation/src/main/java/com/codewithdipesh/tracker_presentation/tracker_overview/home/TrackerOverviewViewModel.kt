@@ -127,7 +127,9 @@ class TrackerOverviewViewModel @Inject constructor(
                     _uiEvent.send(
                         UiEvent.Navigate(
                             route = Route.ADD_EDIT_FOOD
-                                    + "/${event.id}"
+                                    + "/${event.food.id}"
+                                    +"/null"
+                                    +"/${event.food.mealType}"
                         )
                     )
                 }

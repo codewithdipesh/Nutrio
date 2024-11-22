@@ -3,9 +3,11 @@ package com.codewithdipesh.mylibrary.mappers
 import com.codewithdipesh.mylibrary.local.entity.TrackedFoodEntity
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.Nutrients
+import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.TrackedFood
 import com.codewithdipesh.tracker_domain.model.Unit
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 fun TrackedFoodEntity.toTrackedFood(): TrackedFood{
    var nutrients : Map<Unit,Nutrients> = mapOf(
@@ -80,5 +82,23 @@ fun TrackedFood.toTrackedFoodEntity(): TrackedFoodEntity{
         CupFat = nutrients[Unit.Cup]?.fat ?: 0.0,
         CupFiber = nutrients[Unit.Cup]?.fiber ?: 0.0,
         id = id
+    )
+}
+
+fun TrackableFood.toTrackedFood(
+    mealType: MealType
+):TrackedFood{
+    return TrackedFood(
+        name = name,
+        _carbs = nutrients[Unit.Gm100]!!.carbs,
+        _fiber = nutrients[Unit.Gm100]!!.fiber,
+        _protein = nutrients[Unit.Gm100]!!.protein ,
+        _fat = nutrients[Unit.Gm100]!!.fat ,
+        calories = (nutrients[Unit.Gm100]!!.calories ).roundToInt(),
+        amount = 1.0,
+        unit = Unit.Gm100,
+        mealType = mealType,
+        nutrients = nutrients,
+        date = LocalDate.now()
     )
 }

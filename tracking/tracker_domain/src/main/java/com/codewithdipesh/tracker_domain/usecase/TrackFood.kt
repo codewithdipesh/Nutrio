@@ -15,7 +15,7 @@ class TrackFood (
     suspend operator fun invoke(
        food: TrackableFood,
        unit : Unit,
-       amount:Int,
+       amount:Double,
        mealType: MealType,
        date: LocalDate
     ){
@@ -39,7 +39,7 @@ class TrackFood (
     suspend operator fun invoke(
         food: TrackedFood,
         unit : Unit,
-        amount:Int,
+        amount:Double,
         mealType: MealType,
         date: LocalDate
     ){

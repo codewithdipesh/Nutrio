@@ -52,6 +52,7 @@ import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.SearchBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.TrackableFoodCard
+import com.codewithdipesh.tracker_presentation.tracker_overview.model.MealSelectionBox
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.SearchUiEvent
 import java.time.LocalDate
 
@@ -199,7 +200,7 @@ fun SearchFood(
                     result?.let {
                         TrackableFoodCard(
                             onClick = {
-                                //TODO
+                                viewModel.onEvent(SearchUiEvent.onFoodClick(it))
                             },
                             onAdd = {
                                 viewModel.onEvent(SearchUiEvent.onAddFoodClick(it))
@@ -211,61 +212,14 @@ fun SearchFood(
 
             }
             if(isDialogOpen){
-                Box(
-                    Modifier.fillMaxSize()
-                        .background(
-                            color = Color.Black.copy(alpha = 0.1f)
-                        )
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ) {
-                          isDialogOpen =false
-                        },
-                    contentAlignment = Alignment.TopCenter
-                ){
-                    Box(
-                        modifier = Modifier
-                            .width(200.dp)
-                            .wrapContentHeight()
-                            .background(Color.White,RoundedCornerShape(15.dp))
-                            .clip(RoundedCornerShape(15.dp))
-                            .clickable(
-                                indication = null,
-                                interactionSource = remember { MutableInteractionSource() }
-                            ) {
-                                //do nothing means box will be opened
-                            }
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            arrayOf(
-                                MealType.Breakfast,
-                                MealType.Lunch,
-                                MealType.Dinner,
-                                MealType.Snack).forEach { meal ->
-                                Box(Modifier.wrapContentSize()
-                                    .clickable {
-                                        viewModel.onEvent(SearchUiEvent.OnMealTypeChange(meal))
-                                        isDialogOpen = false
-                                    }
-                                ){
-                                    Text(
-                                        text = meal.name,
-                                        style = MaterialTheme.typography.displayMedium,
-                                        modifier = Modifier.padding(horizontal = spacing.spaceLarge, vertical = spacing.spaceMedium)
-                                    )
-                                    HorizontalDivider(
-                                        color = Color.LightGray,
-                                        thickness = 1.dp
-                                    )
-                                }
-                            }
-                        }
+                MealSelectionBox(
+                    onDismiss = {
+                        isDialogOpen = false
+                    },
+                    onSelection = { meal->
+                        viewModel.onEvent(SearchUiEvent.OnMealTypeChange(meal))
                     }
-                }
+                )
             }
 
         }

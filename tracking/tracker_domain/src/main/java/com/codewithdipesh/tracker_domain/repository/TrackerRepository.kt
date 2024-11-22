@@ -1,5 +1,6 @@
 package com.codewithdipesh.tracker_domain.repository
 
+import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.TrackedFood
 import kotlinx.coroutines.flow.Flow
@@ -18,4 +19,6 @@ interface TrackerRepository {
     fun getsFoodForDate(localDate: LocalDate) : Flow<List<TrackedFood>>
 
     fun getFoodById(id:Int) : Flow<TrackedFood>
+
+    fun getTrackedFood(food:TrackableFood,mealType: MealType) : TrackedFood
 }

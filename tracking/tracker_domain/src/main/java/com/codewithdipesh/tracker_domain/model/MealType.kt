@@ -1,10 +1,17 @@
 package com.codewithdipesh.tracker_domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-sealed  class MealType(val name : String){
+@Parcelize
+sealed  class MealType(val name : String):Parcelable{
+    @Parcelize
     object Breakfast : MealType("Breakfast")
+    @Parcelize
     object Lunch : MealType("Lunch")
+    @Parcelize
     object Dinner : MealType("Dinner")
+    @Parcelize
     object Snack : MealType("Snack")
 
     companion object{

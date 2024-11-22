@@ -9,6 +9,7 @@ import com.codewithdipesh.mylibrary.mappers.toUnitNutrition
 import com.codewithdipesh.mylibrary.remote.OpenFoodApi
 import com.codewithdipesh.mylibrary.remote.dto.SearchRequest
 import com.codewithdipesh.mylibrary.remote.getSearchText
+import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_domain.model.TrackedFood
 import com.codewithdipesh.tracker_domain.repository.TrackerRepository
@@ -73,5 +74,9 @@ class TrackerRepositoryImpl(
     override fun getFoodById(id: Int): Flow<TrackedFood> {
         return dao.getFoodById(id)
             .map { it.toTrackedFood() }
+    }
+
+    override fun getTrackedFood(food: TrackableFood,mealType: MealType): TrackedFood {
+        return food.toTrackedFood(mealType)
     }
 }

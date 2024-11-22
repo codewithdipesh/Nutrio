@@ -46,12 +46,12 @@ class SearchViewModel @Inject constructor(
 
     fun onEvent(event: SearchUiEvent) {
         when (event) {
-            SearchUiEvent.OnBackNavigate -> {
+            is SearchUiEvent.OnBackNavigate -> {
                 _uiEvent.trySend(
                     UiEvent.NavigateUp
                 )
             }
-            SearchUiEvent.OnSearch -> {
+            is SearchUiEvent.OnSearch -> {
                 Log.d("SEARCH",state.searchQuery)
                 state = state.copy(
                     isLoading = true
@@ -66,9 +66,11 @@ class SearchViewModel @Inject constructor(
             }
             is SearchUiEvent.onFoodClick -> {
                 _uiEvent.trySend(
-                    UiEvent.Navigate(//TODO
+                    UiEvent.Navigate(
                         Route.ADD_EDIT_FOOD
-                        +""
+                        +"/-1"
+                        +"/${event.trackableFood}"
+                        +"/${state.mealType}"
                     )
                 )
             }
@@ -78,7 +80,7 @@ class SearchViewModel @Inject constructor(
                 )
             }
 
-            SearchUiEvent.OnClear -> {
+            is SearchUiEvent.OnClear -> {
                 state = state.copy(
                     searchQuery = ""
                 )
@@ -89,6 +91,8 @@ class SearchViewModel @Inject constructor(
                     mealType = event.mealType
                 )
             }
+
+            else -> {}
         }
     }
 
@@ -128,7 +132,7 @@ class SearchViewModel @Inject constructor(
             trackerUsecases.trackFood(
                 food = trackableFood,
                 unit = Unit.Gm100,
-                amount = 1,
+                amount = 1.0,
                 mealType = state.mealType,
                 date = state.date
             )
