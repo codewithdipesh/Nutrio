@@ -1,6 +1,7 @@
 package com.codewithdipesh.tracker_presentation.tracker_overview.search_food
 
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -65,12 +68,13 @@ class SearchViewModel @Inject constructor(
                 )
             }
             is SearchUiEvent.onFoodClick -> {
+                val food = Uri.encode(Json.encodeToString(event.trackableFood))
                 _uiEvent.trySend(
                     UiEvent.Navigate(
                         Route.ADD_EDIT_FOOD
                         +"/-1"
-                        +"/${event.trackableFood}"
-                        +"/${state.mealType}"
+                        +"/$food"
+                        +"/${state.mealType.name}"
                     )
                 )
             }

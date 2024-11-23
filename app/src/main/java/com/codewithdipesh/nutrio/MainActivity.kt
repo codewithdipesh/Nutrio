@@ -1,5 +1,6 @@
 package com.codewithdipesh.nutrio
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -45,6 +46,7 @@ import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchFood
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import kotlin.reflect.typeOf
 
@@ -159,33 +161,36 @@ class MainActivity : ComponentActivity() {
                         )
 
                     }
-                    composable(Route.ADD_EDIT_FOOD+"/{id}/{food}/{mealType}",
+                    composable(
+                        Route.ADD_EDIT_FOOD + "/{id}/{food}/{mealType}",
                         arguments = listOf(
-                            navArgument("id"){
+                            navArgument("id") {
                                 type = NavType.IntType
-                                nullable = false
-                                defaultValue = -1
-                            },
-                            navArgument("food"){
-                                type = NullableParcelableNavType(TrackableFood::class.java)
-                            },
-                            navArgument("mealType"){
-                                type = NavType.ParcelableType(MealType::class.java)
-                            }
+                                              },
+                            navArgument("food") {
+                                type = NavType.StringType
+                                nullable = true
+                                },
+                            navArgument("mealType") {
+                                type = NavType.StringType
+                                nullable = true
+                                },
                         )
-                    ){entry->
-                        val id = if(entry.arguments != null) entry.arguments!!.getInt("id") else -1
-                        val food = if (entry?.arguments?.getString("food") == "null") null
-                                   else entry?.arguments?.getParcelable("food")
-                        val mealType = entry?.arguments?.getParcelable<MealType>("mealType") ?: MealType.Breakfast
+                    ) { entry ->
+                        val id = entry.arguments?.getInt("id") ?: -1
+                        val food = entry.arguments?.getString("food")?.let {
+                            if (it == "null") null
+                            else Json.decodeFromString<TrackableFood>(Uri.decode(it))
+                        }
+                        val mealType = entry.arguments?.getString("mealType") ?: MealType.Breakfast.name
+                        val meal = MealType.fromString(mealType)
                         AddEditScreen(
                             id = id,
                             food = food,
-                            mealType = mealType,
+                            mealType = meal,
                             onNavigate = navController::navigate,
                             onBackNavigate = navController::backNavigate,
                         )
-
                     }
                 }
             }

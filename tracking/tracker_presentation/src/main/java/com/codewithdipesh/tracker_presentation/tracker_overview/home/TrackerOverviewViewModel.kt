@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.time.DayOfWeek
 import java.time.LocalDate
 import javax.inject.Inject
@@ -123,13 +125,14 @@ class TrackerOverviewViewModel @Inject constructor(
             }
 
             is TrackerOverviewEvent.OnFoodClick -> {
+                val mealType = Json.encodeToString(event.food.mealType)
                 viewModelScope.launch {
                     _uiEvent.send(
                         UiEvent.Navigate(
                             route = Route.ADD_EDIT_FOOD
                                     + "/${event.food.id}"
-                                    +"/null"
-                                    +"/${event.food.mealType}"
+                                    + "/null"
+                                    + "/${mealType}"
                         )
                     )
                 }

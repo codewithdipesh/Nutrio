@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger.hilt)
     id("kotlin-kapt")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -96,6 +97,8 @@ dependencies {
     implementation(Room.roomKtx)
     implementation(Room.roomRuntime)
 
+    implementation(Serialize.kotlinSerialization)
+
     testImplementation(Testing.junit4)
     testImplementation(Testing.junitAndroidExt)
     testImplementation(Testing.truth)
@@ -105,8 +108,8 @@ dependencies {
     testImplementation(Testing.mockk)
     testImplementation(Testing.mockWebServer)
 
-    androidTestImplementation(Testing.junit4)
     androidTestImplementation(Testing.junitAndroidExt)
+    androidTestImplementation(Testing.junit4)
     androidTestImplementation(Testing.truth)
     androidTestImplementation(Testing.coroutines)
     androidTestImplementation(Testing.turbine)
