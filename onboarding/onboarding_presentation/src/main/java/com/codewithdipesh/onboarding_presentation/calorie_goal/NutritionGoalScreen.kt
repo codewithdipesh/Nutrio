@@ -38,7 +38,7 @@ import java.util.Calendar
 @Composable
 fun NutritionGoalScreen(
     viewModel: NutritionGoalViewModel = hiltViewModel(),
-    onNavigate: (UiEvent.NavigateAndPopUp) -> Unit,
+    onNavigateAndPopUp: (UiEvent.NavigateAndPopUp) -> Unit,
 ) {
     val calorieGoalAmount by remember(viewModel.calorieGoal) {
         mutableStateOf(viewModel.calorieGoal)
@@ -50,10 +50,9 @@ fun NutritionGoalScreen(
     LaunchedEffect(true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> onNavigate(
+                is UiEvent.NavigateAndPopUp -> onNavigateAndPopUp(
                     UiEvent.NavigateAndPopUp(
-                        route = event.route,
-                        popUpRoute = Route.WELCOME
+                        route = event.route
                     )
                 )
 

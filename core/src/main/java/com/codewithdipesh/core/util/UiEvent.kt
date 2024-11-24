@@ -5,8 +5,7 @@ sealed class UiEvent{
     data class showSnackBar(val msg: String): UiEvent()
     data class SuccessAndNavigate(val msg: String): UiEvent()
     data class NavigateAndPopUp(
-        val route: String,
-        val popUpRoute: String)
+        val route: String)
         : UiEvent()
     object NavigateUp : UiEvent()
 }
