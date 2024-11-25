@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.HorizontalDivider
@@ -41,6 +42,8 @@ import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.AddEditTopBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CustomRowWithAction
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacroDetails
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.PercentageDonutChart
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditEvent
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditState
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.MealSelectionBox
@@ -184,8 +187,56 @@ fun DefaultScreen(
                    color = Color.LightGray,
                    thickness = 1.dp
               )
-           }
 
+               Box(
+                   modifier = Modifier
+                       .fillMaxWidth()
+                       .wrapContentHeight()
+                       .padding(horizontal = spacing.spaceMedium, vertical = spacing.spaceSmall),
+               ){
+                   PercentageDonutChart(
+                       firstPercentage = carbs.toFloat(),
+                       secondPercentage = protein.toFloat(),
+                       thirdPercentage = fat.toFloat(),
+                       text = calories.toInt().toString(),
+                       textColor = Color.Black
+                   )
+
+                   Row(
+                       modifier = Modifier
+                           .align(Alignment.CenterEnd)
+                           .padding(end = spacing.spaceExtraLarge),
+                       horizontalArrangement = Arrangement.spacedBy(spacing.spaceExtraLarge),
+                       verticalAlignment = Alignment.CenterVertically
+                   ) {
+                       val totalMacros = carbs.toFloat() +protein.toFloat() +fat.toFloat()
+                       MacroDetails(
+                           percentage = (Math.round(((carbs.toFloat()/totalMacros)*100f) * 10.0) / 10.0).toFloat(),
+                           text = "Carbs",
+                           amount = carbs.toString(),
+                           color = colorResource(R.color.carb)
+                       )
+                       MacroDetails(
+                           percentage = (Math.round(((protein.toFloat()/totalMacros)*100f) * 10.0) / 10.0).toFloat(),
+                           text = "Proteins",
+                           amount = protein.toString(),
+                           color = colorResource(R.color.protein)
+                       )
+                       MacroDetails(
+                           percentage = (Math.round(((fat.toFloat()/totalMacros)*100f) * 10.0) / 10.0).toFloat(),
+                           text = "Fat",
+                           amount = fat.toString(),
+                           color = colorResource(R.color.fat)
+                       )
+                   }
+               }
+              HorizontalDivider(
+                  color = Color.LightGray,
+                  thickness = 1.dp
+              )
+
+           }
+           //Action Boxes
            if(isMealSelectionBoxOpen){
                MealSelectionBox(
                 onDismiss = {

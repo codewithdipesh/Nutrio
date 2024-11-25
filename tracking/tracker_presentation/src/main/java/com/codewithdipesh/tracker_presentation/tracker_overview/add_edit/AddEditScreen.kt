@@ -78,7 +78,6 @@ fun  AddEditScreen(
            }
        }
     }
-
     DefaultScreen(
             foodName = state.food.name,
             date = LocalDate.now(),
@@ -96,6 +95,11 @@ fun  AddEditScreen(
             mealType = state.mealType,
             NumberOfServings = state.amount,
             ServingSize = state.unit,
+            carbs = state.carb,
+            protein = state.protein,
+            fat = state.fat,
+            calories = state.calories.toDouble()
+
     )
 
 
