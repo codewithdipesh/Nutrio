@@ -44,6 +44,7 @@ import com.codewithdipesh.tracker_presentation.tracker_overview.elements.AddEdit
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CustomRowWithAction
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacroDetails
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.PercentageDonutChart
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.QuantitySelectionBox
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditEvent
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditState
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.MealSelectionBox
@@ -156,7 +157,10 @@ fun DefaultScreen(
                        Text(
                            text = NumberOfServings.toString(),
                            color = colorResource(R.color.progress_color),
-                           style = MaterialTheme.typography.displayMedium
+                           style = MaterialTheme.typography.displayMedium,
+                           modifier = Modifier.clickable {
+                               onEvent(AddEditEvent.OnToggleSizeUnit)
+                           }
                        )
                    }
                )
@@ -179,6 +183,7 @@ fun DefaultScreen(
                            color = colorResource(R.color.progress_color),
                            style = MaterialTheme.typography.displayMedium,
                            modifier = Modifier.clickable {
+                               onEvent(AddEditEvent.OnToggleSizeUnit)
                            }
                        )
                    }
@@ -250,6 +255,20 @@ fun DefaultScreen(
                )
            }
            //TODO SERVING SIZE
+           if(isSizeSelectionBoxOpen){
+               QuantitySelectionBox(
+                   onDismiss = {
+                       onEvent(AddEditEvent.OnToggleSizeUnit)
+                   },
+                   amount = NumberOfServings,
+                   alignment = Alignment.Center,
+                   onSave = {amount,unit ->
+                       onEvent(AddEditEvent.OnClickSize(amount))
+                       onEvent(AddEditEvent.OnSelectUnit(unit))
+                   },
+                   modifier = Modifier.padding()
+               )
+           }
        }
 
     }

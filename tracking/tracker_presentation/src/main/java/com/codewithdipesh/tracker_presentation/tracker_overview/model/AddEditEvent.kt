@@ -8,9 +8,8 @@ sealed class AddEditEvent{
     object OnBackNavigate : AddEditEvent()
     object OnToggleMeal : AddEditEvent()
     data class OnClickMeal(val mealType: MealType): AddEditEvent()
-    object OnToggleSize : AddEditEvent()
+    object OnToggleSizeUnit : AddEditEvent()
     data class OnClickSize(val size: Double): AddEditEvent()
-    object OnToggleUnit : AddEditEvent()
     data class OnSelectUnit(val unit : Unit) : AddEditEvent()
     data class OnSave(val food : TrackedFood) : AddEditEvent()
 }

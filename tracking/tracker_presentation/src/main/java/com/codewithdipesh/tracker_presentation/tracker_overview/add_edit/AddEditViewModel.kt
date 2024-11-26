@@ -76,25 +76,15 @@ class AddEditViewModel @Inject constructor(
             }
             AddEditEvent.OnToggleMeal -> {
                 _state.value = _state.value.copy(
-                    isSizeExpanded = false,
-                    isUnitExpanded = false,
+                    isSizeUnitExpanded = false,
                     isMealExpanded = !_state.value.isMealExpanded
                 )
             }
-            AddEditEvent.OnToggleSize -> {
+            AddEditEvent.OnToggleSizeUnit -> {
                 _state.value = _state.value.copy(
-                    isUnitExpanded = false,
                     isMealExpanded = false,
-                    isSizeExpanded = !_state.value.isSizeExpanded
+                    isSizeUnitExpanded = !_state.value.isSizeUnitExpanded
                 )
-            }
-            AddEditEvent.OnToggleUnit -> {
-                _state.value = _state.value.copy(
-                    isSizeExpanded = false,
-                    isMealExpanded = false,
-                    isUnitExpanded = !_state.value.isUnitExpanded
-                )
-
             }
         }
 

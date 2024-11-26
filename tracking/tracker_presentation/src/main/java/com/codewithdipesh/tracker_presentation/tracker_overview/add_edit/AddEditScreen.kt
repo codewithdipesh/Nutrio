@@ -90,7 +90,7 @@ fun  AddEditScreen(
                 viewModel.onEvent(it)
             },
             isMealBoxOpen = state.isMealExpanded,
-            isSizeBoxOpen = state.isSizeExpanded,
+            isSizeBoxOpen = state.isSizeUnitExpanded,
             snackbarHostState = snackbarHostState,
             mealType = state.mealType,
             NumberOfServings = state.amount,

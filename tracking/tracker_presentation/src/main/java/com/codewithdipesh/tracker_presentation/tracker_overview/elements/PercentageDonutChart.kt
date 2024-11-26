@@ -78,7 +78,7 @@ fun PercentageDonutChart(
     val SingleInputBorderthicknessInAngle = 1f //2 degree
     val SingleInputBorderColor = Color.DarkGray
 
-    if(formattedFirst+formattedSecond+formattedThird > 99.9f){
+    if(formattedFirst+formattedSecond+formattedThird >= 99.9f){
         Box(
             modifier = Modifier
                 .size(chartSize),
@@ -130,7 +130,7 @@ fun PercentageDonutChart(
                 )
                 AutoResizeText(
                     text = "Cal",
-                    color = Color.Gray,
+                    color = Color.DarkGray,
                     style = MaterialTheme.typography.displayMedium
                 )
             }

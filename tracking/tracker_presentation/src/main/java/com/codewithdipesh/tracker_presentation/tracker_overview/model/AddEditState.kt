@@ -18,7 +18,6 @@ data class AddEditState(
     val mealType : MealType = MealType.Breakfast,
     val date :LocalDate= LocalDate.now(),
     val id :Int = -1,
-    val isSizeExpanded :Boolean = false,
-    val isMealExpanded :Boolean = false,
-    val isUnitExpanded :Boolean = false
+    val isSizeUnitExpanded :Boolean = false,
+    val isMealExpanded :Boolean = false
 )
