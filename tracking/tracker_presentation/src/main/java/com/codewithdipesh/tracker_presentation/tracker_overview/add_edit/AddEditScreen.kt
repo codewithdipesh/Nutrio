@@ -22,6 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 @Composable
 fun  AddEditScreen(
@@ -98,6 +99,10 @@ fun  AddEditScreen(
             carbs = state.carb,
             protein = state.protein,
             fat = state.fat,
+            dailyFatGoal = state.FatRequiredDaily.roundToInt().toDouble(),
+            dailyCarbGoal =state.CarbRequiredDaily.roundToInt().toDouble(),
+            dailyProteinGoal = state.ProteinRequiredDaily.roundToInt().toDouble(),
+            dailyCalorieGoal = state.CaloriesRequiredDaily.toDouble().roundToInt().toDouble(),
             calories = state.calories.toDouble()
 
     )

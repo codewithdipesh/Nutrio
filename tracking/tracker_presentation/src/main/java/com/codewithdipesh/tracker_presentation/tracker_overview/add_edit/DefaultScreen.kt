@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,6 +43,7 @@ import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.AddEditTopBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CustomRowWithAction
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.DailyPercentageCard
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacroDetails
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.PercentageDonutChart
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.QuantitySelectionBox
@@ -239,6 +241,55 @@ fun DefaultScreen(
                   color = Color.LightGray,
                   thickness = 1.dp
               )
+
+              Column (
+                  modifier = Modifier
+                      .fillMaxWidth()
+                      .padding(horizontal = spacing.spaceMedium),
+                  horizontalAlignment = Alignment.Start,
+                  verticalArrangement = Arrangement.Center
+              ){
+                  //Your Daily GoalPercentage
+                  Text(
+                      text = "Your Daily Percentage",
+                      color = Color.Black,
+                      style = MaterialTheme.typography.labelMedium
+                  )
+                  Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                  Row (
+                      horizontalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
+                  ){
+                      DailyPercentageCard(
+                          name = "Calorie",
+                          amount = calories,
+                          width = 80.dp,
+                          total = dailyCalorieGoal,
+                          color = colorResource(R.color.progress_color)
+                      )
+                      DailyPercentageCard(
+                          name = "Carb",
+                          amount = carbs,
+                          width = 80.dp,
+                          total = dailyCarbGoal,
+                          color = colorResource(R.color.carb)
+                      )
+                      DailyPercentageCard(
+                          name = "Protein",
+                          amount = protein,
+                          width = 80.dp,
+                          total = dailyProteinGoal,
+                          color = colorResource(R.color.protein)
+                      )
+                      DailyPercentageCard(
+                          name = "Fat",
+                          amount = fat,
+                          width = 80.dp,
+                          total = dailyFatGoal,
+                          color = colorResource(R.color.fat)
+                      )
+                  }
+
+              }
 
            }
            //Action Boxes
