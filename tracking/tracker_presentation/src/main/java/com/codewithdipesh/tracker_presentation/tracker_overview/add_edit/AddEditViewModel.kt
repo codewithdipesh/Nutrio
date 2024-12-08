@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.codewithdipesh.core.domain.Preferences.Preferences
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
 import com.codewithdipesh.tracker_domain.model.MealType
@@ -26,6 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditViewModel @Inject constructor(
+    private val preferences : Preferences,
     private val trackerUsecases : TrackerUseCases
 ): ViewModel() {
     private var _state = MutableStateFlow(AddEditState())
@@ -76,25 +78,15 @@ class AddEditViewModel @Inject constructor(
             }
             AddEditEvent.OnToggleMeal -> {
                 _state.value = _state.value.copy(
-                    isSizeExpanded = false,
-                    isUnitExpanded = false,
+                    isSizeUnitExpanded = false,
                     isMealExpanded = !_state.value.isMealExpanded
                 )
             }
-            AddEditEvent.OnToggleSize -> {
+            AddEditEvent.OnToggleSizeUnit -> {
                 _state.value = _state.value.copy(
-                    isUnitExpanded = false,
                     isMealExpanded = false,
-                    isSizeExpanded = !_state.value.isSizeExpanded
+                    isSizeUnitExpanded = !_state.value.isSizeUnitExpanded
                 )
-            }
-            AddEditEvent.OnToggleUnit -> {
-                _state.value = _state.value.copy(
-                    isSizeExpanded = false,
-                    isMealExpanded = false,
-                    isUnitExpanded = !_state.value.isUnitExpanded
-                )
-
             }
         }
 
@@ -125,6 +117,7 @@ class AddEditViewModel @Inject constructor(
                 food = trackableFood,
                 mealType = mealType
             )
+            val dailyGoals = preferences.loadUserInfo()
             _state.value = _state.value.copy(
                 food =food,
                 carb = food.carbs,
@@ -135,6 +128,10 @@ class AddEditViewModel @Inject constructor(
                 unit = food.unit,
                 calories = food.calories,
                 mealType = food.mealType,
+                CaloriesRequiredDaily = dailyGoals.calorieGoal,
+                CarbRequiredDaily = dailyGoals.calorieGoal.times(dailyGoals.carbRatio/100f).toDouble(),
+                ProteinRequiredDaily = dailyGoals.calorieGoal.times(dailyGoals.proteinRatio/100f).toDouble(),
+                FatRequiredDaily = dailyGoals.calorieGoal.times(dailyGoals.fatRatio/100f).toDouble(),
                 date = food.date,
                 id = food.id ?: -1
             )
@@ -145,6 +142,7 @@ class AddEditViewModel @Inject constructor(
            try {
                val food = trackerUsecases.getFoodById(id)
                    ?: throw NoSuchElementException("Food not found")
+               val dailyGoals = preferences.loadUserInfo()
                food.collect {
                    _state.value = _state.value.copy(
                        food =it,
@@ -157,6 +155,10 @@ class AddEditViewModel @Inject constructor(
                        calories = it.calories,
                        mealType = it.mealType,
                        date = it.date,
+                       CaloriesRequiredDaily = dailyGoals.calorieGoal,
+                       CarbRequiredDaily = dailyGoals.calorieGoal.times(dailyGoals.carbRatio/100f).toDouble(),
+                       ProteinRequiredDaily = dailyGoals.calorieGoal.times(dailyGoals.proteinRatio/100f).toDouble(),
+                       FatRequiredDaily = dailyGoals.calorieGoal.times(dailyGoals.fatRatio/100f).toDouble(),
                        id = it.id ?: -1
                    )
                }

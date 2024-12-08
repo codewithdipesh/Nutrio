@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.HorizontalDivider
@@ -41,6 +43,10 @@ import com.codewithdipesh.core_ui.LocalSpacing
 import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.AddEditTopBar
 import com.codewithdipesh.tracker_presentation.tracker_overview.elements.CustomRowWithAction
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.DailyPercentageCard
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.MacroDetails
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.PercentageDonutChart
+import com.codewithdipesh.tracker_presentation.tracker_overview.elements.QuantitySelectionBox
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditEvent
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.AddEditState
 import com.codewithdipesh.tracker_presentation.tracker_overview.model.MealSelectionBox
@@ -153,7 +159,10 @@ fun DefaultScreen(
                        Text(
                            text = NumberOfServings.toString(),
                            color = colorResource(R.color.progress_color),
-                           style = MaterialTheme.typography.displayMedium
+                           style = MaterialTheme.typography.displayMedium,
+                           modifier = Modifier.clickable {
+                               onEvent(AddEditEvent.OnToggleSizeUnit)
+                           }
                        )
                    }
                )
@@ -176,6 +185,7 @@ fun DefaultScreen(
                            color = colorResource(R.color.progress_color),
                            style = MaterialTheme.typography.displayMedium,
                            modifier = Modifier.clickable {
+                               onEvent(AddEditEvent.OnToggleSizeUnit)
                            }
                        )
                    }
@@ -184,8 +194,105 @@ fun DefaultScreen(
                    color = Color.LightGray,
                    thickness = 1.dp
               )
-           }
 
+               Box(
+                   modifier = Modifier
+                       .fillMaxWidth()
+                       .wrapContentHeight()
+                       .padding(horizontal = spacing.spaceMedium, vertical = spacing.spaceSmall),
+               ){
+                   PercentageDonutChart(
+                       firstPercentage = carbs.toFloat(),
+                       secondPercentage = protein.toFloat(),
+                       thirdPercentage = fat.toFloat(),
+                       text = calories.toInt().toString(),
+                       textColor = Color.Black
+                   )
+
+                   Row(
+                       modifier = Modifier
+                           .align(Alignment.CenterEnd)
+                           .padding(end = spacing.spaceExtraLarge),
+                       horizontalArrangement = Arrangement.spacedBy(spacing.spaceExtraLarge),
+                       verticalAlignment = Alignment.CenterVertically
+                   ) {
+                       val totalMacros = carbs.toFloat() +protein.toFloat() +fat.toFloat()
+                       MacroDetails(
+                           percentage = (Math.round(((carbs.toFloat()/totalMacros)*100f) * 10.0) / 10.0).toFloat(),
+                           text = "Carbs",
+                           amount = carbs.toString(),
+                           color = colorResource(R.color.carb)
+                       )
+                       MacroDetails(
+                           percentage = (Math.round(((protein.toFloat()/totalMacros)*100f) * 10.0) / 10.0).toFloat(),
+                           text = "Proteins",
+                           amount = protein.toString(),
+                           color = colorResource(R.color.protein)
+                       )
+                       MacroDetails(
+                           percentage = (Math.round(((fat.toFloat()/totalMacros)*100f) * 10.0) / 10.0).toFloat(),
+                           text = "Fat",
+                           amount = fat.toString(),
+                           color = colorResource(R.color.fat)
+                       )
+                   }
+               }
+              HorizontalDivider(
+                  color = Color.LightGray,
+                  thickness = 1.dp
+              )
+
+              Column (
+                  modifier = Modifier
+                      .fillMaxWidth()
+                      .padding(horizontal = spacing.spaceMedium),
+                  horizontalAlignment = Alignment.Start,
+                  verticalArrangement = Arrangement.Center
+              ){
+                  //Your Daily GoalPercentage
+                  Text(
+                      text = "Your Daily Percentage",
+                      color = Color.Black,
+                      style = MaterialTheme.typography.labelMedium
+                  )
+                  Spacer(modifier = Modifier.height(spacing.spaceMedium))
+                  Row (
+                      horizontalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
+                  ){
+                      DailyPercentageCard(
+                          name = "Calorie",
+                          amount = calories,
+                          width = 80.dp,
+                          total = dailyCalorieGoal,
+                          color = colorResource(R.color.progress_color)
+                      )
+                      DailyPercentageCard(
+                          name = "Carb",
+                          amount = carbs,
+                          width = 80.dp,
+                          total = dailyCarbGoal,
+                          color = colorResource(R.color.carb)
+                      )
+                      DailyPercentageCard(
+                          name = "Protein",
+                          amount = protein,
+                          width = 80.dp,
+                          total = dailyProteinGoal,
+                          color = colorResource(R.color.protein)
+                      )
+                      DailyPercentageCard(
+                          name = "Fat",
+                          amount = fat,
+                          width = 80.dp,
+                          total = dailyFatGoal,
+                          color = colorResource(R.color.fat)
+                      )
+                  }
+
+              }
+
+           }
+           //Action Boxes
            if(isMealSelectionBoxOpen){
                MealSelectionBox(
                 onDismiss = {
@@ -199,6 +306,21 @@ fun DefaultScreen(
                )
            }
            //TODO SERVING SIZE
+           if(isSizeSelectionBoxOpen){
+               QuantitySelectionBox(
+                   onDismiss = {
+                       onEvent(AddEditEvent.OnToggleSizeUnit)
+                   },
+                   amount = NumberOfServings,
+                   unit = ServingSize,
+                   alignment = Alignment.Center,
+                   onSave = {amount,unit ->
+                       onEvent(AddEditEvent.OnClickSize(amount))
+                       onEvent(AddEditEvent.OnSelectUnit(unit))
+                   },
+                   modifier = Modifier.padding()
+               )
+           }
        }
 
     }

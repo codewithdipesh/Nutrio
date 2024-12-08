@@ -11,9 +11,7 @@ fun NavController.backNavigate(){
 }
 fun NavController.navigateAndPopUp(event: UiEvent.NavigateAndPopUp){
     this.navigate(event.route){
-        popUpTo(event.popUpRoute){
-            inclusive = true
-        }
-
+        popUpTo(0) { inclusive =true}
+        launchSingleTop = true
     }
 }

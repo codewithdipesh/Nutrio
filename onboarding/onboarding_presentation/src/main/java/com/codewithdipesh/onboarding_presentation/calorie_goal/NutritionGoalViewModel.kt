@@ -47,7 +47,9 @@ class NutritionGoalViewModel @Inject constructor(
             preferences.saveCarbRatio(50f)
             preferences.saveProteinRatio(20f)
             preferences.saveFatRatio(30f)
-            _UiEvent.send(UiEvent.Navigate(Route.TRACKER_OVERVIEW))
+            //save the shwoOnboarding status
+            preferences.saveShouldShowOnboarding(false)
+            _UiEvent.send(UiEvent.NavigateAndPopUp(Route.TRACKER_OVERVIEW))
         }
 
     }

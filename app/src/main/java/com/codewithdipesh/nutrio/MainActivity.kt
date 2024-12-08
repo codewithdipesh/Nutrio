@@ -15,6 +15,8 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.codewithdipesh.core.domain.Preferences.Preferences
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core_ui.NavTypes.NullableParcelableNavType
 import com.codewithdipesh.nutrio.navigation.backNavigate
@@ -43,6 +46,7 @@ import com.codewithdipesh.tracker_domain.model.MealType
 import com.codewithdipesh.tracker_domain.model.TrackableFood
 import com.codewithdipesh.tracker_presentation.tracker_overview.add_edit.AddEditScreen
 import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerHome
+import com.codewithdipesh.tracker_presentation.tracker_overview.home.TrackerOverviewViewModel
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchFood
 import com.codewithdipesh.tracker_presentation.tracker_overview.search_food.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,9 +63,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             NutrioTheme {
                 val navController = rememberNavController()
+                val viewModel by viewModels<TrackerOverviewViewModel>()
+                val showOnboarding by viewModel.showOnboarding.collectAsState()
                 NavHost(
                     navController = navController,
-                    startDestination = Route.TRACKER_OVERVIEW,
+                    startDestination = if(showOnboarding) Route.WELCOME else Route.TRACKER_OVERVIEW,
                     // Default animations for all screens
                     enterTransition = {
                         fadeIn(animationSpec = tween(100))
@@ -124,7 +130,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.NUTRIENT_GOAL){
                         NutritionGoalScreen(
-                            onNavigate = navController::navigateAndPopUp,
+                            onNavigateAndPopUp = navController::navigateAndPopUp,
                         )
                     }
                     composable(Route.TRACKER_OVERVIEW){

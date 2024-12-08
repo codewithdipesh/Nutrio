@@ -8,6 +8,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,7 +80,10 @@ fun TrackableFoodCard(
                 if(isClicked) colorResource(R.color.progress_color).copy(0.2f) else colorResource(R.color.light_gray),
                 shape = RoundedCornerShape(15.dp)
             )
-            .clickable {
+            .clickable (
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ){
                 onClick(food)
             }
 

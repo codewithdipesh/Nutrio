@@ -3,8 +3,10 @@ package com.codewithdipesh.tracker_presentation.tracker_overview.home
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codewithdipesh.core.domain.Preferences.Preferences
 import com.codewithdipesh.core.navigation.Route
 import com.codewithdipesh.core.util.UiEvent
@@ -15,6 +17,8 @@ import com.codewithdipesh.tracker_presentation.tracker_overview.model.TrackerOve
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -38,13 +42,20 @@ class TrackerOverviewViewModel @Inject constructor(
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    private val _showOnboarding = MutableStateFlow(true)
+    val showOnboarding = _showOnboarding.asStateFlow()
+
     private var getFoodForDateJob : Job? = null
 
     init {
-        preferences.saveShouldShowOnboarding(false)
+        viewModelScope.launch {
+            _showOnboarding.value = preferences.loadShouldShowOnboarding()
+        }
         refreshFoods()
         getCalendarData(state.date)
     }
+
+
 
     fun onEvent(event: TrackerOverviewEvent){
         when(event){
@@ -184,6 +195,4 @@ class TrackerOverviewViewModel @Inject constructor(
         val startDate = date.with(DayOfWeek.MONDAY)
         return (0..6).map { startDate.plusDays(it.toLong()) }
     }
-
-
 }
