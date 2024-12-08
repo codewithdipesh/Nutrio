@@ -261,6 +261,7 @@ fun DefaultScreen(
                        onEvent(AddEditEvent.OnToggleSizeUnit)
                    },
                    amount = NumberOfServings,
+                   unit = ServingSize,
                    alignment = Alignment.Center,
                    onSave = {amount,unit ->
                        onEvent(AddEditEvent.OnClickSize(amount))

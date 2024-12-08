@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -47,16 +48,24 @@ fun QuantitySelectionBox(
     modifier: Modifier = Modifier,
     onDismiss : ()-> Unit,
     amount : Double,
+    unit:com.codewithdipesh.tracker_domain.model.Unit,
     alignment: Alignment = Alignment.Center,
     onSave : (Double,com.codewithdipesh.tracker_domain.model.Unit)->Unit,
 ) {
     var selectedAmount by remember(amount) {
         mutableStateOf(amount.toString())
     }
+    var selectedUnit by remember(unit) {
+        mutableStateOf(unit)
+    }
+    var UnitBoxOpen by remember {
+        mutableStateOf(false)
+    }
     val controller = LocalSoftwareKeyboardController.current
     val spacing = LocalSpacing.current
     Box(
-        Modifier.fillMaxSize()
+        Modifier
+            .fillMaxSize()
             .background(
                 color = Color.Black.copy(alpha = 0.1f)
             )
@@ -64,14 +73,15 @@ fun QuantitySelectionBox(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) {
-                onDismiss()
+                if (UnitBoxOpen) UnitBoxOpen = false
+                else onDismiss()
             }
             .then(modifier),
-        contentAlignment = alignment
     ){
         Box(
             modifier = Modifier
-                .size(200.dp)
+                .align(alignment)
+                .size(200.dp, 180.dp)
                 .background(Color.White, RoundedCornerShape(15.dp))
                 .clip(RoundedCornerShape(15.dp))
                 .clickable(
@@ -82,13 +92,14 @@ fun QuantitySelectionBox(
                 }
         ) {
             Column(
-                modifier = Modifier.fillMaxSize().padding(bottom = spacing.spaceMedium),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(spacing.spaceMedium),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
             ) {
                 Row (
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(spacing.spaceMedium),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ){
                     Column {
@@ -133,21 +144,118 @@ fun QuantitySelectionBox(
                 }
 
                 Row (
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(spacing.spaceMedium),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
                 ){
                     Text(
                         text = "Per Unit",
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.Black
                     )
+                    Column (
+                        modifier = Modifier.clickable {
+                            UnitBoxOpen = true
+                        }
+                    ){
+                        Text(
+                            text =
+                            if(selectedUnit == com.codewithdipesh.tracker_domain.model.Unit.Gm100) "100gm"
+                            else selectedUnit.displayName,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Black,
+                        )
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = colorResource(R.color.progress_color),
+                            thickness = 2.dp
+                        )
+                    }
 
+                }
+                //extra space
+                Spacer(Modifier.height(spacing.spaceSmall))
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    //dismiss button
+                    Text(
+                        text = "Dismiss",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color.DarkGray,
+                        modifier = Modifier.clickable {
+                            onDismiss()
+                        }
+                    )
+                    Spacer(Modifier.width(spacing.spaceMedium))
+                    //done button
+                    Text(
+                        text = "Done",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = colorResource(R.color.progress_color),
+                        modifier = Modifier.clickable {
+                            onSave(selectedAmount.toDouble(),selectedUnit)
+                            onDismiss()
+                        }
+                    )
 
                 }
 
 
             }
         }
+
+        //the unit box
+        if(UnitBoxOpen) {
+            Box(modifier = Modifier
+                .padding(start = spacing.spaceExtraLarge * 6f,top = spacing.spaceExtraLarge*12f)
+                .width(120.dp)
+                .wrapContentHeight()
+                .background(Color.White)
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) {
+                    //do nothing means box will be opened
+                }
+            ){
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ){
+                    arrayOf(
+                        com.codewithdipesh.tracker_domain.model.Unit.Gm100,
+                        com.codewithdipesh.tracker_domain.model.Unit.TeaSpoon,
+                        com.codewithdipesh.tracker_domain.model.Unit.TableSpoon,
+                        com.codewithdipesh.tracker_domain.model.Unit.Whole,
+                        com.codewithdipesh.tracker_domain.model.Unit.Cup,
+                        com.codewithdipesh.tracker_domain.model.Unit.Ounce
+                    ).forEach {
+                        Text(
+                            text =
+                            if(it == com.codewithdipesh.tracker_domain.model.Unit.Gm100) "100 gm"
+                            else it.displayName,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if(selectedUnit == it) colorResource(R.color.progress_color) else Color.Black,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(spacing.spaceSmall)
+                                .clickable {
+                                    selectedUnit = it
+                                    UnitBoxOpen = false
+                                }
+                        )
+                    }
+
+                }
+            }
+        }
+
     }
 }
