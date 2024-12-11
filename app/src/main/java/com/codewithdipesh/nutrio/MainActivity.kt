@@ -17,6 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,6 +35,7 @@ import com.codewithdipesh.core_ui.NavTypes.NullableParcelableNavType
 import com.codewithdipesh.nutrio.navigation.backNavigate
 import com.codewithdipesh.nutrio.navigation.navigate
 import com.codewithdipesh.nutrio.navigation.navigateAndPopUp
+import com.codewithdipesh.nutrio.ui.SplashScreen
 import com.codewithdipesh.nutrio.ui.theme.NutrioTheme
 import com.codewithdipesh.onboarding_presentation.activity_level.ActivityScreen
 import com.codewithdipesh.onboarding_presentation.age.AgeScreen
@@ -65,138 +69,148 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val viewModel by viewModels<TrackerOverviewViewModel>()
                 val showOnboarding by viewModel.showOnboarding.collectAsState()
-                NavHost(
-                    navController = navController,
-                    startDestination = if(showOnboarding) Route.WELCOME else Route.TRACKER_OVERVIEW,
-                    // Default animations for all screens
-                    enterTransition = {
-                        fadeIn(animationSpec = tween(100))
-                    },
-                    exitTransition = {
-                        fadeOut(animationSpec = tween(100))
-                    },
-                    popEnterTransition = {
-                        fadeIn(animationSpec = tween(100))
-                    },
-                    popExitTransition = {
-                        fadeOut(animationSpec = tween(100))
-                    },
-                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
-                ){
-                    composable(Route.WELCOME){
-                       WelcomeScreen(onNavigate = navController::navigate)
-                    }
-                    composable(Route.GENDER){
-                       GenderScreen(
-                           onNavigate = navController::navigate,
-                           onBackNavigate = navController::backNavigate
-                           )
-                    }
-                    composable(Route.AGE){
-                        AgeScreen(
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-                    }
-                    composable(Route.HEIGHT){
-                        HeightScreen(
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-                    }
-                    composable(Route.WEIGHT){
-                        WeightScreen(
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-                    }
-                    composable(Route.ACTIVITY){
-                        ActivityScreen(
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-                    }
-                    composable(Route.GOAL){
-                       GoalScreen(
-                           onNavigate = navController::navigate,
-                           onBackNavigate = navController::backNavigate
-                       )
-                    }
-                    composable(Route.WEIGHTPACE){
-                        GoalPaceScreen(
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-                    }
-                    composable(Route.NUTRIENT_GOAL){
-                        NutritionGoalScreen(
-                            onNavigateAndPopUp = navController::navigateAndPopUp,
-                        )
-                    }
-                    composable(Route.TRACKER_OVERVIEW){
-                        TrackerHome(
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-                    }
-                    composable(
-                        Route.SEARCH+"/{mealName}/{date}",
-                        arguments = listOf(
-                            navArgument("mealName"){
-                                type = NavType.StringType
-                                nullable = false
-                                defaultValue = MealType.Breakfast.name
-                            },
-                            navArgument("date"){
-                                type = NavType.StringType
-                                nullable = false
-                                defaultValue = LocalDate.now().toString()
-                            }
-                        )
-                    ){entry ->
-                        val mealName = if(entry.arguments != null) entry.arguments!!.getString("mealName") else MealType.Breakfast.name
 
-                        val dateString = entry.arguments!!.getString("date")
-                        val date = LocalDate.parse(dateString) ?: LocalDate.now()
+                var showSplash by remember { mutableStateOf(true) }
 
-                        SearchFood(
-                            mealType = MealType.fromString(mealName!!),
-                            date = date,
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate
-                        )
-
+                if(showSplash){
+                    SplashScreen {
+                        showSplash = false
                     }
-                    composable(
-                        Route.ADD_EDIT_FOOD + "/{id}/{food}/{mealType}",
-                        arguments = listOf(
-                            navArgument("id") {
-                                type = NavType.IntType
-                                              },
-                            navArgument("food") {
-                                type = NavType.StringType
-                                nullable = true
-                                },
-                            navArgument("mealType") {
-                                type = NavType.StringType
-                                nullable = true
-                                },
-                        )
-                    ) { entry ->
-                        val id = entry.arguments?.getInt("id") ?: -1
-                        val food = entry.arguments?.getString("food")?.let {
-                            if (it == "null") null
-                            else Json.decodeFromString<TrackableFood>(Uri.decode(it))
+                }
+                else{
+                    NavHost(
+                        navController = navController,
+                        startDestination = if(showOnboarding) Route.WELCOME else Route.TRACKER_OVERVIEW,
+                        // Default animations for all screens
+                        enterTransition = {
+                            fadeIn(animationSpec = tween(100))
+                        },
+                        exitTransition = {
+                            fadeOut(animationSpec = tween(100))
+                        },
+                        popEnterTransition = {
+                            fadeIn(animationSpec = tween(100))
+                        },
+                        popExitTransition = {
+                            fadeOut(animationSpec = tween(100))
+                        },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                    ){
+                        composable(Route.WELCOME){
+                            WelcomeScreen(onNavigate = navController::navigate)
                         }
-                        val mealType = entry.arguments?.getString("mealType") ?: MealType.Breakfast.name
-                        val meal = MealType.fromString(mealType)
-                        AddEditScreen(
-                            id = id,
-                            food = food,
-                            mealType = meal,
-                            onNavigate = navController::navigate,
-                            onBackNavigate = navController::backNavigate,
-                        )
+                        composable(Route.GENDER){
+                            GenderScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.AGE){
+                            AgeScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.HEIGHT){
+                            HeightScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.WEIGHT){
+                            WeightScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.ACTIVITY){
+                            ActivityScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.GOAL){
+                            GoalScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.WEIGHTPACE){
+                            GoalPaceScreen(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(Route.NUTRIENT_GOAL){
+                            NutritionGoalScreen(
+                                onNavigateAndPopUp = navController::navigateAndPopUp,
+                            )
+                        }
+                        composable(Route.TRACKER_OVERVIEW){
+                            TrackerHome(
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+                        }
+                        composable(
+                            Route.SEARCH+"/{mealName}/{date}",
+                            arguments = listOf(
+                                navArgument("mealName"){
+                                    type = NavType.StringType
+                                    nullable = false
+                                    defaultValue = MealType.Breakfast.name
+                                },
+                                navArgument("date"){
+                                    type = NavType.StringType
+                                    nullable = false
+                                    defaultValue = LocalDate.now().toString()
+                                }
+                            )
+                        ){entry ->
+                            val mealName = if(entry.arguments != null) entry.arguments!!.getString("mealName") else MealType.Breakfast.name
+
+                            val dateString = entry.arguments!!.getString("date")
+                            val date = LocalDate.parse(dateString) ?: LocalDate.now()
+
+                            SearchFood(
+                                mealType = MealType.fromString(mealName!!),
+                                date = date,
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate
+                            )
+
+                        }
+                        composable(
+                            Route.ADD_EDIT_FOOD + "/{id}/{food}/{mealType}",
+                            arguments = listOf(
+                                navArgument("id") {
+                                    type = NavType.IntType
+                                },
+                                navArgument("food") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                },
+                                navArgument("mealType") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                },
+                            )
+                        ) { entry ->
+                            val id = entry.arguments?.getInt("id") ?: -1
+                            val food = entry.arguments?.getString("food")?.let {
+                                if (it == "null") null
+                                else Json.decodeFromString<TrackableFood>(Uri.decode(it))
+                            }
+                            val mealType = entry.arguments?.getString("mealType") ?: MealType.Breakfast.name
+                            val meal = MealType.fromString(mealType)
+                            AddEditScreen(
+                                id = id,
+                                food = food,
+                                mealType = meal,
+                                onNavigate = navController::navigate,
+                                onBackNavigate = navController::backNavigate,
+                            )
+                        }
                     }
                 }
             }
@@ -204,18 +218,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NutrioTheme {
-        Greeting("Android")
-    }
-}

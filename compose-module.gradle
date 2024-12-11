@@ -51,7 +51,7 @@ dependencies {
     implementation Compose.viewModelCompose
     implementation Compose.activityCompose
 
-
+    implementation Lottie.lottie
 
     kapt DaggerHilt.hiltCompiler
     implementation DaggerHilt.hiltAndroid
