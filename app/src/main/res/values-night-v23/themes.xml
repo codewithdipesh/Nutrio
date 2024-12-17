@@ -6,7 +6,5 @@
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:windowLightStatusBar">false
         </item>  <!-- This makes status bar icons light -->
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

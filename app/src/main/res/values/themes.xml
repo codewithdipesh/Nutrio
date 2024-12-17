@@ -4,6 +4,5 @@
 <style name="Theme.Nutrio" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:statusBarColor">@color/medium_gray</item>
     <item name="colorPrimaryDark">@color/medium_gray</item>
-    <item name="android:windowIsTranslucent">true</item>
 </style>
 </resources>

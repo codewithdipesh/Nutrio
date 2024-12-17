@@ -8,6 +8,5 @@
         </item>  <!-- This makes status bar icons dark -->
 
         <item name="colorPrimaryDark">@color/medium_gray</item>
-        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

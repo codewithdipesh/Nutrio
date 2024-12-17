@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Nutrio" parent="Theme.AppCompat.Light.NoActionBar">
+   <style name="Theme.Nutrio" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/medium_gray</item>
         <item name="colorPrimaryDark">@color/medium_gray</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowSplashScreenBackground">@color/overflow_color_1</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/nutrio_svg_logo</item>
     </style>
 </resources>
